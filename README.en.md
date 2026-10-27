@@ -1,11 +1,10 @@
 # softlumi
 
-I wasn't happy with how my TV was running. I removed the things I didn't need
-from the box and, with help from AI, built a launcher for myself with Russian
-services in mind. That's how softlumi started. 🛋️
+**An Android TV launcher with a customizable home screen.**
 
-I've been using it for a week and changed quite a bit before putting it on
-GitHub. Feel free to use it — ideas and suggestions are welcome 🙂
+Favorite apps, continue-watching cards and weather share one screen. The
+interface is designed for a remote: choose a card layout, manage recommendations
+and set up automatic switching between daytime and nighttime appearance.
 
 [Русский](README.md) · [AI-assisted setup](docs/ai-setup.md) · [Build](docs/building.en.md)
 
@@ -14,6 +13,17 @@ GitHub. Feel free to use it — ideas and suggestions are welcome 🙂
 Screenshots show the real interface with demonstration cards, collections and
 weather. They do not show personal viewing history or promise availability
 of specific integrations.
+
+## About the project
+
+softlumi started with a wish to make my own TV box easier to use and more
+responsive. I wasn't satisfied with the stock interface's speed. After
+disabling apps I didn't need, I began building a launcher around Russian
+streaming services and my everyday viewing habits.
+
+The project is developed with help from AI and tested on my Xiaomi Mi Box S 3.
+Before the first GitHub publication, I used it daily for a week while refining
+the interface, navigation and memory use. Suggestions and bug reports are welcome.
 
 ## What's inside
 
