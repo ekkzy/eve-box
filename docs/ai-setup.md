@@ -2,11 +2,15 @@
 
 The kit lets an AI assistant with access to a local Windows terminal verify the APK, prepare an installation plan, and apply it after your approval. A chat without computer access can explain these steps but cannot run them. Windows PowerShell 5.1 and PowerShell 7 are supported.
 
-This is an experimental installer from a [private prerelease](https://github.com/ekkzy/softlumi/releases/tag/v0.3.0-candidate.13-setup.1). Downloading it requires access to the private repository. The Xiaomi profile has not completed an end-to-end check on a freshly configured device. Offline automated tests do not establish that compatibility.
+The kit is available in a [private prerelease](https://github.com/ekkzy/softlumi/releases/tag/v0.3.0-candidate.14-setup.1). Downloading it requires access to the private repository. The Mi Box S 3 profile is based on the configuration the project owner uses on his own box.
+
+## What has been checked
+
+The new installer passed 66 offline scenarios across PowerShell 5.1/7 and a complete install, HOME transition and restore cycle on an owned API 34 emulator with an actual 3840×2160 UI. Only the read-only `Plan` was run on the physical Mi Box S 3. The complete new installer flow on a factory-configured box has not yet been tested. See the [validation details](ai-setup-validation.md).
 
 ## Get started
 
-1. Download [softlumi-ai-setup-candidate.13.zip](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.13-setup.1/softlumi-ai-setup-candidate.13.zip) from the release and extract it into a separate folder. Do not give an assistant your GitHub password or access token.
+1. Download [softlumi-ai-setup-candidate.14.zip](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.1/softlumi-ai-setup-candidate.14.zip) from the release and extract it into a separate folder. Do not give an assistant your GitHub password or access token.
 2. Open that folder in an AI assistant with a local terminal. Give it the [installation prompt in Russian](installation-prompt-ru.md), or ask it to follow this guide. It must show a concrete plan for the selected device first.
 3. Approve only a plan you understand. By default, the kit installs and opens softlumi; it preserves the current HOME, other apps, and system settings.
 
@@ -28,7 +32,7 @@ All additional actions are off by default:
 | Disable Google TV Home | Makes the stock launcher unavailable to Android user 0. Requires a HOME transition; its previous state is recorded. |
 | Netflix, Prime Video, YouTube Music, Mi Music | Makes the selected app unavailable to Android user 0. Choose only apps you do not use. |
 | Google Play Games | Makes its game discovery and profile interface unavailable. This does not promise to disable every gaming service. |
-| Xiaomi analytics | Disables one specified Xiaomi package. Other apps may still send telemetry; effects on a freshly configured device have not been verified. |
+| Xiaomi analytics | Disables one specified Xiaomi package. Other apps may still send telemetry. |
 | Google Feedback | Feedback and diagnostic reports using this package may become unavailable. Other reporting mechanisms are separate. |
 
 This is a limited opt-in list. It does not copy every disabled package from another device or promise to remove all advertising, save memory, or improve frame rates. A missing selected package stops the plan rather than silently applying only part of it. An already disabled package is recorded without changing its state.

@@ -68,6 +68,7 @@ import org.junit.runner.RunWith;
 /**
  * Publication-only demo on the owned 4K emulator: no account, provider history or live weather.
  * README captions must identify the cards, service selection and Moscow forecast as demo data.
+ * Screenshots use the dark palette and nighttime architecture; paired gallery thumbnails retain both variants.
  * Screenshots are native renderer output; no composite, resize or artwork replacement after capture.
  */
 @RunWith(AndroidJUnit4.class)
@@ -93,7 +94,7 @@ public final class PublicationScreenshotsTest {
     @Before public void prepareIsolatedDemo() {
         context = InstrumentationRegistry.getInstrumentation().getTargetContext();
         assertEquals("Never alter release preferences", "io.github.ekkzy.softlumi.debug", context.getPackageName());
-        assertEquals("Publication describes candidate.13", 34, BuildConfig.VERSION_CODE);
+        assertEquals("Publication describes candidate.14", 35, BuildConfig.VERSION_CODE);
         assertTrue("Owned emulator only", "ranchu".equals(Build.HARDWARE) || "goldfish".equals(Build.HARDWARE));
         assertEquals(34, Build.VERSION.SDK_INT);
         device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
@@ -159,10 +160,8 @@ public final class PublicationScreenshotsTest {
             await(activity, shot.filename + ": controlled Home images settle", PublicationScreenshotsTest::imagesReady);
             if (shot == Shot.HOME_POSTER || shot == Shot.WEATHER) {
                 preferences.setCardFormat(LauncherPrefs.CARD_FORMAT_POSTER);
-                preferences.setBackground(IVORY_VAULT);
-                preferences.setWallpaperPeriod("day"); preferences.setPaletteMode("light");
                 scene.onActivity(current -> { set(current, "requestedFocus", "source:" + KINO); invoke(current, "render"); });
-                await(activity, shot.filename + ": light paired wallpaper and poster images settle", PublicationScreenshotsTest::imagesReady);
+                await(activity, shot.filename + ": dark architectural wallpaper and poster images settle", PublicationScreenshotsTest::imagesReady);
             }
             if (shot == Shot.WEATHER) {
                 scene.onActivity(current -> {
@@ -174,7 +173,7 @@ public final class PublicationScreenshotsTest {
                         && target(current, "shortcut-launcher") == current.getCurrentFocus());
             } else if (!"HOME".equals(shot.screen)) {
                 if (shot == Shot.DAY_NIGHT) {
-                    preferences.setWallpaperPeriod("schedule"); preferences.setPaletteMode("auto");
+                    // Show the real controls without letting capture time select a light full-screen state.
                     preferences.setDayNightSchedule(7 * 60, 19 * 60);
                 }
                 scene.onActivity(current -> push(current, shot.screen));
@@ -222,6 +221,8 @@ public final class PublicationScreenshotsTest {
 
     private static void assertShotState(MainActivity activity, Shot shot) {
         assertEquals(shot.filename, shot.screen, activity.currentScreenForTest());
+        assertFalse(shot.filename + ": publication must render the dark palette", (Boolean) get(get(activity, "palette"), "light"));
+        assertTrue(shot.filename + ": publication must render the nighttime wallpaper", (Boolean) get(activity, "renderedNight"));
         switch (shot) {
             case APPEARANCE:
                 assertTrue(target(activity, "appearance-cards").isShown());
@@ -241,7 +242,8 @@ public final class PublicationScreenshotsTest {
                     assertFalse("App toggles must not become individual provider-channel toggles", String.valueOf(key).startsWith("channel:"));
                 break;
             case DAY_NIGHT:
-                assertTrue(target(activity, "period-schedule").isSelected());
+                assertTrue(target(activity, "period-night").isSelected());
+                assertFalse(target(activity, "period-schedule").isSelected());
                 assertTrue(target(activity, "period-day-start").isShown());
                 assertTrue(target(activity, "period-night-start").isShown());
                 assertTrue(containsText(target(activity, "period-day-start"), "07:00"));

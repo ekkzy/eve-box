@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "mi-box-s3-android14",
-  "title": "Xiaomi Mi Box S 3 / Android 14 (experimental)",
+  "title": "Xiaomi Mi Box S 3 / Android 14",
   "match": {
     "kind": "exact",
     "model": "MiTV-AFMU0",
@@ -57,7 +57,7 @@
       "title": "Xiaomi analytics",
       "role": "optional",
       "defaultSelected": false,
-      "reason": "Disables this Xiaomi analytics package for Android user 0. Other apps may still send telemetry. Its effects on a freshly configured device have not been verified."
+      "reason": "Disables this Xiaomi analytics package for Android user 0. Other apps may still send telemetry."
     },
     {
       "packageName": "com.google.android.feedback",

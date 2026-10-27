@@ -31,7 +31,7 @@ Android permission where the firmware makes it available.
 Installing an APK does not change Home, remote-control services or sleep
 settings. To use softlumi as Home, select it in Android's default-app settings
 if that option is available. Keep a way back to the previous Home. Some firmware
-restricts Home selection; the [setup kit](ai-setup.md) has an experimental mode
+restricts Home selection; the [setup kit](ai-setup.md) has a separate profile
 for one Mi Box S 3 firmware. Do not transfer its app-disabling profile to other models.
 
 Remapping the two supported Xiaomi remote buttons is optional. It requires

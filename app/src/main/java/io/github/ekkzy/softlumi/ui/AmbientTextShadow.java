@@ -17,8 +17,9 @@ public final class AmbientTextShadow {
         scale = Math.max(.75f, Math.min(1.35f, scale));
         float radius = enabled ? 2.2f * scale : 0f;
         float dy = enabled ? scale : 0f;
-        int color = enabled ? (Color.luminance(text.getCurrentTextColor()) < .5f
-                ? 0x99ffffff : 0x66000000) : Color.TRANSPARENT;
+        // A drop shadow stays neutral and dark with either ink palette. Inverting
+        // it for dark text creates a white halo on the light wallpaper.
+        int color = enabled ? 0x66000000 : Color.TRANSPARENT;
         // Rebinding unchanged weather or time must not invalidate another text display list.
         if (text.getShadowRadius() != radius || text.getShadowDx() != 0f
                 || text.getShadowDy() != dy || text.getShadowColor() != color) {

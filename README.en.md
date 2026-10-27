@@ -1,10 +1,11 @@
 # softlumi
 
-A calm home screen for Android TV.
+I wasn't happy with how my TV was running. I removed the things I didn't need
+from the box and, with help from AI, built a launcher for myself with Russian
+services in mind. That's how softlumi started. 🛋️
 
-Favorite apps, things to keep watching, a clock and the weather share one
-remote-friendly screen. Translucent panels, soft lighting and a visible focus
-state keep navigation clear while leaving room for your content.
+I've been using it for a week and changed quite a bit before putting it on
+GitHub. Feel free to use it — ideas and suggestions are welcome 🙂
 
 [Русский](README.md) · [AI-assisted setup](docs/ai-setup.md) · [Build](docs/building.en.md)
 
@@ -32,28 +33,28 @@ of specific integrations.
 
 ## Interface and settings
 
-The home screen above uses Amber arch at night. Below are its light daytime
-pair, both card formats and settings operated with the remote. Open any image
-to view it at full resolution.
+The home screen above uses landscape cards. Below are a dark home screen with
+posters, the wallpaper gallery and settings operated with the remote.
+Open any image to view it at full resolution.
 
-| Light appearance and posters | Main settings |
+| Dark appearance and posters | Main settings |
 | --- | --- |
-| ![The home screen with portrait posters](docs/images/home-poster.png) | ![The main softlumi settings menu](docs/images/settings.png) |
+| ![The dark home screen with portrait posters](docs/images/home-poster.png) | ![The main softlumi settings menu](docs/images/settings.png) |
 
-| Day and night wallpaper pairs | Card format, palette and dimming |
+| Wallpaper gallery | Card format, palette and dimming |
 | --- | --- |
-| ![The paired wallpaper gallery](docs/images/wallpapers.png) | ![Background and appearance settings](docs/images/appearance.png) |
+| ![The wallpaper gallery](docs/images/wallpapers.png) | ![Background and appearance settings](docs/images/appearance.png) |
 
-| Recommendations by app | Day and night schedule |
+| Recommendations by app | Day and night settings |
 | --- | --- |
-| ![Recommendation switches for individual apps](docs/images/sources.png) | ![Day and night schedule settings](docs/images/day-night.png) |
+| ![Recommendation switches for individual apps](docs/images/sources.png) | ![Day and night settings](docs/images/day-night.png) |
 
 ![Weather and forecast for the selected city](docs/images/weather.png)
 
 ## Getting started
 
-**[Download the Windows setup kit](https://github.com/ekkzy/softlumi/releases/tag/v0.3.0-candidate.13-setup.1)**
-contains the signed `0.3.0-candidate.13` APK, scripts and an AI prompt in one ZIP.
+**[Download the Windows setup kit](https://github.com/ekkzy/softlumi/releases/tag/v0.3.0-candidate.14-setup.1)**
+contains the signed `0.3.0-candidate.14` APK, scripts and an AI prompt in one ZIP.
 This is a prerelease in a private repository; downloading requires access.
 
 Extract it and give the [setup prompt](docs/installation-prompt-ru.md) to an
@@ -62,10 +63,9 @@ a plan. Installation, Home selection and app disabling are explicit choices in
 that plan; the script records previous settings for restoration.
 See the [step-by-step guide](docs/ai-setup.md).
 
-The default only installs the launcher. The optional app-disabling profile is
-limited to one Mi Box S 3 firmware and remains experimental: the complete
-transition has not yet been checked on a fresh physical device. Netflix, Prime
-Video and other optional apps are disabled only when selected by their owner.
+The default only installs the launcher. The Mi Box S 3 profile is based on the
+configuration I use on my own box and is tied to one firmware build. Netflix,
+Prime Video and other optional apps are disabled only when you select them.
 The installer does not change remote services or sleep timeouts.
 
 You can also [build a debug APK](docs/building.en.md) and
