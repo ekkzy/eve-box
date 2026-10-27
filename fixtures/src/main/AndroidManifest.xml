@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-feature android:name="android.software.leanback" android:required="true" />
+    <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
+    <application android:label="@string/app_name" android:allowBackup="false"
+        android:theme="@android:style/Theme.Material.NoActionBar" android:icon="@android:drawable/ic_menu_info_details" android:banner="@android:drawable/ic_menu_info_details">
+        <activity android:name=".FixtureActivity" android:exported="true">
+            <intent-filter><action android:name="android.intent.action.MAIN" /><category android:name="android.intent.category.LEANBACK_LAUNCHER" /></intent-filter>
+        </activity>
+        <activity-alias android:name=".PermissionActivity" android:targetActivity=".FixtureActivity" android:exported="true" android:permission="android.permission.MANAGE_USERS" />
+        <activity-alias android:name=".PrivateActivity" android:targetActivity=".FixtureActivity" android:exported="false" />
+        <activity-alias android:name=".DisabledActivity" android:targetActivity=".FixtureActivity" android:exported="true" android:enabled="false" />
+    </application>
+</manifest>

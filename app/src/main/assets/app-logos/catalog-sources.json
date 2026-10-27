@@ -1,0 +1,832 @@
+{
+  "schemaVersion": 1,
+  "assets": [
+    {
+      "key": "netflix",
+      "title": "Netflix",
+      "sourceURL": "https://github.com/simple-icons/simple-icons/blob/4672316908c58ef9342f3069fe7ebe50d30d45b2/icons/netflix.svg",
+      "sourceCommit": "4672316908c58ef9342f3069fe7ebe50d30d45b2",
+      "sourceGitBlob": "8b894edaee8dae058e0050fac5f871765faf09ab",
+      "license": "CC0-1.0",
+      "licenseURL": "https://github.com/simple-icons/simple-icons/blob/4672316908c58ef9342f3069fe7ebe50d30d45b2/LICENSE.md",
+      "foregroundColor": "#E50914",
+      "packageAliases": [
+        "com.netflix.ninja"
+      ],
+      "suggestedBrandGradient": {
+        "top": "#0A0A0A",
+        "bottom": "#000000"
+      },
+      "assetPath": "app/src/main/res/drawable/logo_netflix.xml",
+      "sourceFile": "netflix.svg",
+      "assetStyle": "authentic monochrome Simple Icons path; foreground color adapted for the shelf",
+      "packageEvidence": [
+        {
+          "packageName": "com.netflix.ninja",
+          "sourceURL": "https://play.google.com/store/apps/details?id=com.netflix.ninja",
+          "status": "verified primary publisher/store listing or official Android documentation"
+        }
+      ],
+      "brandSourceURL": "https://brand.netflix.com/en/assets/logos",
+      "sha256": "be3f51ec9c2b27016ee1687cd3b8808e6238a0ef6f491e8fdef55da284bf0463",
+      "sourceSHA256": "0d0275973e53febf954d6d27eb98484f604d1ecdd398e3d579252ac168d13b45",
+      "pathCount": 1,
+      "viewport": [
+        24,
+        24
+      ],
+      "preserveColors": false,
+      "transformation": "Source pathData copied exactly; explicit monochrome foreground fill only",
+      "resourcePath": "app/src/main/res/drawable/logo_netflix.xml",
+      "packages": [
+        "com.netflix.ninja"
+      ]
+    },
+    {
+      "key": "prime",
+      "title": "Prime Video",
+      "sourceURL": "https://github.com/simple-icons/simple-icons/blob/abacde1e57bf3ca327de130b5d943562c12ad424/icons/primevideo.svg",
+      "sourceCommit": "abacde1e57bf3ca327de130b5d943562c12ad424",
+      "sourceGitBlob": "3dffd474bdc717ef5f94e7ad79071623c14b3af9",
+      "license": "CC0-1.0",
+      "licenseURL": "https://github.com/simple-icons/simple-icons/blob/abacde1e57bf3ca327de130b5d943562c12ad424/LICENSE.md",
+      "foregroundColor": "#FFFFFF",
+      "packageAliases": [
+        "com.amazon.amazonvideo.livingroom"
+      ],
+      "suggestedBrandGradient": {
+        "top": "#2AA8FF",
+        "bottom": "#0A68D4"
+      },
+      "assetPath": "app/src/main/res/drawable/logo_prime.xml",
+      "sourceFile": "prime.svg",
+      "assetStyle": "authentic monochrome Simple Icons path; foreground color adapted for the shelf",
+      "packageEvidence": [
+        {
+          "packageName": "com.amazon.amazonvideo.livingroom",
+          "sourceURL": "https://play.google.com/store/apps/details?id=com.amazon.amazonvideo.livingroom",
+          "status": "verified primary publisher/store listing or official Android documentation"
+        }
+      ],
+      "brandSourceURL": "https://www.primevideo.com",
+      "sha256": "6d26698e1f9c7acd7791a3ac045c5ea4e2f9a123e18db207cb300b1a225da354",
+      "sourceSHA256": "58c75594db76fb1875ba5c22b819ae26db5352c17fb0e70582e83d983ee93735",
+      "pathCount": 1,
+      "viewport": [
+        24,
+        24
+      ],
+      "preserveColors": false,
+      "transformation": "Source pathData copied exactly; explicit monochrome foreground fill only",
+      "resourcePath": "app/src/main/res/drawable/logo_prime.xml",
+      "packages": [
+        "com.amazon.amazonvideo.livingroom"
+      ]
+    },
+    {
+      "key": "max",
+      "title": "HBO Max / Max",
+      "sourceURL": "https://github.com/simple-icons/simple-icons/blob/4672316908c58ef9342f3069fe7ebe50d30d45b2/icons/hbomax.svg",
+      "sourceCommit": "4672316908c58ef9342f3069fe7ebe50d30d45b2",
+      "sourceGitBlob": "89907bcb0a48b409b6547d78595c712fdabe92fc",
+      "license": "CC0-1.0",
+      "licenseURL": "https://github.com/simple-icons/simple-icons/blob/4672316908c58ef9342f3069fe7ebe50d30d45b2/LICENSE.md",
+      "foregroundColor": "#FFFFFF",
+      "packageAliases": [
+        "com.wbd.stream"
+      ],
+      "suggestedBrandGradient": {
+        "top": "#27272B",
+        "bottom": "#030304"
+      },
+      "assetPath": "app/src/main/res/drawable/logo_max.xml",
+      "sourceFile": "max.svg",
+      "assetStyle": "authentic monochrome Simple Icons path; foreground color adapted for the shelf",
+      "packageEvidence": [
+        {
+          "packageName": "com.wbd.stream",
+          "sourceURL": "https://play.google.com/store/apps/details?id=com.wbd.stream",
+          "status": "verified primary publisher/store listing or official Android documentation"
+        }
+      ],
+      "brandSourceURL": "https://commons.wikimedia.org/wiki/File:Max_2025_logo.svg",
+      "sha256": "8a5adbf5ac2ba338f70231b374bf9d3ce1281aaafbd982daae0f3567f41087be",
+      "sourceSHA256": "193f5e9b255f85aeff851da6ae9dc0c0eaa3367c635e3980dff907182e9780d5",
+      "pathCount": 1,
+      "viewport": [
+        24,
+        24
+      ],
+      "preserveColors": false,
+      "transformation": "Source pathData copied exactly; explicit monochrome foreground fill only",
+      "resourcePath": "app/src/main/res/drawable/logo_max.xml",
+      "packages": [
+        "com.wbd.stream"
+      ]
+    },
+    {
+      "key": "appletv",
+      "title": "Apple TV",
+      "sourceURL": "https://github.com/simple-icons/simple-icons/blob/4672316908c58ef9342f3069fe7ebe50d30d45b2/icons/appletv.svg",
+      "sourceCommit": "4672316908c58ef9342f3069fe7ebe50d30d45b2",
+      "sourceGitBlob": "216184d01249a95762bb3f94599b4fc3cb9b1db9",
+      "license": "CC0-1.0",
+      "licenseURL": "https://github.com/simple-icons/simple-icons/blob/4672316908c58ef9342f3069fe7ebe50d30d45b2/LICENSE.md",
+      "foregroundColor": "#FFFFFF",
+      "packageAliases": [
+        "com.apple.atve.androidtv.appletv",
+        "com.apple.atve.sony.appletv"
+      ],
+      "suggestedBrandGradient": {
+        "top": "#1C1C1E",
+        "bottom": "#000000"
+      },
+      "assetPath": "app/src/main/res/drawable/logo_appletv.xml",
+      "sourceFile": "appletv.svg",
+      "assetStyle": "authentic monochrome Simple Icons path; foreground color adapted for the shelf",
+      "packageEvidence": [
+        {
+          "packageName": "com.apple.atve.androidtv.appletv",
+          "sourceURL": "https://play.google.com/store/apps/details?id=com.apple.atve.androidtv.appletv",
+          "status": "verified primary publisher/store listing or official Android documentation"
+        },
+        {
+          "packageName": "com.apple.atve.sony.appletv",
+          "sourceURL": "https://play.google.com/store/apps/details?id=com.apple.atve.sony.appletv",
+          "status": "verified primary publisher/store listing or official Android documentation"
+        }
+      ],
+      "brandSourceURL": "https://en.wikipedia.org/wiki/File:Apple_TV_(logo).svg",
+      "sha256": "b5f56552fe48779d1806ee2fd7e028025d85ebe4962742eec93ba343a1198529",
+      "sourceSHA256": "ee8a8c8a5324a0c8f33b52e045533e6cca66ff1501bcf6cbdfdef78f2f0972b9",
+      "pathCount": 1,
+      "viewport": [
+        24,
+        24
+      ],
+      "preserveColors": false,
+      "transformation": "Source pathData copied exactly; explicit monochrome foreground fill only",
+      "resourcePath": "app/src/main/res/drawable/logo_appletv.xml",
+      "packages": [
+        "com.apple.atve.androidtv.appletv",
+        "com.apple.atve.sony.appletv"
+      ]
+    },
+    {
+      "key": "spotify",
+      "title": "Spotify",
+      "sourceURL": "https://github.com/simple-icons/simple-icons/blob/4672316908c58ef9342f3069fe7ebe50d30d45b2/icons/spotify.svg",
+      "sourceCommit": "4672316908c58ef9342f3069fe7ebe50d30d45b2",
+      "sourceGitBlob": "8d4d095f32a0e17feb002b2680931715239a3229",
+      "license": "CC0-1.0",
+      "licenseURL": "https://github.com/simple-icons/simple-icons/blob/4672316908c58ef9342f3069fe7ebe50d30d45b2/LICENSE.md",
+      "foregroundColor": "#1ED760",
+      "packageAliases": [
+        "com.spotify.tv.android"
+      ],
+      "suggestedBrandGradient": {
+        "top": "#1C1C1E",
+        "bottom": "#09090A"
+      },
+      "assetPath": "app/src/main/res/drawable/logo_spotify.xml",
+      "sourceFile": "spotify.svg",
+      "assetStyle": "authentic monochrome Simple Icons path; foreground color adapted for the shelf",
+      "packageEvidence": [
+        {
+          "packageName": "com.spotify.tv.android",
+          "sourceURL": "https://play.google.com/store/apps/details?id=com.spotify.tv.android",
+          "status": "verified primary publisher/store listing or official Android documentation"
+        }
+      ],
+      "brandSourceURL": "https://developer.spotify.com/documentation/general/design-and-branding/#using-our-logo",
+      "sha256": "3d222b2de6c2e01a922bde30e5caff680ad12aec629b88760fbec2aee7925b7d",
+      "sourceSHA256": "f41740bfc053eed60bf89366b0d6b9a73de6be4487a35c1e7681727fd31f9624",
+      "pathCount": 1,
+      "viewport": [
+        24,
+        24
+      ],
+      "preserveColors": false,
+      "transformation": "Source pathData copied exactly; explicit monochrome foreground fill only",
+      "resourcePath": "app/src/main/res/drawable/logo_spotify.xml",
+      "packages": [
+        "com.spotify.tv.android"
+      ]
+    },
+    {
+      "key": "twitch",
+      "title": "Twitch",
+      "sourceURL": "https://github.com/simple-icons/simple-icons/blob/4672316908c58ef9342f3069fe7ebe50d30d45b2/icons/twitch.svg",
+      "sourceCommit": "4672316908c58ef9342f3069fe7ebe50d30d45b2",
+      "sourceGitBlob": "8aaa4a9ad01706b87b878ba62212a3c033daa887",
+      "license": "CC0-1.0",
+      "licenseURL": "https://github.com/simple-icons/simple-icons/blob/4672316908c58ef9342f3069fe7ebe50d30d45b2/LICENSE.md",
+      "foregroundColor": "#9146FF",
+      "packageAliases": [
+        "tv.twitch.android.app"
+      ],
+      "suggestedBrandGradient": {
+        "top": "#241936",
+        "bottom": "#0D0818"
+      },
+      "assetPath": "app/src/main/res/drawable/logo_twitch.xml",
+      "sourceFile": "twitch.svg",
+      "assetStyle": "authentic monochrome Simple Icons path; foreground color adapted for the shelf",
+      "packageEvidence": [
+        {
+          "packageName": "tv.twitch.android.app",
+          "sourceURL": "https://play.google.com/store/apps/details?id=tv.twitch.android.app",
+          "status": "verified primary publisher/store listing or official Android documentation"
+        }
+      ],
+      "brandSourceURL": "https://brand.twitch.tv",
+      "sha256": "2f46efb1be4b16d368f2d534ed8f78f5de1157e1951a5f4e9e8fbbc3fa4821d1",
+      "sourceSHA256": "8497b62080729bdb029f514ee6b8bdb3d47bbae2dcb9ee50a5fd61757b912dd5",
+      "pathCount": 1,
+      "viewport": [
+        24,
+        24
+      ],
+      "preserveColors": false,
+      "transformation": "Source pathData copied exactly; explicit monochrome foreground fill only",
+      "resourcePath": "app/src/main/res/drawable/logo_twitch.xml",
+      "packages": [
+        "tv.twitch.android.app"
+      ]
+    },
+    {
+      "key": "kodi",
+      "title": "Kodi",
+      "sourceURL": "https://github.com/simple-icons/simple-icons/blob/4672316908c58ef9342f3069fe7ebe50d30d45b2/icons/kodi.svg",
+      "sourceCommit": "4672316908c58ef9342f3069fe7ebe50d30d45b2",
+      "sourceGitBlob": "dc2ea8bf7b02a2f6b05fe39e9f86a8deb5c14bc2",
+      "license": "CC0-1.0",
+      "licenseURL": "https://github.com/simple-icons/simple-icons/blob/4672316908c58ef9342f3069fe7ebe50d30d45b2/LICENSE.md",
+      "foregroundColor": "#17B2E7",
+      "packageAliases": [
+        "org.xbmc.kodi"
+      ],
+      "suggestedBrandGradient": {
+        "top": "#18394D",
+        "bottom": "#081B29"
+      },
+      "assetPath": "app/src/main/res/drawable/logo_kodi.xml",
+      "sourceFile": "kodi.svg",
+      "assetStyle": "authentic monochrome Simple Icons path; foreground color adapted for the shelf",
+      "packageEvidence": [
+        {
+          "packageName": "org.xbmc.kodi",
+          "sourceURL": "https://play.google.com/store/apps/details?id=org.xbmc.kodi",
+          "status": "verified primary publisher/store listing or official Android documentation"
+        }
+      ],
+      "brandSourceURL": "https://kodi.tv",
+      "sha256": "186b41052485b70128f7054b075180d6f947eb2913bc52457b988ce2a2a61ca0",
+      "sourceSHA256": "0d415d3dbafe39b5bc07d17aeac484e0aec8bb615291aa5d17bd4e367ec12b27",
+      "pathCount": 1,
+      "viewport": [
+        24,
+        24
+      ],
+      "preserveColors": false,
+      "transformation": "Source pathData copied exactly; explicit monochrome foreground fill only",
+      "resourcePath": "app/src/main/res/drawable/logo_kodi.xml",
+      "packages": [
+        "org.xbmc.kodi"
+      ]
+    },
+    {
+      "key": "vlc",
+      "title": "VLC",
+      "sourceURL": "https://github.com/simple-icons/simple-icons/blob/4672316908c58ef9342f3069fe7ebe50d30d45b2/icons/vlcmediaplayer.svg",
+      "sourceCommit": "4672316908c58ef9342f3069fe7ebe50d30d45b2",
+      "sourceGitBlob": "a46f9dcfac429dbef488c702434fb2a38ba754f3",
+      "license": "CC0-1.0",
+      "licenseURL": "https://github.com/simple-icons/simple-icons/blob/4672316908c58ef9342f3069fe7ebe50d30d45b2/LICENSE.md",
+      "foregroundColor": "#FF8800",
+      "packageAliases": [
+        "org.videolan.vlc"
+      ],
+      "suggestedBrandGradient": {
+        "top": "#292420",
+        "bottom": "#100D0B"
+      },
+      "assetPath": "app/src/main/res/drawable/logo_vlc.xml",
+      "sourceFile": "vlc.svg",
+      "assetStyle": "authentic monochrome Simple Icons path; foreground color adapted for the shelf",
+      "packageEvidence": [
+        {
+          "packageName": "org.videolan.vlc",
+          "sourceURL": "https://play.google.com/store/apps/details?id=org.videolan.vlc",
+          "status": "verified primary publisher/store listing or official Android documentation"
+        }
+      ],
+      "sha256": "136c884392fa84dbe32d00a008c5003d1c1c2216ad5731e2642b3dbed8c44641",
+      "sourceSHA256": "3593a68c91bcbb212aa5717308031d08b9621022a8da73b2b506bdbc69a86a49",
+      "pathCount": 1,
+      "viewport": [
+        24,
+        24
+      ],
+      "preserveColors": false,
+      "transformation": "Source pathData copied exactly; explicit monochrome foreground fill only",
+      "resourcePath": "app/src/main/res/drawable/logo_vlc.xml",
+      "packages": [
+        "org.videolan.vlc"
+      ]
+    },
+    {
+      "key": "jellyfin",
+      "title": "Jellyfin",
+      "sourceURL": "https://github.com/simple-icons/simple-icons/blob/4672316908c58ef9342f3069fe7ebe50d30d45b2/icons/jellyfin.svg",
+      "sourceCommit": "4672316908c58ef9342f3069fe7ebe50d30d45b2",
+      "sourceGitBlob": "5242d8ed8e69e58956f5d3a70fed97577a4ed229",
+      "license": "CC0-1.0",
+      "licenseURL": "https://github.com/simple-icons/simple-icons/blob/4672316908c58ef9342f3069fe7ebe50d30d45b2/LICENSE.md",
+      "foregroundColor": "#00A4DC",
+      "packageAliases": [
+        "org.jellyfin.androidtv"
+      ],
+      "suggestedBrandGradient": {
+        "top": "#25233D",
+        "bottom": "#0E1021"
+      },
+      "assetPath": "app/src/main/res/drawable/logo_jellyfin.xml",
+      "sourceFile": "jellyfin.svg",
+      "assetStyle": "authentic monochrome Simple Icons path; foreground color adapted for the shelf",
+      "packageEvidence": [
+        {
+          "packageName": "org.jellyfin.androidtv",
+          "sourceURL": "https://play.google.com/store/apps/details?id=org.jellyfin.androidtv",
+          "status": "verified primary publisher/store listing or official Android documentation"
+        }
+      ],
+      "brandSourceURL": "https://jellyfin.org/docs/general/contributing/branding.html",
+      "sha256": "11ba63991c95c3af9236d129ed09182693473786c12c24843c48a3f6e6d99357",
+      "sourceSHA256": "361f367144cb1740edc1bba31381bb1aa95c55bd84e5b2137c473494858d1295",
+      "pathCount": 1,
+      "viewport": [
+        24,
+        24
+      ],
+      "preserveColors": false,
+      "transformation": "Source pathData copied exactly; explicit monochrome foreground fill only",
+      "resourcePath": "app/src/main/res/drawable/logo_jellyfin.xml",
+      "packages": [
+        "org.jellyfin.androidtv"
+      ]
+    },
+    {
+      "key": "emby",
+      "title": "Emby",
+      "sourceURL": "https://github.com/simple-icons/simple-icons/blob/4672316908c58ef9342f3069fe7ebe50d30d45b2/icons/emby.svg",
+      "sourceCommit": "4672316908c58ef9342f3069fe7ebe50d30d45b2",
+      "sourceGitBlob": "01f51ef9a4bee543355268779654e18c24ff5e24",
+      "license": "CC0-1.0",
+      "licenseURL": "https://github.com/simple-icons/simple-icons/blob/4672316908c58ef9342f3069fe7ebe50d30d45b2/LICENSE.md",
+      "foregroundColor": "#52B54B",
+      "packageAliases": [
+        "tv.emby.embyatv"
+      ],
+      "suggestedBrandGradient": {
+        "top": "#213A28",
+        "bottom": "#0B190F"
+      },
+      "assetPath": "app/src/main/res/drawable/logo_emby.xml",
+      "sourceFile": "emby.svg",
+      "assetStyle": "authentic monochrome Simple Icons path; foreground color adapted for the shelf",
+      "packageEvidence": [
+        {
+          "packageName": "tv.emby.embyatv",
+          "sourceURL": "https://play.google.com/store/apps/details?id=tv.emby.embyatv",
+          "status": "verified primary publisher/store listing or official Android documentation"
+        }
+      ],
+      "brandSourceURL": "https://emby.media",
+      "sha256": "a94704c6ccc0ab24f6d5b348c1cdb726ca5cfe6b3b4230a9d70a267444777008",
+      "sourceSHA256": "1b8fa6f29e3361c22e198d0fbc4ad7d595aca47d742cbcf96945fcba6c362c53",
+      "pathCount": 1,
+      "viewport": [
+        24,
+        24
+      ],
+      "preserveColors": false,
+      "transformation": "Source geometry preserved; compact SVG arc flags expanded with spaces for Android PathParser; explicit monochrome foreground fill.",
+      "resourcePath": "app/src/main/res/drawable/logo_emby.xml",
+      "packages": [
+        "tv.emby.embyatv"
+      ]
+    },
+    {
+      "key": "stremio",
+      "title": "Stremio",
+      "sourceURL": "https://github.com/simple-icons/simple-icons/blob/4672316908c58ef9342f3069fe7ebe50d30d45b2/icons/stremio.svg",
+      "sourceCommit": "4672316908c58ef9342f3069fe7ebe50d30d45b2",
+      "sourceGitBlob": "12d3ede05138b9043c7c22f7cd0e0b523519084d",
+      "license": "CC0-1.0",
+      "licenseURL": "https://github.com/simple-icons/simple-icons/blob/4672316908c58ef9342f3069fe7ebe50d30d45b2/LICENSE.md",
+      "foregroundColor": "#685CEE",
+      "packageAliases": [
+        "com.stremio.one"
+      ],
+      "suggestedBrandGradient": {
+        "top": "#2B2450",
+        "bottom": "#100C25"
+      },
+      "assetPath": "app/src/main/res/drawable/logo_stremio.xml",
+      "sourceFile": "stremio.svg",
+      "assetStyle": "authentic monochrome Simple Icons path; foreground color adapted for the shelf",
+      "packageEvidence": [
+        {
+          "packageName": "com.stremio.one",
+          "sourceURL": "https://play.google.com/store/apps/details?id=com.stremio.one",
+          "status": "verified primary publisher/store listing or official Android documentation"
+        }
+      ],
+      "brandSourceURL": "https://github.com/Stremio/stremio-brand/blob/3f3743087b11e81374cf943aaf1e041af1c97ee3/logos/SVG/stremio-logo-icon-only-fullcolor.svg",
+      "sha256": "d1d0ee178985577e5d402e69d952e12bd7eae62553e6d0280a8626a9d21fa26e",
+      "sourceSHA256": "7165e0db3edb594987842d7120fb58ca247ea9223184dbfe195df49242beea5a",
+      "pathCount": 1,
+      "viewport": [
+        24,
+        24
+      ],
+      "preserveColors": false,
+      "transformation": "Source pathData copied exactly; explicit monochrome foreground fill only",
+      "resourcePath": "app/src/main/res/drawable/logo_stremio.xml",
+      "packages": [
+        "com.stremio.one"
+      ]
+    },
+    {
+      "key": "youtubemusic",
+      "title": "YouTube Music",
+      "sourceURL": "https://github.com/simple-icons/simple-icons/blob/4672316908c58ef9342f3069fe7ebe50d30d45b2/icons/youtubemusic.svg",
+      "sourceCommit": "4672316908c58ef9342f3069fe7ebe50d30d45b2",
+      "sourceGitBlob": "d3225210bb4693afb06f42dc611c30d1373757f4",
+      "license": "CC0-1.0",
+      "licenseURL": "https://github.com/simple-icons/simple-icons/blob/4672316908c58ef9342f3069fe7ebe50d30d45b2/LICENSE.md",
+      "foregroundColor": "#FF0000",
+      "packageAliases": [
+        "com.google.android.youtube.tvmusic"
+      ],
+      "suggestedBrandGradient": {
+        "top": "#252527",
+        "bottom": "#070708"
+      },
+      "assetPath": "app/src/main/res/drawable/logo_youtubemusic.xml",
+      "sourceFile": "youtubemusic.svg",
+      "assetStyle": "authentic monochrome Simple Icons path; foreground color adapted for the shelf",
+      "packageEvidence": [
+        {
+          "packageName": "com.google.android.youtube.tvmusic",
+          "sourceURL": "https://play.google.com/store/apps/details?id=com.google.android.youtube.tvmusic",
+          "status": "verified primary publisher/store listing or official Android documentation"
+        }
+      ],
+      "brandSourceURL": "https://partnermarketinghub.withgoogle.com/#/brands",
+      "sha256": "89272025c43633ca5262a87ad32529b0c2a8b90dfd3bde67b271666557986bdd",
+      "sourceSHA256": "d7d3d09422b7b81270c4e52fe92f061c192351d91cb08c1e99c8ef9e29065846",
+      "pathCount": 1,
+      "viewport": [
+        24,
+        24
+      ],
+      "preserveColors": false,
+      "transformation": "Source pathData copied exactly; explicit monochrome foreground fill only",
+      "resourcePath": "app/src/main/res/drawable/logo_youtubemusic.xml",
+      "packages": [
+        "com.google.android.youtube.tvmusic"
+      ]
+    },
+    {
+      "key": "googleplay",
+      "title": "Google Play Store",
+      "sourceURL": "https://github.com/simple-icons/simple-icons/blob/4672316908c58ef9342f3069fe7ebe50d30d45b2/icons/googleplay.svg",
+      "sourceCommit": "4672316908c58ef9342f3069fe7ebe50d30d45b2",
+      "sourceGitBlob": "3ce505fc29c84899c5a0e613c40135c2fd8bf8d4",
+      "license": "CC0-1.0",
+      "licenseURL": "https://github.com/simple-icons/simple-icons/blob/4672316908c58ef9342f3069fe7ebe50d30d45b2/LICENSE.md",
+      "foregroundColor": "#FFFFFF",
+      "packageAliases": [
+        "com.android.vending"
+      ],
+      "suggestedBrandGradient": {
+        "top": "#284649",
+        "bottom": "#0F2428"
+      },
+      "assetPath": "app/src/main/res/drawable/logo_googleplay.xml",
+      "sourceFile": "googleplay.svg",
+      "assetStyle": "authentic monochrome Simple Icons path; foreground color adapted for the shelf",
+      "packageEvidence": [
+        {
+          "packageName": "com.android.vending",
+          "sourceURL": "https://developer.android.com/distribute/marketing-tools/linking-to-google-play",
+          "status": "verified primary publisher/store listing or official Android documentation"
+        }
+      ],
+      "sha256": "b9faa2ef1ae6e84f21741816417c1e59496aed47d61b165cfec8d3c64a8a1453",
+      "sourceSHA256": "9ada39c8ef88cf1299715e9ce95442a47a31b5f574804bb1099760df6690d90b",
+      "pathCount": 1,
+      "viewport": [
+        24,
+        24
+      ],
+      "preserveColors": false,
+      "transformation": "Source pathData copied exactly; explicit monochrome foreground fill only",
+      "resourcePath": "app/src/main/res/drawable/logo_googleplay.xml",
+      "packages": [
+        "com.android.vending"
+      ]
+    },
+    {
+      "key": "smarttube",
+      "title": "SmartTube",
+      "sourceFile": "smarttube.png",
+      "sourceURL": "https://github.com/yuliskov/SmartTube/blob/168e48483a000951a9c2b49689dd703405a7683b/smarttubetv/src/ststable/res/mipmap-nodpi/app_logo.png",
+      "sourceCommit": "168e48483a000951a9c2b49689dd703405a7683b",
+      "sourceGitBlob": "9aafb7aab7dd2a8b6432d63b654fdf0ab2cb572b",
+      "packageAliases": [
+        "org.smarttube.stable",
+        "org.smarttube.beta",
+        "app.smarttube.fdroid",
+        "app.smarttube"
+      ],
+      "license": "MIT (upstream repository license; trademarks remain with owners)",
+      "licenseURL": "https://github.com/yuliskov/SmartTube/blob/168e48483a000951a9c2b49689dd703405a7683b/LICENSE",
+      "foregroundColor": "#FFFFFF",
+      "suggestedBrandGradient": {
+        "top": "#0097A7",
+        "bottom": "#003D45"
+      },
+      "packageEvidence": [
+        {
+          "packageName": "org.smarttube.stable",
+          "sourceURL": "https://github.com/yuliskov/SmartTube/blob/168e48483a000951a9c2b49689dd703405a7683b/smarttubetv/build.gradle",
+          "status": "Explicit applicationId in upstream build.gradle; app.smarttube is base ID"
+        },
+        {
+          "packageName": "org.smarttube.beta",
+          "sourceURL": "https://github.com/yuliskov/SmartTube/blob/168e48483a000951a9c2b49689dd703405a7683b/smarttubetv/build.gradle",
+          "status": "Explicit applicationId in upstream build.gradle; app.smarttube is base ID"
+        },
+        {
+          "packageName": "app.smarttube.fdroid",
+          "sourceURL": "https://github.com/yuliskov/SmartTube/blob/168e48483a000951a9c2b49689dd703405a7683b/smarttubetv/build.gradle",
+          "status": "Explicit applicationId in upstream build.gradle; app.smarttube is base ID"
+        },
+        {
+          "packageName": "app.smarttube",
+          "sourceURL": "https://github.com/yuliskov/SmartTube/blob/168e48483a000951a9c2b49689dd703405a7683b/smarttubetv/build.gradle",
+          "status": "Explicit applicationId in upstream build.gradle; app.smarttube is base ID"
+        }
+      ],
+      "assetPath": "app/src/main/res/drawable-nodpi/logo_smarttube.png",
+      "sha256": "a795ad268667f5d5b7bdc1c35738908e789d8e4c1bae03047f8154f5053750f5",
+      "sourceSHA256": "a795ad268667f5d5b7bdc1c35738908e789d8e4c1bae03047f8154f5053750f5",
+      "dimensions": [
+        180,
+        180
+      ],
+      "preserveColors": true,
+      "transformation": "Byte-for-byte PNG copy; no resize, retouch, or invented brand artwork",
+      "assetStyle": "Original full-color publisher/project app artwork; do not apply SRC_IN recoloring",
+      "resourcePath": "app/src/main/res/drawable-nodpi/logo_smarttube.png",
+      "packages": [
+        "org.smarttube.stable",
+        "org.smarttube.beta",
+        "app.smarttube.fdroid",
+        "app.smarttube"
+      ]
+    },
+    {
+      "key": "vk",
+      "title": "VK Видео",
+      "packages": [
+        "com.vk.tv"
+      ],
+      "packageProofUrls": [
+        "https://www.rustore.ru/catalog/app/com.vk.tv"
+      ],
+      "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/8/80/VK_Video.svg",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:VK_Video.svg",
+      "rawPath": "work/icon-pack-ru/vk.svg",
+      "resourcePath": "app/src/main/res/drawable/logo_vk.xml",
+      "license": "PD-textlogo per Commons file description; trademark retained",
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:VK_Video.svg#Licensing",
+      "modes": [
+        "preserve-color"
+      ],
+      "suggestedcolor": "#FF2B42",
+      "notes": "Authentic VK Video mark from vk.com/brand provenance, not VK social glyph. Exact source paths/fills mechanically converted; original square/squircle art retained.",
+      "assetPath": "app/src/main/res/drawable/logo_vk.xml",
+      "sha256": "b6f69c3cd3e3de4a8a026fc97c92981940b6f364c177aa8b1ae47b84cf78d377",
+      "sourceSha256": "6fbd51461520a319d213c7f51c533d0653d8cdd5c4a7b206edd2a6e103f42b2b"
+    },
+    {
+      "key": "kinopoisk",
+      "title": "Кинопоиск",
+      "packages": [
+        "ru.kinopoisk.tv"
+      ],
+      "packageProofUrls": [
+        "https://play.google.com/store/apps/details?id=ru.kinopoisk.tv"
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/kinopoisk.svg",
+      "sourcePage": "https://github.com/simple-icons/simple-icons/blob/develop/icons/kinopoisk.svg",
+      "rawPath": "work/icon-pack-ru/kinopoisk.svg",
+      "resourcePath": "app/src/main/res/drawable/logo_kinopoisk.xml",
+      "license": "CC0-1.0 Simple Icons contribution; trademark retained",
+      "licenseUrl": "https://github.com/simple-icons/simple-icons/blob/develop/LICENSE.md",
+      "modes": [
+        "white-tint",
+        "brand-tint"
+      ],
+      "suggestedcolor": "#FF5500",
+      "notes": "Exact Simple Icons path; only black source fill changed to white alpha-mask. Metadata points to https://www.kinopoisk.ru/special/branding.",
+      "assetPath": "app/src/main/res/drawable/logo_kinopoisk.xml",
+      "sha256": "63c8a854ad867cb20234ac0a9524c78a4b05daeee78f94d9dc98d65b515cccb1",
+      "sourceSha256": "c17362c835f79f2cbf7402e26de22bec71e555dc9df8a77844b0c9dff226b3de"
+    },
+    {
+      "key": "plex",
+      "title": "Plex",
+      "packages": [
+        "com.plexapp.android"
+      ],
+      "packageProofUrls": [
+        "https://play.google.com/store/apps/details?id=com.plexapp.android"
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/plex.svg",
+      "sourcePage": "https://github.com/simple-icons/simple-icons/blob/develop/icons/plex.svg",
+      "rawPath": "work/icon-pack-ru/plex.svg",
+      "resourcePath": "app/src/main/res/drawable/logo_plex.xml",
+      "license": "CC0-1.0 Simple Icons contribution; trademark retained",
+      "licenseUrl": "https://github.com/simple-icons/simple-icons/blob/develop/LICENSE.md",
+      "modes": [
+        "white-tint",
+        "brand-tint"
+      ],
+      "suggestedcolor": "#EBAF00",
+      "notes": "Exact Simple Icons wordmark path; fill changed to white alpha-mask. Metadata points to https://brand.plex.tv. Original 24x24 viewport includes transparent vertical margins: renderer should trim alpha before optical sizing.",
+      "assetPath": "app/src/main/res/drawable/logo_plex.xml",
+      "sha256": "e8a21c9964e61fa76632f7bd76f4b91c219e61ab1da9f86b6ff916662b3ec9a5",
+      "sourceSha256": "129500c2bda2175c95402d12e0a96642de61a2561d45a4d9719edc8abd43c8ea"
+    },
+    {
+      "key": "rutube",
+      "title": "RUTUBE",
+      "packages": [
+        "ru.rutube.app",
+        "rtb.mobile.android"
+      ],
+      "packageProofUrls": [
+        "https://www.rustore.ru/catalog/app/ru.rutube.app",
+        "https://rutube.ru/video/d4f6c71ef692390960e4a3953fdc5be2/"
+      ],
+      "sourceUrl": "https://static.rtbcdn.ru/static/img/favicon-icons/v3/icon.svg",
+      "sourcePage": "https://rutube.ru/",
+      "rawPath": "work/icon-pack-ru/rutube.svg",
+      "resourcePath": "app/src/main/res/drawable/logo_rutube.xml",
+      "license": "Official geometric favicon; matching Commons icon described as PD-textlogo; trademark retained",
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:Rutube_icon.svg#Licensing",
+      "modes": [
+        "preserve-color"
+      ],
+      "suggestedcolor": "#100943",
+      "notes": "Exact official paths/fills; SVGroundedrect clip mechanically represented as Androidclip-path. Commons same-shaped2024SVG archived in rutube-commons.svg. Official Rutube post confirms ru.rutube.app and current Play successor rtb.mobile.android; preserve requested package, no migration assumptions.",
+      "assetPath": "app/src/main/res/drawable/logo_rutube.xml",
+      "sha256": "270e38327f79b349c0b1db6f7213a2096bf5f1df7c100aa867c0ecc8b819e2e0",
+      "sourceSha256": "7d77bdedd3344aafa79808c4b7ec327a9dd0ec10e79392428ea2edf0ba98d01e"
+    }
+  ],
+  "notes": [
+    "Only independently licensed Simple Icons CC0, Commons PD-textlogo and SmartTube MIT marks are bundled. Publisher trademarks remain with their respective owners.",
+    "Unverified publisher artwork is not shipped. Native fallback reads the installed package resources and never fabricates a brand when the package is absent.",
+    "No runtime artwork downloads. Package aliases match exact verified IDs independently of local labels."
+  ],
+  "nativeFallbacks": [
+    {
+      "key": "youtube",
+      "packages": [
+        "com.google.android.youtube.tv"
+      ],
+      "bundledAsset": false,
+      "decisionDate": "2026-10-25",
+      "sourceReview": "https://developers.google.com/youtube/terms/branding-guidelines",
+      "brandSite": "https://brand.youtube/",
+      "reason": "No verified bundled asset rights for this non-API launcher were established. Read the installed package banner/icon without copying a brand asset into the APK. If the package is absent, keep the generic native app fallback.",
+      "runtimeNetwork": false
+    },
+    {
+      "key": "disney",
+      "title": "Disney+",
+      "packages": [
+        "com.disney.disneyplus"
+      ],
+      "bundledAsset": false,
+      "decisionDate": "2026-10-25",
+      "sourceReview": "https://play.google.com/store/apps/details?id=com.disney.disneyplus",
+      "reason": "Applicable open redistribution rights were not established for this publisher asset. Use only the installed package banner/icon; retain its actual color/alpha and preserve its original field when mixed-artwork contrast requires it.",
+      "runtimeNetwork": false
+    },
+    {
+      "key": "tivimate",
+      "title": "TiviMate",
+      "packages": [
+        "ar.tvplayer.tv"
+      ],
+      "bundledAsset": false,
+      "decisionDate": "2026-10-25",
+      "sourceReview": "https://play.google.com/store/apps/details?id=ar.tvplayer.tv",
+      "reason": "Applicable open redistribution rights were not established for this publisher asset. Use only the installed package banner/icon; retain its actual color/alpha and preserve its original field when mixed-artwork contrast requires it.",
+      "runtimeNetwork": false
+    },
+    {
+      "key": "vimu",
+      "title": "Vimu Media Player",
+      "packages": [
+        "net.gtvbox.vimuhd",
+        "net.gtvbox.videoplayer"
+      ],
+      "bundledAsset": false,
+      "decisionDate": "2026-10-25",
+      "sourceReview": "https://vimu.tv/",
+      "reason": "Applicable open redistribution rights were not established for this publisher asset. Use only the installed package banner/icon; retain its actual color/alpha and preserve its original field when mixed-artwork contrast requires it.",
+      "runtimeNetwork": false
+    },
+    {
+      "key": "sendfiles",
+      "title": "Send Files to TV",
+      "packages": [
+        "com.yablio.sendfilestotv"
+      ],
+      "bundledAsset": false,
+      "decisionDate": "2026-10-25",
+      "sourceReview": "https://play.google.com/store/apps/details?id=com.yablio.sendfilestotv",
+      "reason": "Applicable open redistribution rights were not established for this publisher asset. Use only the installed package banner/icon; retain its actual color/alpha and preserve its original field when mixed-artwork contrast requires it.",
+      "runtimeNetwork": false
+    },
+    {
+      "key": "ivi",
+      "title": "Иви",
+      "packages": [
+        "ru.ivi.client"
+      ],
+      "bundledAsset": false,
+      "decisionDate": "2026-10-25",
+      "sourceReview": "https://www.ivi.ru/",
+      "reason": "Applicable open redistribution rights were not established for this publisher asset. Use only the installed package banner/icon; retain its actual color/alpha and preserve its original field when mixed-artwork contrast requires it.",
+      "runtimeNetwork": false
+    },
+    {
+      "key": "okko",
+      "title": "Okko",
+      "packages": [
+        "ru.more.play"
+      ],
+      "bundledAsset": false,
+      "decisionDate": "2026-10-25",
+      "sourceReview": "https://static.tildacdn.com/tild3666-3964-4530-b838-633461323862/Okko_-_.svg",
+      "reason": "Applicable open redistribution rights were not established for this publisher asset. Use only the installed package banner/icon; retain its actual color/alpha and preserve its original field when mixed-artwork contrast requires it.",
+      "runtimeNetwork": false
+    },
+    {
+      "key": "wink",
+      "title": "Wink",
+      "packages": [
+        "ru.rt.video.app.tv",
+        "ru.rt.video.app.mobile"
+      ],
+      "bundledAsset": false,
+      "decisionDate": "2026-10-25",
+      "sourceReview": "https://block.wink.ru/images/wink.svg",
+      "reason": "Applicable open redistribution rights were not established for this publisher asset. Use only the installed package banner/icon; retain its actual color/alpha and preserve its original field when mixed-artwork contrast requires it.",
+      "runtimeNetwork": false
+    },
+    {
+      "key": "kion",
+      "title": "КИОН",
+      "packages": [
+        "ru.mts.mtstv"
+      ],
+      "bundledAsset": false,
+      "decisionDate": "2026-10-25",
+      "sourceReview": "https://static.kion.ru/kds/assets/logo/web/desktop.webp",
+      "reason": "Applicable open redistribution rights were not established for this publisher asset. Use only the installed package banner/icon; retain its actual color/alpha and preserve its original field when mixed-artwork contrast requires it.",
+      "runtimeNetwork": false
+    },
+    {
+      "key": "start",
+      "title": "START",
+      "packages": [
+        "ru.start.androidmobile"
+      ],
+      "bundledAsset": false,
+      "decisionDate": "2026-10-25",
+      "sourceReview": "https://start.ru/static/images/header/logo_rebranding_white.svg",
+      "reason": "Applicable open redistribution rights were not established for this publisher asset. Use only the installed package banner/icon; retain its actual color/alpha and preserve its original field when mixed-artwork contrast requires it.",
+      "runtimeNetwork": false
+    }
+  ]
+}

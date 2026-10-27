@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<lint>
+    <!-- Test toolchain versions are intentionally pinned and covered by dependency verification.
+         Newer versions are evaluated as explicit dependency updates, not auto-upgraded at build time. -->
+    <issue id="GradleDependency"><ignore path="app/build.gradle" /></issue>
+</lint>

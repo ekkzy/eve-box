@@ -1,0 +1,39 @@
+# Build and local tooling
+.gradle/
+**/build/
+local.properties
+gradlew-local.cmd
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Credentials and signing material
+.env
+.env.*
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.pem
+*.key
+key.properties
+config.properties
+private/
+
+# Local work, private captures, archives, and agent context
+outputs/
+.local-history/
+.scratch/
+.codex/
+.agents/
+.codex-remote-attachments/
+softlumi-stage/
+docs/ideas/
+START_HERE.md
+AGENTS.md
+task_plan.md
+findings.md
+progress.md
+*.apk
+*.aab

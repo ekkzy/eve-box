@@ -1,0 +1,43 @@
+{
+  "font": "Outfit Variable",
+  "authors": "The Outfit Project Authors",
+  "copyright": "Copyright 2021 The Outfit Project Authors",
+  "authorProjectURL": "https://github.com/Outfitio/Outfit-Fonts",
+  "sourceRepository": "https://github.com/rajupp/talkies",
+  "sourceCommit": "62c0fcb5be4ff0fd9e1ea7c2da6de13905b175a6",
+  "sourceRepositoryLicense": "MIT; the font itself is separately licensed under SIL OFL 1.1",
+  "sourceURL": "https://github.com/rajupp/talkies/blob/62c0fcb5be4ff0fd9e1ea7c2da6de13905b175a6/app/src/main/res/font/outfit.ttf",
+  "sourceGitBlobSHA1": "466d6245f9582df39bf73da91a8b3c938fd061cd",
+  "sourceSnapshotRetrievedOn": "2026-10-25",
+  "productionAddedOn": "2026-10-25",
+  "fontPath": "app/src/main/assets/fonts/OutfitVariable.ttf",
+  "fontBytes": 110884,
+  "fontSHA256": "fc7287273e66929776e2ba54f144fe699080bec29f61bf649d70d871468aeade",
+  "fontNames": {
+    "1": "Outfit Thin",
+    "2": "Regular",
+    "5": "Version 1.100;gftools[0.9.27]",
+    "6": "Outfit-Thin",
+    "8": "fragTYPE",
+    "9": "Rodrigo Fuenzalida"
+  },
+  "axes": [
+    { "tag": "wght", "minimum": 100, "default": 100, "maximum": 900 }
+  ],
+  "runtimeRole": "UiTypography.clockRegular",
+  "runtimeWeight": 400,
+  "fallbackRole": "UiTypography.displayRegular",
+  "glyphVerification": {
+    "asciiDigitsAndColonPresent": true,
+    "cyrillicU0401U0410U044FU0451Present": false
+  },
+  "license": "SIL Open Font License 1.1",
+  "licensePath": "app/src/main/assets/fonts/OUTFIT-OFL.txt",
+  "licenseURL": "https://github.com/rajupp/talkies/blob/62c0fcb5be4ff0fd9e1ea7c2da6de13905b175a6/OUTFIT-OFL.txt",
+  "licenseBytes": 4482,
+  "licenseSHA256": "916fdcb34129e58b62d12a9d27ac746bb8742bc42409521c1438521cfcea7eb5",
+  "licenseSourceGitBlobSHA1": "723cd447edee83ed3bb07c3343f478d352aa7440",
+  "licenseNormalizedLFBytes": 4389,
+  "licenseNormalizedLFSHA256": "c676351bf8576b9aba743cd5eaa8c0e7ee0d51f805d720447b4df4ddb6a2e416",
+  "transformation": "Font bytes unchanged from the pinned Talkies asset and verified local preview copy; no subsetting or instancing. License copied with the existing checkout CRLF line endings; its LF-normalized Git blob matches the source tree. This import contains no Talkies application code."
+}

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_button_service_label">Кнопки пульта softlumi</string>
+    <string name="remote_button_service_summary">Необязательные назначения двух поддерживаемых кнопок пульта</string>
+    <string name="remote_button_service_description">Открывает выбранные приложения двумя поддерживаемыми кнопками пульта. Обрабатывает только нажатия и не читает содержимое экрана. Включается вручную в специальных возможностях Android и в настройках softlumi.</string>
+</resources>
