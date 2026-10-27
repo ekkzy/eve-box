@@ -1,0 +1,418 @@
+{
+  "schemaVersion": 2,
+  "workload": "Warm Home idle only; no navigation or content launch",
+  "counts": {
+    "plannedBlocks": 8,
+    "completedBlocks": 8,
+    "passedBlocks": 8,
+    "blocksPerApp": 4,
+    "pairs": 4
+  },
+  "runOrder": "ABBABAAB",
+  "conditions": {
+    "model": "MiTV-AFMU0",
+    "api": "34",
+    "abi": "armeabi-v7a",
+    "actualUiSize": "1920x1080",
+    "densityDpi": 320,
+    "fontScaleSetting": 1.0,
+    "warmSettleSeconds": 15,
+    "minimumMeasuredIdleSeconds": 30,
+    "animationScales": {
+      "animator_duration_scale": "0.5",
+      "transition_animation_scale": "0.5",
+      "window_animation_scale": "0.5"
+    },
+    "cpuTickFrequency": 100,
+    "bothLauncherPackagesEnabledDuringPairs": true,
+    "temporaryHomeResolver": "Google TV Home",
+    "homeRoleHolderPreserved": "softlumi",
+    "pausedLegacyHomeService": true,
+    "otherEnabledAccessibilityComponentsPreserved": true,
+    "restored": true,
+    "googleFinallyDisabledUser": true
+  },
+  "configurations": {
+    "A": {
+      "name": "Google TV Home",
+      "versionName": "1.0.994451607",
+      "versionCode": 831927,
+      "installedApkFiles": 4,
+      "installedApkBytes": 24683288,
+      "installedApkMiB": 23.539817810058594,
+      "processScope": "Stable exact package-named PID set; isolated/unattributed helpers excluded",
+      "cpuProcessCounts": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "memoryProcessCounts": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "activePssKiB": {
+        "values": [
+          133568,
+          124470,
+          124774,
+          122749
+        ],
+        "plannedCount": 4,
+        "observedCount": 4,
+        "median": 124622.0,
+        "min": 122749,
+        "max": 133568
+      },
+      "activePssMiB": {
+        "values": [
+          130.4375,
+          121.552734375,
+          121.849609375,
+          119.8720703125
+        ],
+        "plannedCount": 4,
+        "observedCount": 4,
+        "median": 121.701171875,
+        "min": 119.8720703125,
+        "max": 130.4375
+      },
+      "activeRssKiB": {
+        "values": [
+          268916,
+          265528,
+          265868,
+          263844
+        ],
+        "plannedCount": 4,
+        "observedCount": 4,
+        "median": 265698.0,
+        "min": 263844,
+        "max": 268916
+      },
+      "activeRssMiB": {
+        "values": [
+          262.61328125,
+          259.3046875,
+          259.63671875,
+          257.66015625
+        ],
+        "plannedCount": 4,
+        "observedCount": 4,
+        "median": 259.470703125,
+        "min": 257.66015625,
+        "max": 262.61328125
+      },
+      "activeCpuOneCorePercent": {
+        "values": [
+          0.06578947368416013,
+          0.0,
+          0.23003614853768015,
+          0.06573541495470629
+        ],
+        "plannedCount": 4,
+        "observedCount": 4,
+        "median": 0.0657624443194332,
+        "min": 0.0,
+        "max": 0.23003614853768015
+      },
+      "activeCpuTicks": [
+        2,
+        0,
+        7,
+        2
+      ],
+      "measuredSeconds": [
+        30.400000000023283,
+        30.415000000037253,
+        30.429999999993015,
+        30.425000000046566
+      ],
+      "deviceBusyPercent": {
+        "values": [
+          4.679926458298512,
+          4.437374413931681,
+          5.021340697966357,
+          4.491844416562108
+        ],
+        "plannedCount": 4,
+        "observedCount": 4,
+        "median": 4.58588543743031,
+        "min": 4.437374413931681,
+        "max": 5.021340697966357
+      },
+      "deviceIoWaitPercent": {
+        "values": [
+          0.025071034598027744,
+          0.008372404554588079,
+          0.033475604653109045,
+          0.0
+        ],
+        "plannedCount": 4,
+        "observedCount": 4,
+        "median": 0.01672171957630791,
+        "min": 0.0,
+        "max": 0.033475604653109045
+      }
+    },
+    "B": {
+      "name": "softlumi",
+      "versionName": "0.3.0-candidate.12",
+      "versionCode": 33,
+      "installedApkFiles": 1,
+      "installedApkBytes": 47026568,
+      "installedApkMiB": 44.84803009033203,
+      "processScope": "Stable exact package-named PID set; isolated/unattributed helpers excluded",
+      "cpuProcessCounts": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "memoryProcessCounts": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "activePssKiB": {
+        "values": [
+          143958,
+          142834,
+          142734,
+          142822
+        ],
+        "plannedCount": 4,
+        "observedCount": 4,
+        "median": 142828.0,
+        "min": 142734,
+        "max": 143958
+      },
+      "activePssMiB": {
+        "values": [
+          140.583984375,
+          139.486328125,
+          139.388671875,
+          139.474609375
+        ],
+        "plannedCount": 4,
+        "observedCount": 4,
+        "median": 139.48046875,
+        "min": 139.388671875,
+        "max": 140.583984375
+      },
+      "activeRssKiB": {
+        "values": [
+          155576,
+          154476,
+          154380,
+          154496
+        ],
+        "plannedCount": 4,
+        "observedCount": 4,
+        "median": 154486.0,
+        "min": 154380,
+        "max": 155576
+      },
+      "activeRssMiB": {
+        "values": [
+          151.9296875,
+          150.85546875,
+          150.76171875,
+          150.875
+        ],
+        "plannedCount": 4,
+        "observedCount": 4,
+        "median": 150.865234375,
+        "min": 150.76171875,
+        "max": 151.9296875
+      },
+      "activeCpuOneCorePercent": {
+        "values": [
+          0.06570302233889694,
+          0.0,
+          0.0,
+          0.06576783952640106
+        ],
+        "plannedCount": 4,
+        "observedCount": 4,
+        "median": 0.03285151116944847,
+        "min": 0.0,
+        "max": 0.06576783952640106
+      },
+      "activeCpuTicks": [
+        2,
+        0,
+        0,
+        2
+      ],
+      "measuredSeconds": [
+        30.440000000060536,
+        30.43500000005588,
+        30.429999999993015,
+        30.410000000032596
+      ],
+      "deviceBusyPercent": {
+        "values": [
+          4.815650865312265,
+          4.533288725326196,
+          4.443886517700226,
+          4.723618090452261
+        ],
+        "plannedCount": 4,
+        "observedCount": 4,
+        "median": 4.6284534078892285,
+        "min": 4.443886517700226,
+        "max": 4.815650865312265
+      },
+      "deviceIoWaitPercent": {
+        "values": [
+          0.016721009949000918,
+          0.008364001338240215,
+          0.025106703489831784,
+          0.01675041876046901
+        ],
+        "plannedCount": 4,
+        "observedCount": 4,
+        "median": 0.016735714354734962,
+        "min": 0.008364001338240215,
+        "max": 0.025106703489831784
+      }
+    }
+  },
+  "pairedDifferences": [
+    {
+      "pair": 1,
+      "order": "AB",
+      "pssBMinusAKiB": 10390,
+      "pssBMinusAMiB": 10.146484375,
+      "relativePssDeltaPercent": 7.778809295639674,
+      "cpuBMinusAPercentagePoints": -8.645134526319431e-05,
+      "rssBMinusAKiB": -113340,
+      "deviceBusyBMinusAPercentagePoints": 0.1357244070137531
+    },
+    {
+      "pair": 2,
+      "order": "BA",
+      "pssBMinusAKiB": 18364,
+      "pssBMinusAMiB": 17.93359375,
+      "relativePssDeltaPercent": 14.753755925122519,
+      "cpuBMinusAPercentagePoints": 0.0,
+      "rssBMinusAKiB": -111052,
+      "deviceBusyBMinusAPercentagePoints": 0.09591431139451512
+    },
+    {
+      "pair": 3,
+      "order": "BA",
+      "pssBMinusAKiB": 17960,
+      "pssBMinusAMiB": 17.5390625,
+      "relativePssDeltaPercent": 14.394024396108163,
+      "cpuBMinusAPercentagePoints": -0.23003614853768015,
+      "rssBMinusAKiB": -111488,
+      "deviceBusyBMinusAPercentagePoints": -0.5774541802661313
+    },
+    {
+      "pair": 4,
+      "order": "AB",
+      "pssBMinusAKiB": 20073,
+      "pssBMinusAMiB": 19.6025390625,
+      "relativePssDeltaPercent": 16.352882711875452,
+      "cpuBMinusAPercentagePoints": 3.242457169476409e-05,
+      "rssBMinusAKiB": -109348,
+      "deviceBusyBMinusAPercentagePoints": 0.23177367389015302
+    }
+  ],
+  "pairedSummary": {
+    "pssBMinusAKiB": {
+      "values": [
+        10390,
+        18364,
+        17960,
+        20073
+      ],
+      "plannedCount": 4,
+      "observedCount": 4,
+      "median": 18162.0,
+      "min": 10390,
+      "max": 20073
+    },
+    "pssBMinusAMiB": {
+      "values": [
+        10.146484375,
+        17.93359375,
+        17.5390625,
+        19.6025390625
+      ],
+      "plannedCount": 4,
+      "observedCount": 4,
+      "median": 17.736328125,
+      "min": 10.146484375,
+      "max": 19.6025390625
+    },
+    "relativePssDeltaPercent": {
+      "values": [
+        7.778809295639674,
+        14.753755925122519,
+        14.394024396108163,
+        16.352882711875452
+      ],
+      "plannedCount": 4,
+      "observedCount": 4,
+      "median": 14.573890160615342,
+      "min": 7.778809295639674,
+      "max": 16.352882711875452
+    },
+    "cpuBMinusAPercentagePoints": {
+      "values": [
+        -8.645134526319431e-05,
+        0.0,
+        -0.23003614853768015,
+        3.242457169476409e-05
+      ],
+      "plannedCount": 4,
+      "observedCount": 4,
+      "median": -4.3225672631597156e-05,
+      "min": -0.23003614853768015,
+      "max": 3.242457169476409e-05
+    },
+    "rssBMinusAKiB": {
+      "values": [
+        -113340,
+        -111052,
+        -111488,
+        -109348
+      ],
+      "plannedCount": 4,
+      "observedCount": 4,
+      "median": -111270.0,
+      "min": -113340,
+      "max": -109348
+    },
+    "deviceBusyBMinusAPercentagePoints": {
+      "values": [
+        0.1357244070137531,
+        0.09591431139451512,
+        -0.5774541802661313,
+        0.23177367389015302
+      ],
+      "plannedCount": 4,
+      "observedCount": 4,
+      "median": 0.11581935920413411,
+      "min": -0.5774541802661313,
+      "max": 0.23177367389015302
+    }
+  },
+  "memoryScopeValidatedBlockCount": 8,
+  "limits": [
+    "One Xiaomi and four short warm-idle observations per app; no navigation, cold-start, FPS, long-idle or energy claim.",
+    "Google provider covers may remain partially loaded; content readiness, background and network work were not normalized.",
+    "Both packages were enabled during the pairs and the legacy HOME interceptor was temporarily paused. This differs from the ordinary Google-disabled configuration.",
+    "PSS sums the verified package-named processes; it is not RAM guaranteed to be freed by replacing Home. Isolated/unattributed helpers and full graphics/compositor costs are not assigned.",
+    "RSS is not unique physical RAM. Installed base/split APK bytes exclude app data/cache and do not measure reclaimed system storage.",
+    "Process CPU is percent of one core; device CPU is percent of aggregate CPU capacity and includes unrelated background load.",
+    "Idle CPU is near the tick-resolution floor: use ticks/seconds and absolute percentage-point differences, not a percentage energy/CPU saving.",
+    "Run order is balanced within this series; background load, CPU placement and content readiness were not fully controlled."
+  ]
+}

@@ -30,9 +30,25 @@ of specific integrations.
 - **Weather for your chosen city.** Current conditions, upcoming hours and a
   three-day forecast. Weather is optional and needs no location permission.
 
-| Posters | Appearance | Weather |
-| --- | --- | --- |
-| ![The home screen with portrait posters](docs/images/home-poster.png) | ![Background and appearance settings](docs/images/appearance.png) | ![Weather and forecast for the selected city](docs/images/weather.png) |
+## Interface and settings
+
+The home screen above uses Amber arch at night. Below are its light daytime
+pair, both card formats and settings operated with the remote. Open any image
+to view it at full resolution.
+
+| Light appearance and posters | Main settings |
+| --- | --- |
+| ![The home screen with portrait posters](docs/images/home-poster.png) | ![The main softlumi settings menu](docs/images/settings.png) |
+
+| Day and night wallpaper pairs | Card format, palette and dimming |
+| --- | --- |
+| ![The paired wallpaper gallery](docs/images/wallpapers.png) | ![Background and appearance settings](docs/images/appearance.png) |
+
+| Recommendations by app | Day and night schedule |
+| --- | --- |
+| ![Recommendation switches for individual apps](docs/images/sources.png) | ![Day and night schedule settings](docs/images/day-night.png) |
+
+![Weather and forecast for the selected city](docs/images/weather.png)
 
 ## Getting started
 
@@ -60,6 +76,16 @@ applying any changes. Weather and poster loading contact their respective
 external sources; see
 [privacy](docs/privacy.en.md).
 
+## Resources
+
+Four pairs of short idle observations were collected on a Xiaomi Mi Box S 3.
+Median PSS was **139.5 MiB** for softlumi and **121.7 MiB** for
+Google TV Home. Median process CPU was 0.033% and
+0.066% of one core respectively. The softlumi APK is larger:
+44.85 versus 23.54 MiB, almost all of it bundled wallpapers.
+These observations do not establish overall resource savings.
+[Results, versions and limits](docs/performance.en.md).
+
 ## For developers
 
 Java 17 and native Android Views, without Compose or a third-party UI framework.
@@ -69,4 +95,3 @@ See [SECURITY.md](SECURITY.md) for security reporting.
 
 Code is licensed under [MIT](LICENSE). Fonts, logos, weather data and images
 have separate terms listed in [third-party notices](THIRD_PARTY_NOTICES.md).
-The historical [Free My TV attribution](docs/licenses/FreeMyTV-MIT.txt) is retained.

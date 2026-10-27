@@ -6,7 +6,9 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Matrix;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Handler;
@@ -72,6 +74,15 @@ import org.junit.runner.RunWith;
 public final class PublicationScreenshotsTest {
     private static final ZoneId CITY_ZONE = ZoneId.of("Europe/Moscow");
     private static final String KINO = "ru.kinopoisk.tv", VK = "com.vk.tv";
+    private static final int AMBER_ARCH = 29, IVORY_VAULT = 30;
+    private enum Shot {
+        HOME_LANDSCAPE("home-landscape", "HOME"), HOME_POSTER("home-poster", "HOME"),
+        APPEARANCE("appearance", "APPEARANCE"), WEATHER("weather", "HOME"),
+        SETTINGS("settings", "SETTINGS"), WALLPAPERS("wallpapers", "GALLERY"),
+        SOURCES("sources", "SOURCES"), DAY_NIGHT("day-night", "DAY_NIGHT");
+        final String filename, screen;
+        Shot(String filename, String screen) { this.filename = filename; this.screen = screen; }
+    }
     private Context context;
     private UiDevice device;
     private SharedPreferences storage;
@@ -88,6 +99,9 @@ public final class PublicationScreenshotsTest {
         device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         assertEquals(3840, device.getDisplayWidth()); assertEquals(2160, device.getDisplayHeight());
         assertEquals(1f, context.getResources().getConfiguration().fontScale, .001f);
+        assertEquals("background_amber_arch", WallpaperCatalog.get(AMBER_ARCH).drawableName);
+        assertEquals("background_ivory_vault", WallpaperCatalog.get(IVORY_VAULT).drawableName);
+        assertEquals(AMBER_ARCH, WallpaperCatalog.pairId(IVORY_VAULT));
         storage = context.getSharedPreferences(LauncherPrefs.FILE_NAME, Context.MODE_PRIVATE);
         original = snapshot(storage);
         assertTrue(storage.edit().clear().putInt("schema_version", LauncherPrefs.SCHEMA_VERSION).commit());
@@ -100,7 +114,7 @@ public final class PublicationScreenshotsTest {
         preferences.setRecommendationsEnabled(false); preferences.setFavorites(Collections.emptyList());
         preferences.setCardFormat(LauncherPrefs.CARD_FORMAT_LANDSCAPE);
         preferences.setPaletteMode("dark"); preferences.setWallpaperPeriod("night");
-        preferences.setBackground(WallpaperCatalog.CALM_GRAPHITE_MIST); preferences.setWallpaperDim(15);
+        preferences.setBackground(AMBER_ARCH); preferences.setWallpaperDim(15);
         String[] packages = {KINO, VK, "ru.rutube.app", "com.netflix.ninja", "com.plexapp.android",
                 "com.spotify.tv.android", "org.xbmc.kodi", "org.videolan.vlc"};
         for (String pkg : packages) {
@@ -128,56 +142,157 @@ public final class PublicationScreenshotsTest {
         assertTrue(editor.commit()); assertEquals(original, snapshot(storage));
     }
 
-    @Test public void captureDemonstrationPages() throws Exception {
+    @Test public void captureHomeLandscape() throws Exception { captureDemo(Shot.HOME_LANDSCAPE); }
+    @Test public void captureHomePoster() throws Exception { captureDemo(Shot.HOME_POSTER); }
+    @Test public void captureAppearance() throws Exception { captureDemo(Shot.APPEARANCE); }
+    @Test public void captureWeather() throws Exception { captureDemo(Shot.WEATHER); }
+    @Test public void captureSettings() throws Exception { captureDemo(Shot.SETTINGS); }
+    @Test public void captureWallpapers() throws Exception { captureDemo(Shot.WALLPAPERS); }
+    @Test public void captureSources() throws Exception { captureDemo(Shot.SOURCES); }
+    @Test public void captureDayNight() throws Exception { captureDemo(Shot.DAY_NIGHT); }
+
+    private void captureDemo(Shot shot) throws Exception {
         try (ActivityScenario<MainActivity> scene = ActivityScenario.launch(MainActivity.class)) {
             MainActivity activity = owner(scene);
-            await(activity, "Initial disabled repositories settle", PublicationScreenshotsTest::stable);
-            scene.onActivity(current -> {
-                stopRealWorkers(current);
-                List<String> ids = new ArrayList<>(); for (AppEntry app : apps) ids.add(app.id);
-                preferences.setFavorites(ids);
-                preferences.setCity("Москва", 55.752040, 37.617810, "524901", CITY_ZONE.getId());
-                preferences.setWeatherEnabled(true); preferences.setWatchNextVisible(true);
-                preferences.setRecommendations(true, Arrays.asList(KINO, VK), Arrays.asList(KINO, VK));
-                set(current, "catalog", Collections.unmodifiableList(new ArrayList<>(apps)));
-                @SuppressWarnings("unchecked") Map<String, AppEntry> byId = (Map<String, AppEntry>) get(current, "appsById");
-                byId.clear(); for (AppEntry app : apps) byId.put(app.id, app);
-                set(current, "prefs", preferences.read());
-                set(current, "continuation", Collections.singletonList(new WatchNextRepository.Entry("demo-continue",
-                        "Горные маршруты", "Демонстрационная карточка, не история просмотра", KINO,
-                        new Intent(Intent.ACTION_VIEW).setPackage(KINO).toUri(Intent.URI_INTENT_SCHEME), image(R.drawable.background_alpine_day),
-                        18, 60, System.currentTimeMillis(), true, true, WatchNextRepository.Kind.SHOW)));
-                set(current, "watchLoaded", true); set(current, "watchStatus", WatchNextRepository.Status.ITEMS);
-                set(current, "weather", demoWeather()); set(current, "nextWeatherRequestAt", Long.MAX_VALUE);
-                set(current, "recommendations", demoRecommendations()); set(current, "homeSource", KINO);
-                set(current, "requestedFocus", "source:" + KINO);
-                invoke(current, "render");
-            });
-            await(activity, "Landscape demo artwork and focus settle", PublicationScreenshotsTest::imagesReady);
-            capture(activity, "home-landscape");
+            await(activity, shot.filename + ": initial disabled repositories settle", PublicationScreenshotsTest::stable);
+            installDemo(scene);
+            await(activity, shot.filename + ": controlled Home images settle", PublicationScreenshotsTest::imagesReady);
+            if (shot == Shot.HOME_POSTER || shot == Shot.WEATHER) {
+                preferences.setCardFormat(LauncherPrefs.CARD_FORMAT_POSTER);
+                preferences.setBackground(IVORY_VAULT);
+                preferences.setWallpaperPeriod("day"); preferences.setPaletteMode("light");
+                scene.onActivity(current -> { set(current, "requestedFocus", "source:" + KINO); invoke(current, "render"); });
+                await(activity, shot.filename + ": light paired wallpaper and poster images settle", PublicationScreenshotsTest::imagesReady);
+            }
+            if (shot == Shot.WEATHER) {
+                scene.onActivity(current -> {
+                    assertTrue(target(current, "shortcut-launcher").requestFocus());
+                    ((TvScrollView) get(current, "homeScroll")).smoothScrollToPosition(720);
+                });
+                await(activity, "weather: actual lower Home forecast page settles", current -> stable(current)
+                        && ((TvScrollView) get(current, "homeScroll")).getScrollY() == 720
+                        && target(current, "shortcut-launcher") == current.getCurrentFocus());
+            } else if (!"HOME".equals(shot.screen)) {
+                if (shot == Shot.DAY_NIGHT) {
+                    preferences.setWallpaperPeriod("schedule"); preferences.setPaletteMode("auto");
+                    preferences.setDayNightSchedule(7 * 60, 19 * 60);
+                }
+                scene.onActivity(current -> push(current, shot.screen));
+                await(activity, shot.filename + ": native settings page and background settle", current -> imagesReady(current)
+                        && shot.screen.equals(current.currentScreenForTest()));
+                if (shot == Shot.WALLPAPERS) {
+                    // Native focus scrolls to the final rows of licensed architectural pairs.
+                    scene.onActivity(current -> assertTrue(target(current, "background-31").requestFocus()));
+                    await(activity, "wallpapers: architectural pair thumbnails finish decoding", PublicationScreenshotsTest::imagesReady);
+                } else if (shot == Shot.SOURCES || shot == Shot.DAY_NIGHT) {
+                    String focus = shot == Shot.SOURCES ? "app:com.plexapp.android" : "period-night-start";
+                    scene.onActivity(current -> assertTrue(target(current, focus).requestFocus()));
+                    await(activity, shot.filename + ": native focus reveals the lower settings rows", current -> imagesReady(current)
+                            && target(current, focus) == current.getCurrentFocus());
+                }
+            }
+            scene.onActivity(current -> assertShotState(current, shot));
+            capture(activity, shot.filename);
+        }
+    }
 
-            preferences.setCardFormat(LauncherPrefs.CARD_FORMAT_POSTER);
-            preferences.setBackground(WallpaperCatalog.CALM_PEARL_MIST);
-            preferences.setWallpaperPeriod("day"); preferences.setPaletteMode("light");
-            scene.onActivity(current -> { set(current, "requestedFocus", "source:" + KINO); invoke(current, "render"); });
-            await(activity, "Poster demo artwork and focus settle", PublicationScreenshotsTest::imagesReady);
-            capture(activity, "home-poster");
+    private void installDemo(ActivityScenario<MainActivity> scene) {
+        scene.onActivity(current -> {
+            stopRealWorkers(current);
+            List<String> ids = new ArrayList<>(); for (AppEntry app : apps) ids.add(app.id);
+            preferences.setFavorites(ids);
+            preferences.setCity("Москва", 55.752040, 37.617810, "524901", CITY_ZONE.getId());
+            preferences.setWeatherEnabled(true); preferences.setWatchNextVisible(true);
+            preferences.setRecommendations(true, Arrays.asList(KINO, VK), Arrays.asList(KINO, VK));
+            set(current, "catalog", Collections.unmodifiableList(new ArrayList<>(apps)));
+            @SuppressWarnings("unchecked") Map<String, AppEntry> byId = (Map<String, AppEntry>) get(current, "appsById");
+            byId.clear(); for (AppEntry app : apps) byId.put(app.id, app);
+            set(current, "prefs", preferences.read());
+            set(current, "continuation", Collections.singletonList(new WatchNextRepository.Entry("demo-continue",
+                    "Горные маршруты", "Демонстрационная карточка, не история просмотра", KINO,
+                    new Intent(Intent.ACTION_VIEW).setPackage(KINO).toUri(Intent.URI_INTENT_SCHEME), image(R.drawable.background_alpine_day),
+                    18, 60, System.currentTimeMillis(), true, true, WatchNextRepository.Kind.SHOW)));
+            set(current, "watchLoaded", true); set(current, "watchStatus", WatchNextRepository.Status.ITEMS);
+            set(current, "weather", demoWeather()); set(current, "nextWeatherRequestAt", Long.MAX_VALUE);
+            set(current, "recommendations", demoRecommendations()); set(current, "homeSource", KINO);
+            set(current, "requestedFocus", "source:" + KINO);
+            invoke(current, "render");
+        });
+    }
 
-            scene.onActivity(current -> {
-                assertTrue(target(current, "shortcut-launcher").requestFocus());
-                ((TvScrollView) get(current, "homeScroll")).smoothScrollToPosition(720);
-            });
-            await(activity, "Real lower Home forecast page settles", current -> stable(current)
-                    && ((TvScrollView) get(current, "homeScroll")).getScrollY() == 720
-                    && target(current, "shortcut-launcher") == current.getCurrentFocus());
-            capture(activity, "weather");
+    private static void assertShotState(MainActivity activity, Shot shot) {
+        assertEquals(shot.filename, shot.screen, activity.currentScreenForTest());
+        switch (shot) {
+            case APPEARANCE:
+                assertTrue(target(activity, "appearance-cards").isShown());
+                assertTrue(target(activity, "appearance-period").isShown());
+                break;
+            case SETTINGS:
+                for (String key : new String[] {"settings-appearance", "settings-wallpapers", "settings-sources", "settings-weather"})
+                    assertTrue(key, target(activity, key).isShown());
+                break;
+            case SOURCES:
+                assertTrue(target(activity, "sources-enabled").isShown());
+                assertTrue(target(activity, "app:" + KINO).isSelected());
+                assertTrue(target(activity, "app:" + VK).isSelected());
+                assertFalse(target(activity, "app:com.plexapp.android").isSelected());
+                assertRowsFullyVisible(activity, "app:" + KINO, "app:" + VK, "app:com.plexapp.android");
+                for (Object key : ((Map<?, ?>) get(activity, "targets")).keySet())
+                    assertFalse("App toggles must not become individual provider-channel toggles", String.valueOf(key).startsWith("channel:"));
+                break;
+            case DAY_NIGHT:
+                assertTrue(target(activity, "period-schedule").isSelected());
+                assertTrue(target(activity, "period-day-start").isShown());
+                assertTrue(target(activity, "period-night-start").isShown());
+                assertTrue(containsText(target(activity, "period-day-start"), "07:00"));
+                assertTrue(containsText(target(activity, "period-night-start"), "19:00"));
+                assertRowsFullyVisible(activity, "period-day-start", "period-night-start");
+                break;
+            case WALLPAPERS:
+                Object bindings = get(activity, "galleryBindings");
+                assertNotNull(bindings);
+                Rect viewport = new Rect();
+                assertTrue(((View) get(bindings, "scroll")).getGlobalVisibleRect(viewport));
+                int decodedVisible = 0;
+                for (Object value : ((Map<?, ?>) get(bindings, "images")).keySet()) {
+                    ImageView image = (ImageView) value;
+                    if (visibleInside(image, viewport)) {
+                        assertTrue("Every photographed raster thumbnail must be decoded", image.getDrawable() instanceof BitmapDrawable);
+                        decodedVisible++;
+                    }
+                }
+                assertTrue("The gallery PNG must show a grid of paired wallpapers", decodedVisible >= 8);
+                for (int id : new int[] {31, 33, 35, 37}) {
+                    assertTrue("The final architectural row must be visible: " + id,
+                            visibleInside(target(activity, "background-" + id), viewport));
+                }
+                break;
+            default: break;
+        }
+    }
 
-            preferences.setBackground(WallpaperCatalog.CALM_GRAPHITE_MIST);
-            preferences.setWallpaperPeriod("night"); preferences.setPaletteMode("dark");
-            scene.onActivity(current -> push(current, "APPEARANCE"));
-            await(activity, "Appearance page and background settle", current -> imagesReady(current)
-                    && "APPEARANCE".equals(current.currentScreenForTest()));
-            capture(activity, "appearance");
+    private static boolean containsText(View root, String value) {
+        if (root instanceof TextView && ((TextView) root).getText().toString().contains(value)) return true;
+        if (root instanceof ViewGroup) for (int i = 0; i < ((ViewGroup) root).getChildCount(); i++)
+            if (containsText(((ViewGroup) root).getChildAt(i), value)) return true;
+        return false;
+    }
+
+    private static void assertRowsFullyVisible(MainActivity activity, String... keys) {
+        View rows = (View) get(activity, "settingsRows"); assertNotNull(rows);
+        assertTrue("The real settings scroller owns row visibility", rows.getParent() instanceof TvScrollView);
+        Rect viewport = new Rect(); assertTrue(((View) rows.getParent()).getGlobalVisibleRect(viewport));
+        for (String key : keys) {
+            View row = target(activity, key); Rect visible = new Rect();
+            assertTrue(key, row.isShown() && row.getGlobalVisibleRect(visible));
+            Matrix transform = new Matrix(); row.transformMatrixToGlobal(transform);
+            RectF complete = new RectF(0, 0, row.getWidth(), row.getHeight()); transform.mapRect(complete);
+            assertTrue("The entire row must fit the photographed viewport: " + key + " " + complete + " in " + viewport,
+                    complete.left >= viewport.left - 2 && complete.top >= viewport.top - 2
+                            && complete.right <= viewport.right + 2 && complete.bottom <= viewport.bottom + 2);
+            assertTrue("The row must not be clipped by another native ancestor: " + key,
+                    visible.left <= complete.left + 2 && visible.top <= complete.top + 2
+                            && visible.right >= complete.right - 2 && visible.bottom >= complete.bottom - 2);
         }
     }
 
@@ -196,7 +311,8 @@ public final class PublicationScreenshotsTest {
     private RecommendationsSession.Snapshot demoRecommendations() {
         ChannelRepository.Channel kino = new ChannelRepository.Channel(0, KINO, 1, 1, 1, "Демонстрационная подборка", "Кинопоиск");
         ChannelRepository.Channel vk = new ChannelRepository.Channel(0, VK, 1, 1, 2, "Демонстрационная подборка", "VK Видео");
-        List<ChannelRepository.Channel> channels = Arrays.asList(kino, vk);
+        ChannelRepository.Channel plex = new ChannelRepository.Channel(0, "com.plexapp.android", 1, 1, 3, "Демонстрационная подборка", "Plex");
+        List<ChannelRepository.Channel> channels = Arrays.asList(kino, vk, plex);
         RecommendationsSession session = new RecommendationsSession(context, ignored -> { });
         try {
             session.configure(true, Arrays.asList(KINO, VK), KINO);
@@ -206,6 +322,8 @@ public final class PublicationScreenshotsTest {
             @SuppressWarnings("unchecked") Map<String, RecommendationsSession.AppPrograms> cache =
                     (Map<String, RecommendationsSession.AppPrograms>) get(session, "programCache");
             for (ChannelRepository.Channel channel : channels) {
+                // An available but disabled app owns no loaded publications, even in the demo.
+                if (!KINO.equals(channel.packageName) && !VK.equals(channel.packageName)) continue;
                 String[] titles = {"Горы", "Берег", "Лес", "Дюны", "Фьорд", "Ночь"};
                 int[] images = {R.drawable.background_alpine_day, R.drawable.background_coast_day,
                         R.drawable.background_mist_forest, R.drawable.background_dunes_day,
@@ -274,6 +392,11 @@ public final class PublicationScreenshotsTest {
                 || ((UiMotion) get(activity, "uiMotion")).isRunning()
                 || ((SharedRowsSheet) get(activity, "rowsSheet")).isAnimating()) return false;
         Object rail = get(activity, "watchRail"), scroll = get(activity, "homeScroll");
+        Object gallery = get(activity, "galleryBindings");
+        if (gallery != null && ((TvScrollView) get(gallery, "scroll")).isScrollAnimating()) return false;
+        View rows = (View) get(activity, "settingsRows");
+        if (rows != null && rows.getParent() instanceof TvScrollView
+                && ((TvScrollView) rows.getParent()).isScrollAnimating()) return false;
         return !(rail instanceof TvHorizontalScrollView && ((TvHorizontalScrollView) rail).isScrollAnimating())
                 && !(scroll instanceof TvScrollView && ((TvScrollView) scroll).isScrollAnimating());
     }
@@ -292,7 +415,21 @@ public final class PublicationScreenshotsTest {
                         && !(image.getDrawable() instanceof BitmapDrawable)) return false;
             }
         }
+        Object gallery = get(activity, "galleryBindings");
+        if (gallery != null) {
+            Rect viewport = new Rect();
+            if (!((View) get(gallery, "scroll")).getGlobalVisibleRect(viewport)) return false;
+            for (Object key : ((Map<?, ?>) get(gallery, "images")).keySet()) {
+                ImageView image = (ImageView) key;
+                if (visibleInside(image, viewport) && !(image.getDrawable() instanceof BitmapDrawable)) return false;
+            }
+        }
         return true;
+    }
+
+    private static boolean visibleInside(View view, Rect viewport) {
+        Rect actual = new Rect();
+        return view.isShown() && view.getGlobalVisibleRect(actual) && Rect.intersects(viewport, actual);
     }
 
     private void capture(MainActivity activity, String name) throws InterruptedException {

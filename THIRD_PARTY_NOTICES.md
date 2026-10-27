@@ -5,11 +5,12 @@ marks and external data retain their own licenses and rights.
 
 ## Project history
 
-Earlier softlumi revisions incorporated work from
-[Free My TV](https://github.com/simbasjungles/free-my-tv). The full
+Early softlumi revisions incorporated selected implementations from
+[Free My TV](https://github.com/simbasjungles/free-my-tv). The main transferred
+components were later rewritten or removed. The original
 [MIT notice](docs/licenses/FreeMyTV-MIT.txt), Copyright (c) 2026 Free My TV
-contributors, is retained. Later replacement of individual implementations
-does not remove that attribution.
+contributors, is retained as a record of the project's history. Free My TV is
+not a bundled runtime library of the current application.
 
 ## Fonts
 
