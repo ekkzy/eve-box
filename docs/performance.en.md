@@ -6,6 +6,11 @@ On October 27, 2026, the installed versions of softlumi and Google TV Home were
 compared on one Xiaomi Mi Box S 3. Eight short observations covered an open
 home screen without remote input. APK size, memory and CPU are reported separately.
 
+**Memory accounting correction:** the initial description labelled `TOTAL PSS`
+as PSS without separating swap. Android 14 includes swapped-out pages in that
+total. They are separated below using the same saved observations; no new
+device run or application change was made.
+
 ## Warm idle memory and CPU
 
 The table shows the median of four observations, with minimum and maximum in
@@ -14,15 +19,36 @@ package: Google's main and `:coreservices` processes, and one softlumi process.
 
 | Metric | Google TV Home | softlumi |
 | --- | ---: | ---: |
-| PSS, MiB | 121.70 (119.87–130.44) | 139.48 (139.39–140.58) |
+| Android TOTAL PSS, including SwapPss, MiB | 121.70 (119.87–130.44) | 139.48 (139.39–140.58) |
+| Resident PSS: TOTAL PSS − SwapPss, MiB | 121.33 (119.51–129.91) | 96.54 (96.43–97.60) |
+| SwapPss, logical swapped-out pages, MiB | 0.37 (0.37–0.52) | 42.96 (42.93–42.98) |
 | RSS, MiB | 259.47 (257.66–262.61) | 150.87 (150.76–151.93) |
 | Process CPU, % of one core | 0.066 (0.000–0.230) | 0.033 (0.000–0.066) |
 
-PSS apportions shared pages; RSS counts them in full for each process.
-A lower RSS therefore does not mean that much physical RAM would be freed.
-See the [Android definitions](https://developer.android.com/tools/dumpsys#meminfo).
+In the [Android 14 source](https://github.com/aosp-mirror/platform_frameworks_base/blob/android-14.0.0_r1/core/java/android/os/Debug.java),
+`getTotalPss()` adds resident categories and `getTotalSwappedOutPss()`.
+The detailed rows of all 12 process dumps confirm that accounting.
+PSS apportions shared pages; RSS counts them fully for each process. SwapPss
+does not measure the physical cost of storing compressed pages; that cost was
+not measured separately. Neither subtracting swap nor comparing RSS proves
+an overall device RAM saving. The two apps had substantially different swap states.
 
-Each pair's PSS difference, softlumi minus Google:
+The original JSON's `activePss*`, `pssBMinusA*` and relative differences retain
+the observed **TOTAL PSS including swap**. They were not renamed or rewritten
+afterward. Additional observations for independent recalculation:
+
+| Block | App | TOTAL PSS, KiB | SwapPss, KiB | Resident PSS, KiB |
+| --- | --- | ---: | ---: | ---: |
+| 1 | Google | 133568 | 537 | 133031 |
+| 2 | softlumi | 143958 | 44014 | 99944 |
+| 3 | softlumi | 142834 | 43994 | 98840 |
+| 4 | Google | 124470 | 375 | 124095 |
+| 5 | softlumi | 142734 | 43986 | 98748 |
+| 6 | Google | 124774 | 375 | 124399 |
+| 7 | Google | 122749 | 375 | 122374 |
+| 8 | softlumi | 142822 | 43958 | 98864 |
+
+Each pair's **TOTAL PSS including swap** difference, softlumi minus Google:
 
 | Pair | Run order | Difference, MiB | Relative to Google |
 | --- | --- | ---: | ---: |
@@ -32,8 +58,27 @@ Each pair's PSS difference, softlumi minus Google:
 | 4 | AB | 19.60 | 16.35% |
 
 The median paired difference is 17.74 MiB; the median relative difference
-is 14.57%. Positive values mean more PSS for softlumi. This observation
-applies to these screens and versions, not RAM guaranteed to be freed by changing Home.
+is 14.57%. Positive values mean a larger **total including swap**, not a larger
+resident PSS. The earlier conclusion that softlumi uses more RAM based on this
+total alone was too broad. Overall device RAM savings from changing launchers
+are not established by this experiment.
+
+### What occupies memory in softlumi
+
+In the last block, resident PSS was 96.55 MiB: about 68.0 MiB Graphics,
+15.9 MiB Native Heap in App Summary, 4.3 MiB Java Heap and 8.3 MiB other
+categories. SwapPss was a separate 42.9 MiB. App Summary's System category
+also contains swap; it cannot be attributed entirely to resident system
+libraries. Graphics values are reported by the driver.
+
+An open Home retains decoded images and GPU layers for reuse even without
+remote input. The glass implementation caches blur layers to reduce repeated
+GPU work at a memory cost. Each layer's contribution to the 68 MiB was not
+measured. The bitmap cache is limited to 12 MiB, but visible ImageViews can
+retain images after cache eviction. Wallpapers are not all loaded at once;
+the active background is bounded to 1920×1080 ARGB8888, about 7.9 MiB of pixels.
+Graphics layers are the first profiling target; neither a leak nor a specific
+amount of recoverable memory has been established.
 
 CPU windows lasted 30.400–30.440 seconds, at 100 counter ticks/second.
 Google accumulated 11 ticks and softlumi 4 across their four windows each.

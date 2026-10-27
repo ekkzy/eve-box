@@ -79,8 +79,10 @@ external sources; see
 ## Resources
 
 Four pairs of short idle observations were collected on a Xiaomi Mi Box S 3.
-Median PSS was **139.5 MiB** for softlumi and **121.7 MiB** for
-Google TV Home. Median process CPU was 0.033% and
+Median resident PSS excluding swapped-out pages was **96.5 MiB** for softlumi
+and **121.3 MiB** for Google TV Home. Swap was **43.0 and 0.4 MiB** separately.
+The earlier 139.5/121.7 MiB values are Android's `TOTAL PSS`, which includes swap;
+they are not entirely resident RAM. Median process CPU was 0.033% and
 0.066% of one core respectively. The softlumi APK is larger:
 44.85 versus 23.54 MiB, almost all of it bundled wallpapers.
 These observations do not establish overall resource savings.
