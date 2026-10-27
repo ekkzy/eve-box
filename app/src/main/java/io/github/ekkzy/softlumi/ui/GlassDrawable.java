@@ -263,9 +263,10 @@ public final class GlassDrawable extends Drawable implements View.OnAttachStateC
                     // Geometry still uses the complete actual matrix, including
                     // the focus pivot. Its reciprocal sampling scale cancels own
                     // focus growth so the optical blur radius stays in scene space.
-                    float sampling = values[Matrix.MSCALE_X] / canonicalScale;
-                    recording.translate(values[Matrix.MTRANS_X] - left - halo * sampling,
-                            values[Matrix.MTRANS_Y] - top - halo * sampling);
+                    float sampling = values[Matrix.MSCALE_X] / (canonicalScale * GlassScene.SHARED_BLUR_RESOLUTION);
+                    int sharedHalo = (int) Math.ceil(blur * GlassScene.SHARED_BLUR_RESOLUTION * 2f);
+                    recording.translate(values[Matrix.MTRANS_X] - left - sharedHalo * sampling,
+                            values[Matrix.MTRANS_Y] - top - sharedHalo * sampling);
                     recording.scale(sampling, sampling);
                     recording.drawRenderNode(shared);
                 } else {

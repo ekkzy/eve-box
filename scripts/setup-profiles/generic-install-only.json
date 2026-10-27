@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "id": "generic-install-only",
+  "title": "Install softlumi only",
+  "match": {
+    "kind": "generic"
+  },
+  "setHomeAllowed": false,
+  "packages": []
+}

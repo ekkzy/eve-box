@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "releaseTag": "v0.3.0-candidate.13-setup.1",
+  "channel": "private-prerelease",
+  "host": "Windows PowerShell 5.1 or PowerShell 7",
+  "apk": {
+    "file": "softlumi-0.3.0-candidate.13.apk",
+    "package": "io.github.ekkzy.softlumi",
+    "versionName": "0.3.0-candidate.13",
+    "versionCode": 34,
+    "sha256": "70d1bb14cadf17ed826885a3e855c7b015092d003c020c72fb7b8c6dd811a18f",
+    "signingCertSha256": "0774ab7eed2656fcd295934cefe672e89e9bbb8e99f3fb4febc40d6f646d96c6"
+  },
+  "guide": "docs/ai-setup-ru.md",
+  "prompt": "docs/installation-prompt-ru.md",
+  "verification": "docs/ai-setup-validation.md",
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 54,
+      "sha256": "12b46272a8ef6951128df49d1c4ba21d300f98264d1bcfc5a4b99fa7e942f2e5"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1078,
+      "sha256": "408b035569da2f1862c2b03fc59700ea66921dd42a3abfadfc78759dd201fa65"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1723,
+      "sha256": "1a0967a3b58564b3592192aed7b550290e67933e751f37c88d5fcd1ec1cc0707"
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "bytes": 4452,
+      "sha256": "d922dc868a1c5abf2b4ec8e9b8ba2acbb04088aa2a1b85285348ed13b3d8ca70"
+    },
+    {
+      "path": "docs/ai-setup-ru.md",
+      "bytes": 16409,
+      "sha256": "44fe74a48cb8addcb2a1d645ad2e89ea8a44cd0fee967dd66305e040b1bb5f28"
+    },
+    {
+      "path": "docs/ai-setup-validation.md",
+      "bytes": 7710,
+      "sha256": "05733cbe25bc9cb114ed482b656585e857029df6fe56eb1d6e570cf93ab6fb46"
+    },
+    {
+      "path": "docs/ai-setup.md",
+      "bytes": 10072,
+      "sha256": "1b9ba635ff117fb8b4dc1b4192e1e93daf3c153125bf29ea81737e5987c114be"
+    },
+    {
+      "path": "docs/installation-prompt-ru.md",
+      "bytes": 3031,
+      "sha256": "1fd1c08b36a5d28d6bd2d3560bdc399b95213e9d9b34bd6f4cdcd3d3f7e03150"
+    },
+    {
+      "path": "licenses/FreeMyTV-MIT.txt",
+      "bytes": 1101,
+      "sha256": "98b361d2dcd6be41a9c50514b23a7304bb6c079e08cb46adee2175dbaea66b4c"
+    },
+    {
+      "path": "licenses/Inter-OFL.txt",
+      "bytes": 4380,
+      "sha256": "262481e844521b326f5ecd053e59b98c8b2da78c8ee1bdbb6e8174305e54935a"
+    },
+    {
+      "path": "licenses/Outfit-OFL.txt",
+      "bytes": 4482,
+      "sha256": "916fdcb34129e58b62d12a9d27ac746bb8742bc42409521c1438521cfcea7eb5"
+    },
+    {
+      "path": "licenses/Simple-Icons-CC0.txt",
+      "bytes": 6570,
+      "sha256": "d2e6bb6e23587b8abaad0060005a83ae07811c7cf3019d3879b72710ee221713"
+    },
+    {
+      "path": "licenses/SmartTube-MIT.txt",
+      "bytes": 1073,
+      "sha256": "5a2d8b0cd9bd8a1c808ac8653bc0e91fcab9a8af78930a7888812ae36296e73b"
+    },
+    {
+      "path": "scripts/TvSetup.Common.psm1",
+      "bytes": 54718,
+      "sha256": "d17b1b7cf62a37a6dc02bd82c15df1cff7164849d71a1176b819d2500a49ce40"
+    },
+    {
+      "path": "scripts/setup-profiles/generic-install-only.json",
+      "bytes": 178,
+      "sha256": "6bccf53db327a1b0ebc5c2b496d5633c975f65b8069fbb771d0bad390f546578"
+    },
+    {
+      "path": "scripts/setup-profiles/mi-box-s3-android14.json",
+      "bytes": 2863,
+      "sha256": "e1e9f87612e041edf52e5aa140fe821fff2c06aaba019db7eea615004f1dc14e"
+    },
+    {
+      "path": "scripts/setup-tv.ps1",
+      "bytes": 2370,
+      "sha256": "009405bf8cf73767ecd3593b7cb053da9d7bcf4f48c7dafd174b9d8f4e61ccff"
+    },
+    {
+      "path": "softlumi-0.3.0-candidate.13.apk",
+      "bytes": 47030664,
+      "sha256": "70d1bb14cadf17ed826885a3e855c7b015092d003c020c72fb7b8c6dd811a18f"
+    }
+  ]
+}

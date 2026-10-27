@@ -37,3 +37,7 @@ findings.md
 progress.md
 *.apk
 *.aab
+*setup-plan*.json
+*setup-journal*.json
+setup-private/
+scripts/.tv-setup-test-*/

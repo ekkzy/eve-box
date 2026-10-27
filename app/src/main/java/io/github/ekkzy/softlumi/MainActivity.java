@@ -2303,9 +2303,26 @@ public final class MainActivity extends Activity {
         loadVisibleWallpapers();
         float scale=designScale();
         android.graphics.Rect visible=new android.graphics.Rect();
-        for(Map.Entry<ImageView,AppEntry> entry:new ArrayList<>(pendingIcons.entrySet())){
+        android.graphics.Rect iconViewport=new android.graphics.Rect(),iconWindow=new android.graphics.Rect(),iconBounds=new android.graphics.Rect();
+        int[] iconPoint=new int[2];
+        View iconOwner=homeScroll!=null?homeScroll:root;
+        if(!catalogGrid.isEmpty())for(android.view.ViewParent parent=catalogGrid.get(0).getParent();parent instanceof View;parent=parent.getParent()){
+            if(parent instanceof ScrollView){iconOwner=(View)parent;break;}
+        }
+        boolean iconsVisible=iconOwner.getGlobalVisibleRect(iconViewport);
+        if(iconsVisible){iconWindow.set(iconViewport);iconWindow.inset(-iconViewport.width(),-iconViewport.height());}
+        for(Map.Entry<ImageView,AppEntry> entry:iconBindings.entrySet()){
             ImageView target=entry.getKey();
-            if(!target.isShown()||!target.getGlobalVisibleRect(visible)||visible.width()<4||visible.height()<4)continue;
+            if(!iconsVisible||!target.isShown()||!target.isLaidOut()||target.getWidth()<=0||target.getHeight()<=0)continue;
+            target.getLocationOnScreen(iconPoint);
+            // Keep a full viewport around the visible grid, including the largest
+            // focus envelope. View-bound pixels are separate from the bitmap LRU.
+            iconBounds.set(iconPoint[0],iconPoint[1],iconPoint[0]+(int)Math.ceil(target.getWidth()*scale*1.20f),iconPoint[1]+(int)Math.ceil(target.getHeight()*scale*1.20f));
+            if(!android.graphics.Rect.intersects(iconWindow,iconBounds)){
+                if(target.getDrawable()!=null||!pendingIcons.containsKey(target))imageLoader.forget(target);
+                pendingIcons.put(target,entry.getValue());continue;
+            }
+            if(!pendingIcons.containsKey(target)||!target.getGlobalVisibleRect(visible)||!android.graphics.Rect.intersects(iconViewport,visible)||visible.width()<4||visible.height()<4)continue;
             int width=Math.max(1,(int)Math.ceil(target.getWidth()*scale*1.20f));
             int height=Math.max(1,(int)Math.ceil(target.getHeight()*scale*1.20f));
             imageLoader.icon(target,entry.getValue(),width,height,renderGeneration,palette.light);pendingIcons.remove(target);

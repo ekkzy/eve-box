@@ -18,6 +18,9 @@ import java.util.WeakHashMap;
  * SurfaceView's separate surface cannot participate. No pixel snapshot is made.
  */
 public final class GlassScene extends FrameLayout {
+    // Only the cached blur is sampled at this resolution. The live scene and
+    // every panel's final rounded mask remain at their original resolution.
+    static final float SHARED_BLUR_RESOLUTION = .5f;
     private final Set<GlassDrawable> dependents = Collections.newSetFromMap(new WeakHashMap<>());
     private final Capture capture = Build.VERSION.SDK_INT >= 31 ? new Api31() : null;
     private int recordingCount, capturedWidth, capturedHeight;
@@ -100,9 +103,10 @@ public final class GlassScene extends FrameLayout {
             // Three material radii share a source at the page's design scale.
             // Never churn full-scene layers for a changing focus/ancestor scale.
             if (blurred.size() >= 3 || !node.hasDisplayList() || !Float.isFinite(scale) || scale <= 0) return null;
-            int halo = (int) Math.ceil(blur * 2f);
-            double width = Math.ceil(node.getWidth() * (double) scale) + halo * 2;
-            double height = Math.ceil(node.getHeight() * (double) scale) + halo * 2;
+            float rasterScale = scale * SHARED_BLUR_RESOLUTION;
+            int halo = (int) Math.ceil(blur * SHARED_BLUR_RESOLUTION * 2f);
+            double width = Math.ceil(node.getWidth() * (double) rasterScale) + halo * 2;
+            double height = Math.ceil(node.getHeight() * (double) rasterScale) + halo * 2;
             // Large or unusual coordinate spaces keep the exact per-panel path.
             if (width < 1 || height < 1 || width * height > 3840L * 2160) return null;
             BlurSource source = new BlurSource(node, scale, blur, halo, (int) width, (int) height);
@@ -125,10 +129,12 @@ public final class GlassScene extends FrameLayout {
                 filtered.setPosition(0, 0, width, height); filtered.setClipToBounds(true);
                 Canvas recording = filtered.beginRecording(width, height);
                 try {
-                    recording.translate(halo, halo); recording.scale(scale, scale);
+                    recording.translate(halo, halo);
+                    recording.scale(scale * SHARED_BLUR_RESOLUTION, scale * SHARED_BLUR_RESOLUTION);
                     recording.drawRenderNode(scene);
                 } finally { filtered.endRecording(); }
-                filtered.setRenderEffect(RenderEffect.createBlurEffect(blur, blur, Shader.TileMode.CLAMP));
+                float rasterBlur = blur * SHARED_BLUR_RESOLUTION;
+                filtered.setRenderEffect(RenderEffect.createBlurEffect(rasterBlur, rasterBlur, Shader.TileMode.CLAMP));
                 // A filtered node caches its snapshot for only one clipBounds in
                 // HWUI. Different panels otherwise re-filter it on every draw.
                 // Cache that output in an unfiltered hardware layer with one

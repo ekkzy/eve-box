@@ -20,6 +20,14 @@
 
 ## Reporting an issue
 
+The optional [AI-assisted setup kit](docs/ai-setup.md) runs local ADB commands.
+Review its plan before approving changes. Keep plans and transaction journals
+private: they contain device identifiers and previous settings. A matching hash
+detects file changes but does not establish trust in an unknown publisher.
+Use the kit and certificate fingerprint from this repository's verified release.
+Restoration returns recorded package states and Home selection; it keeps the
+installed APK and app data and does not reinstall an earlier version.
+
 If an issue exposes personal data, launches an unexpected intent or bypasses
 file validation, contact the repository owner privately first. Keep exploit
 details and personal information out of public discussions.

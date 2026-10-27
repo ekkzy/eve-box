@@ -8,8 +8,9 @@ depend on the firmware.
 
 ## APK
 
-There is no public APK release yet. [Build the app](building.en.md) or use an
-APK received through a trusted channel. Do not install a build of unknown origin.
+Members of the private repository can download a signed APK in the
+[setup kit](ai-setup.md). There is no public stable release yet.
+You can also [build the app](building.en.md). Do not install a build of unknown origin.
 
 1. Transfer the APK to your device and open it in a file manager.
 2. If needed, allow installation from that source in Android settings.
@@ -29,8 +30,9 @@ Android permission where the firmware makes it available.
 
 Installing an APK does not change Home, remote-control services or sleep
 settings. To use softlumi as Home, select it in Android's default-app settings
-if that option is available. Keep a way back to the previous Home. Disabling
-or removing the system launcher is not required.
+if that option is available. Keep a way back to the previous Home. Some firmware
+restricts Home selection; the [setup kit](ai-setup.md) has an experimental mode
+for one Mi Box S 3 firmware. Do not transfer its app-disabling profile to other models.
 
 Remapping the two supported Xiaomi remote buttons is optional. It requires
 both the softlumi switch and manual enablement in Android Accessibility

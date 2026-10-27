@@ -6,7 +6,7 @@ Favorite apps, things to keep watching, a clock and the weather share one
 remote-friendly screen. Translucent panels, soft lighting and a visible focus
 state keep navigation clear while leaving room for your content.
 
-[Русский](README.md) · [Installation](docs/installation.en.md) · [Build](docs/building.en.md)
+[Русский](README.md) · [AI-assisted setup](docs/ai-setup.md) · [Build](docs/building.en.md)
 
 ![The softlumi home screen with landscape cards](docs/images/home-landscape.png)
 
@@ -52,11 +52,24 @@ to view it at full resolution.
 
 ## Getting started
 
-The project is currently available as source, without a public APK release.
-You can [build a debug APK](docs/building.en.md) and
-[install it on Android TV](docs/installation.en.md). Installing the app does not
-make it the default Home or switch remote-control services; those are separate
-choices for the device owner.
+**[Download the Windows setup kit](https://github.com/ekkzy/softlumi/releases/tag/v0.3.0-candidate.13-setup.1)**
+contains the signed `0.3.0-candidate.13` APK, scripts and an AI prompt in one ZIP.
+This is a prerelease in a private repository; downloading requires access.
+
+Extract it and give the [setup prompt](docs/installation-prompt-ru.md) to an
+assistant with local terminal access. It helps connect the device and presents
+a plan. Installation, Home selection and app disabling are explicit choices in
+that plan; the script records previous settings for restoration.
+See the [step-by-step guide](docs/ai-setup.md).
+
+The default only installs the launcher. The optional app-disabling profile is
+limited to one Mi Box S 3 firmware and remains experimental: the complete
+transition has not yet been checked on a fresh physical device. Netflix, Prime
+Video and other optional apps are disabled only when selected by their owner.
+The installer does not change remote services or sleep timeouts.
+
+You can also [build a debug APK](docs/building.en.md) and
+[install the app manually](docs/installation.en.md).
 
 Android TV 8.0 or later and a D-pad remote are required. The primary development
 device is Xiaomi Mi Box S 3. TV data access and default Home selection depend
@@ -78,6 +91,8 @@ external sources; see
 
 ## Resources
 
+The comparison below describes `candidate.12`, before the memory changes in
+`candidate.13`; it does not describe the new APK in the setup kit.
 Four pairs of short idle observations were collected on a Xiaomi Mi Box S 3.
 Median resident PSS excluding swapped-out pages was **96.5 MiB** for softlumi
 and **121.3 MiB** for Google TV Home. Swap was **43.0 and 0.4 MiB** separately.

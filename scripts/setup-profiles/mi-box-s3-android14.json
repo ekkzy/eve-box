@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "mi-box-s3-android14",
+  "title": "Xiaomi Mi Box S 3 / Android 14 (experimental)",
+  "match": {
+    "kind": "exact",
+    "model": "MiTV-AFMU0",
+    "sdkInt": 34,
+    "fingerprint": "Xiaomi/twilight/twilight:14/UKG3.250826.001/V816.0.11.0.UZFAABX:user/release-keys"
+  },
+  "setHomeAllowed": true,
+  "packages": [
+    {
+      "packageName": "com.google.android.apps.tv.launcherx",
+      "title": "Google TV Home",
+      "role": "stockHome",
+      "defaultSelected": false,
+      "reason": "Optional launcher transition for Android user 0: disables Google TV Home as part of an explicitly requested softlumi Home plan. This changes stock Home availability; Restore uses the recorded previous state."
+    },
+    {
+      "packageName": "com.netflix.ninja",
+      "title": "Netflix",
+      "role": "optional",
+      "defaultSelected": false,
+      "reason": "Disables Netflix for Android user 0. Select only if you do not use it; the app cannot open while disabled."
+    },
+    {
+      "packageName": "com.amazon.amazonvideo.livingroom",
+      "title": "Prime Video",
+      "role": "optional",
+      "defaultSelected": false,
+      "reason": "Disables Prime Video for Android user 0. Select only if you do not use it; the app cannot open while disabled."
+    },
+    {
+      "packageName": "com.google.android.youtube.tvmusic",
+      "title": "YouTube Music",
+      "role": "optional",
+      "defaultSelected": false,
+      "reason": "Disables the YouTube Music TV app for Android user 0. Select only if you do not use its music playback interface."
+    },
+    {
+      "packageName": "com.google.android.play.games",
+      "title": "Google Play Games",
+      "role": "optional",
+      "defaultSelected": false,
+      "reason": "Disables the Google Play Games app for Android user 0. Select only if you do not use its game discovery or profile interface."
+    },
+    {
+      "packageName": "com.xiaomi.mimusic2",
+      "title": "Mi Music",
+      "role": "optional",
+      "defaultSelected": false,
+      "reason": "Disables the Mi Music app for Android user 0. Select only if you do not use it; music playback through this app becomes unavailable."
+    },
+    {
+      "packageName": "com.miui.tv.analytics",
+      "title": "Xiaomi analytics",
+      "role": "optional",
+      "defaultSelected": false,
+      "reason": "Disables this Xiaomi analytics package for Android user 0. Other apps may still send telemetry. Its effects on a freshly configured device have not been verified."
+    },
+    {
+      "packageName": "com.google.android.feedback",
+      "title": "Google Feedback",
+      "role": "optional",
+      "defaultSelected": false,
+      "reason": "Disables Google Feedback for Android user 0; feedback and diagnostic reports using this package may become unavailable. Other apps and services have their own reporting."
+    }
+  ]
+}
