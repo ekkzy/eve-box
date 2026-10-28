@@ -5,3 +5,16 @@ gradlew text eol=lf
 *.webp binary
 *.ttf binary
 *.jar binary
+
+# Installer manifests and pinned profiles depend on exact bytes.
+install.cmd -text
+scripts/setup-eve-box.ps1 -text
+scripts/EveSetup.Wizard.psm1 -text
+scripts/setup-tv.ps1 -text
+scripts/TvSetup.Common.psm1 -text
+scripts/setup-profiles/generic-install-only.json -text
+scripts/setup-profiles/mi-box-s3-android14.json -text
+scripts/test-eve-setup.ps1 -text
+scripts/test-tv-journal.ps1 -text
+scripts/tests/eve-setup-driver.ps1 -text
+scripts/tests/eve-setup-adb-stub.ps1 -text

@@ -1,49 +1,52 @@
-# Install softlumi with an AI assistant
+# Install with an AI assistant
 
-The kit lets an AI assistant with access to a local Windows terminal verify the APK, prepare an installation plan, and apply it after your approval. A chat without computer access can explain these steps but cannot run them. Windows PowerShell 5.1 and PowerShell 7 are supported.
+[All installation methods](https://github.com/ekkzy/softlumi/blob/main/docs/installation.en.md) · [Русский](ai-setup-ru.md)
 
-The kit is available in a [private prerelease](https://github.com/ekkzy/softlumi/releases/tag/v0.3.0-candidate.14-setup.1). Downloading it requires access to the private repository. The Mi Box S 3 profile is based on the configuration the project owner uses on his own box.
+This method needs an AI assistant with access to a local Windows terminal.
+A chat without computer access can explain the commands but cannot run them.
+For installation without AI, use the [one-command Windows guide in Russian](https://github.com/ekkzy/softlumi/blob/main/docs/one-command-setup-ru.md).
 
-## What has been checked
+Download [softlumi-ai-setup-candidate.14.zip](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.2/softlumi-ai-setup-candidate.14.zip)
+from the [private setup.2 prerelease](https://github.com/ekkzy/softlumi/releases/tag/v0.3.0-candidate.14-setup.2)
+and extract it into a separate local folder. Repository access is required;
+do not give an assistant your GitHub password or token. The app inside is
+**softlumi 0.3.0-candidate.14 / code 35**. EVE-BOX is the new project name;
+the installed app label, package and signing key remain unchanged in this release.
 
-The new installer passed 66 offline scenarios across PowerShell 5.1/7 and a complete install, HOME transition and restore cycle on an owned API 34 emulator with an actual 3840×2160 UI. Only the read-only `Plan` was run on the physical Mi Box S 3. The complete new installer flow on a factory-configured box has not yet been tested. See the [validation details](ai-setup-validation.md).
+## Prepare
 
-## Get started
+Use Windows PowerShell 5.1 or PowerShell 7, trusted Android SDK Platform-Tools
+(`adb`), Build-Tools (`apksigner`, `aapt`) and Java for `apksigner`. AI mode uses
+the SDK verification path. The Windows wizard instead accepts only the pinned
+APK for this release and does not need Build-Tools.
 
-1. Download [softlumi-ai-setup-candidate.14.zip](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.1/softlumi-ai-setup-candidate.14.zip) from the release and extract it into a separate folder. Do not give an assistant your GitHub password or access token.
-2. Open that folder in an AI assistant with a local terminal. Give it the [installation prompt in Russian](installation-prompt-ru.md), or ask it to follow this guide. It must show a concrete plan for the selected device first.
-3. Approve only a plan you understand. By default, the kit installs and opens softlumi; it preserves the current HOME, other apps, and system settings.
+Official tools: [Platform-Tools](https://developer.android.com/tools/releases/platform-tools),
+[Build-Tools](https://developer.android.com/tools/releases/build-tools),
+[apksigner](https://developer.android.com/tools/apksigner).
+Prepare missing tools before continuing. Computing a hash of an unknown file
+does not replace checking its source and signature.
 
-You need trusted Android SDK Platform-Tools (`adb`), Build-Tools (`apksigner`, `aapt`), and Java for `apksigner`. Replace the example paths below with your installed tools. If they are missing, the assistant should explain how to obtain official Android SDK tools before continuing. Official references: [Platform-Tools](https://developer.android.com/tools/releases/platform-tools), [ADB connection](https://developer.android.com/tools/adb), and [APK signature verification](https://developer.android.com/tools/apksigner).
+The owner enables debugging, accepts authorization on the TV and completes
+code pairing if needed. `setup-tv.ps1` does not run `connect`, `pair` or `tcpip`.
+The assistant must select an explicit ADB target and read its model and build
+fingerprint, rather than reuse an address from an old journal.
 
-You enable developer options and debugging, accept the RSA prompt on the TV, and complete wireless pairing when the firmware supports it. The installer does not run `connect`, `pair`, or `tcpip`. Select the device explicitly. An old IP address, `ANDROID_SERIAL`, or a single entry in the device list does not establish which device you intended to change.
+Open the kit folder in the assistant and give it the
+[installation prompt in Russian](installation-prompt-ru.md), or ask it to follow
+this guide. Installation and opening the app are the defaults. Additional
+changes must appear in the plan and receive your approval first.
 
-## Available choices
+## Create a plan
 
-The default `generic-install-only` profile installs and opens softlumi without changing HOME or disabling packages.
+The ZIP metadata is `manifest.json`; its repository copy is
+[`distribution/ai-setup/manifest.json`](https://github.com/ekkzy/softlumi/blob/main/distribution/ai-setup/manifest.json).
+Check the source and files against the trusted release and
+[SHA256SUMS.txt](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.2/SHA256SUMS.txt).
+The installer verifies APK SHA-256, certificate, package, Activity, version and
+Android compatibility. The package is `io.github.ekkzy.softlumi`.
 
-The `mi-box-s3-android14` profile allows additional actions only when model, API, and fingerprint exactly match `scripts/setup-profiles/mi-box-s3-android14.json`: model `MiTV-AFMU0`, API 34, and the specified Xiaomi Android 14 build. The product name “Mi Box S 3” alone is insufficient. Other firmware is refused by this profile; installation-only remains available. Do not edit the profile to bypass this check.
-
-All additional actions are off by default:
-
-| Choice | Effect |
-| --- | --- |
-| Make softlumi the HOME app | Requests a transition to softlumi. The physical Home button still needs a separate check. |
-| Disable Google TV Home | Makes the stock launcher unavailable to Android user 0. Requires a HOME transition; its previous state is recorded. |
-| Netflix, Prime Video, YouTube Music, Mi Music | Makes the selected app unavailable to Android user 0. Choose only apps you do not use. |
-| Google Play Games | Makes its game discovery and profile interface unavailable. This does not promise to disable every gaming service. |
-| Xiaomi analytics | Disables one specified Xiaomi package. Other apps may still send telemetry. |
-| Google Feedback | Feedback and diagnostic reports using this package may become unavailable. Other reporting mechanisms are separate. |
-
-This is a limited opt-in list. It does not copy every disabled package from another device or promise to remove all advertising, save memory, or improve frame rates. A missing selected package stops the plan rather than silently applying only part of it. An already disabled package is recorded without changing its state.
-
-Existing launcher services and button mappings need separate attention. For example, a remaining Free My TV service can redirect Google TV Home, while another service handles branded buttons. The kit neither disables nor configures them. Stop and inspect a conflict while preserving their previous state. Setup Wizard, storage, media services, and OEM HOME companion packages are excluded. Screensaver, sleep, CEC, and voice settings are outside this plan.
-
-## Verify the kit and create a plan
-
-Run commands from the extracted ZIP root. Its metadata file is `manifest.json`; the repository copy is [`distribution/ai-setup/manifest.json`](https://github.com/ekkzy/softlumi/blob/main/distribution/ai-setup/manifest.json). First compare the kit with the trusted publisher page and repository metadata. A hash calculated from an unknown downloaded file does not establish who published it.
-
-The manifest records kit file hashes, APK and certificate SHA-256, package, and version. The installer checks the APK using `apksigner` and `aapt`. The expected package is `io.github.ekkzy.softlumi`. A certificate, version, or installed-app conflict needs investigation; uninstalling an old APK or clearing data is not an automatic remedy.
+Example for the assistant, from the extracted ZIP root. Replace paths, model
+and fingerprint with the values for the intended device:
 
 ```powershell
 $setupTarget = @{
@@ -65,11 +68,14 @@ $setupPlan = '.\setup-private\plan-01.json'
 $setupApprovedSha = (Get-FileHash $setupPlan -Algorithm SHA256).Hash.ToLowerInvariant()
 ```
 
-`Plan` reads the selected TV through ADB and writes a local plan; it does not apply TV changes. The assistant should show the device, APK, previous and requested HOME, every selected package, unchanged actions, and restoration limits. Before `Apply`, approve the exact file shown and its SHA-256. Do not change the plan and silently recalculate the approved hash. Plans expire after 30 minutes; a new or expired plan needs another review.
+`Plan` reads the TV and saves a local file; it makes no TV changes. The assistant
+shows the target, APK, previous and requested HOME, every selected package and
+unchanged actions. Approval applies to that exact file and SHA-256. Do not
+change the plan and silently recalculate its approved hash. Plans expire after
+30 minutes; a new or expired plan needs another review. Use new plan and
+journal filenames for each operation.
 
-To request HOME, add `-ProfileId mi-box-s3-android14 -SetHome` to **Plan**. Disabling the stock launcher also requires `-DisableStockHome`. Optional apps use `-DisablePackages`, an array of exact package names from the profile. None of these options are needed for installation-only.
-
-After reviewing and approving the plan:
+Only after your approval:
 
 ```powershell
 .\scripts\setup-tv.ps1 -Mode Apply @setupTarget -PlanPath $setupPlan `
@@ -79,27 +85,69 @@ After reviewing and approving the plan:
     -JournalPath .\setup-private\apply-01.json
 ```
 
-Use new plan and journal filenames for each operation. `Apply` installs and verifies the APK, opens softlumi, and confirms it is in the foreground before selected package and HOME changes. `Inspect` reads the actual state; it does not repair it or rewrite the journal.
+`Apply` installs while retaining app data, verifies the installed APK version
+and SHA-256 on the device, opens softlumi and checks its foreground Activity.
+It then performs approved package and HOME changes. Downgrades are refused.
+`Inspect` reads the state without repairing it or rewriting the journal.
 
-## Check the result
+## HOME and apps
 
-Check the physical Home button, Back, app launches, favorites, and their order. Check voice search, Cast, or remapped buttons separately if you use them. Android's `Success` response and a HOME role holder do not establish physical remote behavior.
+The default `generic-install-only` profile leaves HOME and packages unchanged.
+Additional changes require the exact firmware in the
+[Mi Box S 3 profile](../scripts/setup-profiles/mi-box-s3-android14.json):
+model `MiTV-AFMU0`, API 34 and fingerprint
+`Xiaomi/twilight/twilight:14/UKG3.250826.001/V816.0.11.0.UZFAABX:user/release-keys`.
+Other models or builds get installation-only. Do not edit the profile to
+bypass this check.
 
-“Continue watching” depends on real Android access and providers. Installation does not automatically grant access to viewing history, and demo cards must not replace personal data. System screensaver and sleep timers are preserved; their delayed behavior is unverified until observed.
+Explicit options for **Plan**:
+
+- `-ProfileId mi-box-s3-android14 -SetHome` selects softlumi as HOME.
+- `-DisableStockHome` also disables Google TV Home and requires `-SetHome`.
+- `-DisablePackages` takes an array of selected exact package names from the profile.
+
+Choices include Netflix, Prime Video, YouTube Music, Google Play Games,
+Mi Music, Xiaomi analytics and Google Feedback. All are off by default.
+A disabled app cannot launch for Android user 0, but its data remains.
+Packages already in state 2, 3 or 4 retain that exact state. A missing selected
+package stops planning or applying. A failure during execution can leave
+a partial result in the journal.
+
+This does not copy every disabled package from another box or promise to remove
+all ads or telemetry or improve performance. Remote services, old HOME
+redirectors, accessibility, accounts, sleep, screensaver, CEC and voice settings
+are not configured. A conflicting old service needs separate review rather
+than disabling all accessibility services.
 
 ## Restore or handle an error
 
-Read `Inspect` and the journal first. When appropriate, run:
+Run `Inspect` first, then, when appropriate:
 
 ```powershell
 .\scripts\setup-tv.ps1 -Mode Restore @setupTarget `
     -JournalPath .\setup-private\apply-01.json
 ```
 
-`Restore` uses the recorded previous HOME and package states, including a partially applied plan. It retains the installed softlumi APK and app data. It does not reinstall an older APK or enable every stock app. Automatic restoration is limited to journals no older than 14 days; a changed firmware or ADB tool also requires separate review. If another tool or the user has since changed the state, inspect the conflict rather than editing the journal.
+`Restore` returns only recorded HOME and package changes, including a partially
+applied plan. It restores the old HOME package before choosing its Activity.
+The installed APK and app data remain; the previous APK is not reinstalled.
+Use the same target and unchanged ADB tool. A journal older than 14 days,
+changed firmware or subsequent state changes require review.
 
-If ADB loses the response after disabling the stock HOME package, `Inspect` may report `homeRestoreDeferredUntilOldPackage: true`. `Restore` then restores that affected HOME package's previous state first. If Android still selects an unknown third-party HOME, restoration stops with an error without changing that selection. This is a partial result: the stock package may already be restored while other steps remain unfinished. Read the journal and resolve the conflict before continuing.
+For an unknown installation outcome, `Inspect` reports
+`installOutcomeUnknown: true`; the journal may say `NeedsReconcile`. Even
+an observed APK version and hash do not authorize an automatic retry.
+`Restore` also refuses that state. First establish that the Android install
+session has ended, or resolve that uncertainty separately. Do not uninstall,
+clear data or downgrade to bypass an error.
 
-After a timeout or lost connection, the APK installation outcome may be unknown. `Inspect` reports `installOutcomeUnknown: true`; the journal may have status `NeedsReconcile`. An observed APK version and SHA do not clear this uncertainty or authorize an automatic retry. `Restore` refuses with `install_outcome_unknown_no_automatic_retry`. Package and HOME changes have not started, so there is no profile configuration to restore yet. First establish that the Android installation session has finished, or resolve that session separately, then create a new plan. Do not uninstall, clear data, or downgrade to bypass an error.
+If the response to disabling stock HOME was lost, restoration may be partial:
+`Restore` can first return its affected HOME package but refuse to overwrite
+an unknown third-party HOME choice. Read the journal before continuing;
+do not edit it to bypass checks.
 
-Plans and journals include device identity, build, HOME, and package state. Keep `setup-private` local. Do not publish these files, viewing history, accounts, addresses, or diagnostic logs. The assistant's final report should distinguish completed checks, errors, and unverified behavior.
+Check the physical Home button, Back, app launches and favorites. A complete
+run of the new kit on a factory-configured physical Mi Box S 3 is not yet
+confirmed. Installation does not automatically grant viewing-history access.
+Plans and journals contain target identity, firmware, HOME and package states.
+Keep `setup-private` local and do not publish these files.

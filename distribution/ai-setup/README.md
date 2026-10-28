@@ -1,6 +1,6 @@
-# Установка softlumi через ИИ
+# EVE-BOX — установка через ИИ
 
-[Скачать комплект для Windows](https://github.com/ekkzy/softlumi/releases/tag/v0.3.0-candidate.14-setup.1)
+[Скачать комплект для Windows](https://github.com/ekkzy/softlumi/releases/tag/v0.3.0-candidate.14-setup.2)
 · [Инструкция](../../docs/ai-setup-ru.md)
 · [English guide](../../docs/ai-setup.md)
 · [Готовый запрос](../../docs/installation-prompt-ru.md)
@@ -27,3 +27,6 @@ PowerShell и профиль одной прошивки Xiaomi Mi Box S 3. Ра
 [manifest.json](manifest.json) содержит версию, SHA-256 APK, отпечаток сертификата
 и список файлов комплекта. Само совпадение хеша не подтверждает доверие к
 неизвестному источнику: скачивайте комплект из этого репозитория.
+
+Для установки без ИИ есть отдельный [мастер одной команды](../../docs/one-command-setup-ru.md).
+Название установленного APK пока softlumi; пакет и сертификат сохранены.

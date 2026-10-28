@@ -71,3 +71,13 @@ component-specific licenses; platform binaries are not bundled. Gradle Wrapper
 is Apache-2.0. JUnit 4 is EPL-1.0, AndroidX Test is Apache-2.0 and JSON-java
 is public domain; these dependencies are used for development/tests.
 No third-party production UI or networking library is bundled.
+
+## EVE-BOX branding
+
+The project owner supplied the original EVE-Box brand kit and promotional image
+for refinement. The refined SVG/PNG files, image-generation edit and unchanged
+demo screenshot are documented in [the brand source record](docs/brand/SOURCE.md).
+The wordmark uses outlined Inter glyphs; the [Inter OFL](docs/brand/branding/INTER-OFL.txt)
+is included. Third-party app marks in interface images retain their owners' rights
+and do not imply endorsement. Branding materials do not change the existing
+application package or signing identity.

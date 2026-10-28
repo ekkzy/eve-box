@@ -1,18 +1,19 @@
 {
   "schemaVersion": 1,
-  "releaseTag": "v0.3.0-candidate.14-setup.1",
+  "releaseTag": "v0.3.0-candidate.14-setup.2",
   "channel": "private-prerelease",
-  "host": "Windows PowerShell 5.1 or PowerShell 7",
+  "name": "EVE-BOX ai setup",
+  "host": "Windows PowerShell 5.1 / PowerShell 7 on Windows",
   "apk": {
     "file": "softlumi-0.3.0-candidate.14.apk",
     "package": "io.github.ekkzy.softlumi",
     "versionName": "0.3.0-candidate.14",
     "versionCode": 35,
+    "bytes": 47030664,
     "sha256": "9f6787ba2badeb63c067eabc1153e2545773cadd9adfe024c5e1eaa6a5f556a6",
     "signingCertSha256": "0774ab7eed2656fcd295934cefe672e89e9bbb8e99f3fb4febc40d6f646d96c6"
   },
   "guide": "docs/ai-setup-ru.md",
-  "prompt": "docs/installation-prompt-ru.md",
   "verification": "docs/ai-setup-validation.md",
   "files": [
     {
@@ -27,33 +28,33 @@
     },
     {
       "path": "README.md",
-      "bytes": 1848,
-      "sha256": "bfbb428235e734873e4435c046bd31786c79330905b8e5e3d156df9c82bae729"
+      "bytes": 3026,
+      "sha256": "efe960566d303e7ac297c175862ba7d07ff9f0b9bb2ce6e32ef4fc8f9c566df4"
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
-      "bytes": 4452,
-      "sha256": "d92724894d5251225207ca0d3ba9cc64444b9b6e5f17677cae308dc51a2a090b"
+      "bytes": 5225,
+      "sha256": "1581239173c5ab77193d46dec5a52620938ef709e3a90ddcb9f7243e422a764a"
     },
     {
       "path": "docs/ai-setup-ru.md",
-      "bytes": 16844,
-      "sha256": "a22cea6b5bb7b6fc2d6c5f9ec34185e9d306760738028d2c67d96b25cd0f1006"
+      "bytes": 11979,
+      "sha256": "bd883e2bffa41dc7c3d9eec50c00ebf58b40c300358f2476586718b69b323999"
     },
     {
       "path": "docs/ai-setup-validation.md",
-      "bytes": 8946,
-      "sha256": "db0bdb6524c33bc088d60f9332131c1d2482ec2d3db05c52b1197de3b05fc5bc"
+      "bytes": 8796,
+      "sha256": "146ca1ef58e3a7f87328be60518c994f4c541df9a515e019d30aba0df592f894"
     },
     {
       "path": "docs/ai-setup.md",
-      "bytes": 10350,
-      "sha256": "47bd8acbbfa77077844d629f4487b638c45af575a660717dc86cb33be4e46cb4"
+      "bytes": 7891,
+      "sha256": "315ed010ff3c59612cb844f2f577d873fe964f108fb77c5de254693c4f0b969a"
     },
     {
       "path": "docs/installation-prompt-ru.md",
-      "bytes": 2877,
-      "sha256": "c4853d403a78ad45c4c80a6fefd4edeffeed6fc463543dd19b6220dcc1fe7c94"
+      "bytes": 2891,
+      "sha256": "86418c754bc6f8a87a2d93017605c1da9afc9a435ae04a15b619feb9583f4157"
     },
     {
       "path": "licenses/FreeMyTV-MIT.txt",
@@ -82,8 +83,8 @@
     },
     {
       "path": "scripts/TvSetup.Common.psm1",
-      "bytes": 54718,
-      "sha256": "d17b1b7cf62a37a6dc02bd82c15df1cff7164849d71a1176b819d2500a49ce40"
+      "bytes": 63152,
+      "sha256": "ced77800bba65adc0d12496b351cd206ef423109d5a64a9df25492e6006c7195"
     },
     {
       "path": "scripts/setup-profiles/generic-install-only.json",
@@ -97,13 +98,14 @@
     },
     {
       "path": "scripts/setup-tv.ps1",
-      "bytes": 2370,
-      "sha256": "009405bf8cf73767ecd3593b7cb053da9d7bcf4f48c7dafd174b9d8f4e61ccff"
+      "bytes": 2488,
+      "sha256": "0d62ee1b961270c13df1c0a1a427d9b93f82af959bc3a7e1289c2243711b78f0"
     },
     {
       "path": "softlumi-0.3.0-candidate.14.apk",
       "bytes": 47030664,
       "sha256": "9f6787ba2badeb63c067eabc1153e2545773cadd9adfe024c5e1eaa6a5f556a6"
     }
-  ]
+  ],
+  "prompt": "docs/installation-prompt-ru.md"
 }

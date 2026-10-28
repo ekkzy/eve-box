@@ -1,4 +1,4 @@
-# softlumi
+# EVE-BOX
 
 **An Android TV launcher with a customizable home screen.**
 
@@ -6,17 +6,13 @@ Favorite apps, continue-watching cards and weather share one screen. The
 interface is designed for a remote: choose a card layout, manage recommendations
 and set up automatic switching between daytime and nighttime appearance.
 
-[Русский](README.md) · [AI-assisted setup](docs/ai-setup.md) · [Build](docs/building.en.md)
+[Download](https://github.com/ekkzy/softlumi/releases/tag/v0.3.0-candidate.14-setup.2) · [Installation](#installation) · [Русский](README.md) · [Build](docs/building.en.md)
 
-![The softlumi home screen with landscape cards](docs/images/home-landscape.png)
-
-Screenshots show the real interface with demonstration cards, collections and
-weather. They do not show personal viewing history or promise availability
-of specific integrations.
+![EVE-BOX promotional artwork](docs/brand/promo/eve-box-promo.png)
 
 ## About the project
 
-softlumi started with a wish to make my own TV box easier to use and more
+EVE-BOX started with a wish to make my own TV box easier to use and more
 responsive. I wasn't satisfied with the stock interface's speed. After
 disabling apps I didn't need, I began building a launcher around Russian
 streaming services and my everyday viewing habits.
@@ -43,8 +39,11 @@ the interface, navigation and memory use. Suggestions and bug reports are welcom
 
 ## Interface and settings
 
-The home screen above uses landscape cards. Below are a dark home screen with
-posters, the wallpaper gallery and settings operated with the remote.
+![The softlumi home screen with landscape cards](docs/images/home-landscape.png)
+
+These screenshots show the real interface with demonstration cards and weather,
+without personal viewing history. Available publications depend on installed apps.
+Below are dark appearance, the wallpaper gallery and settings operated with a remote.
 Open any image to view it at full resolution.
 
 | Dark appearance and posters | Main settings |
@@ -61,25 +60,51 @@ Open any image to view it at full resolution.
 
 ![Weather and forecast for the selected city](docs/images/weather.png)
 
-## Getting started
+## Installation
 
-**[Download the Windows setup kit](https://github.com/ekkzy/softlumi/releases/tag/v0.3.0-candidate.14-setup.1)**
-contains the signed `0.3.0-candidate.14` APK, scripts and an AI prompt in one ZIP.
-This is a prerelease in a private repository; downloading requires access.
+The [current release](https://github.com/ekkzy/softlumi/releases/tag/v0.3.0-candidate.14-setup.2) offers three installation methods.
+Choose whether you only need the app or also want to configure the TV box.
 
-Extract it and give the [setup prompt](docs/installation-prompt-ru.md) to an
-assistant with local terminal access. It helps connect the device and presents
-a plan. Installation, Home selection and app disabling are explicit choices in
-that plan; the script records previous settings for restoration.
-See the [step-by-step guide](docs/ai-setup.md).
+| Method | Download | Requirements |
+| --- | --- | --- |
+| **APK only** | [softlumi-0.3.0-candidate.14.apk](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.2/softlumi-0.3.0-candidate.14.apk) | Transfer the file to your TV and open it with an installer. A PC and AI are optional. |
+| **With an AI assistant** | [softlumi-ai-setup-candidate.14.zip](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.2/softlumi-ai-setup-candidate.14.zip) | Windows, an assistant with terminal access, ADB, Java 17 and Android SDK Build-Tools. |
+| **One command through ADB** | [EVE-BOX-setup-candidate.14.zip](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.2/EVE-BOX-setup-candidate.14.zip) | Windows and ADB. No AI, Java or Android Studio required. |
 
-The default only installs the launcher. The Mi Box S 3 profile is based on the
-configuration I use on my own box and is tied to one firmware build. Netflix,
-Prime Video and other optional apps are disabled only when you select them.
-The installer does not change remote services or sleep timeouts.
+### 1. Install the APK manually
 
-You can also [build a debug APK](docs/building.en.md) and
-[install the app manually](docs/installation.en.md).
+Download the APK, transfer it to your TV and open it with a file manager.
+If Android asks, allow that file manager to install apps. This installs the
+launcher; app disabling and default Home selection are separate actions.
+[Step-by-step guide](docs/installation.en.md).
+
+### 2. Install with an AI assistant
+
+Extract the AI kit and give the [ready-made prompt](docs/installation-prompt-ru.md)
+to an assistant with local terminal access, such as Codex or Claude Code.
+The assistant checks the connection and presents a plan before changing anything.
+[Guide and requirements](docs/ai-setup.md).
+
+### 3. Install and clean up through ADB
+
+Extract the EVE-BOX kit, enable debugging on the TV and run from the kit folder:
+
+```powershell
+.\install.cmd
+```
+
+The wizard asks you to select a device or enter its IP, choose apps to disable
+and confirm the plan. [Detailed guide in Russian](docs/one-command-setup-ru.md).
+
+In both installers, cleanup and Home selection require the exact supported
+Mi Box S 3 firmware. Other devices get APK installation only. App disabling is
+explicit and preserves app data. Keep the journal for inspection and restoration
+of recorded package and Home states. Remote services and sleep timers are preserved.
+
+This is a prerelease in a private repository; downloads require access.
+EVE-BOX is the new project name. The APK still identifies itself as
+**softlumi 0.3.0-candidate.14**, code35, with the same package and signing key.
+Updates preserve application data. Download hashes are in `SHA256SUMS.txt`.
 
 Android TV 8.0 or later and a D-pad remote are required. The primary development
 device is Xiaomi Mi Box S 3. TV data access and default Home selection depend
@@ -122,3 +147,5 @@ See [SECURITY.md](SECURITY.md) for security reporting.
 
 Code is licensed under [MIT](LICENSE). Fonts, logos, weather data and images
 have separate terms listed in [third-party notices](THIRD_PARTY_NOTICES.md).
+
+[EVE-BOX logos and brand kit](docs/brand/README-RU.md) · [Download brand kit ZIP](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.2/EVE-BOX-brand-kit.zip).

@@ -1,0 +1,195 @@
+{
+  "name": "EVE-BOX",
+  "wordmark": "EVE-Box",
+  "geometry": {
+    "e": {
+      "width": 96,
+      "height": 96,
+      "bar": 18,
+      "middleWidth": 77,
+      "verticalStep": 39
+    },
+    "v": {
+      "stroke": 18,
+      "top": 0,
+      "bottom": 96
+    },
+    "iconScale": 4
+  },
+  "source": {
+    "origin": "User-supplied SVG/PNG brand kit; original inputs unchanged. No independent license grant or uniqueness verification is asserted.",
+    "sha256": {
+      "eve-box-github-minimal-1280x640.png": "922dffc686a7c35687e26d8ed18e6db457f0b5fa7f01b0627b3a1cc21f0524c1",
+      "eve-box-github-minimal-1280x640.svg": "99aed6ec75792750bb2fd0a11661f007dfe483bddde9baa2dbcebae503ece3f6",
+      "eve-box-github-social-preview-1280x640.png": "382fc340c277b9379eb758265eb08bd8363ee4ebdb799140b71aacd63c31dbbe",
+      "eve-box-github-social-preview-1280x640.svg": "0147e347ec7b34a8da5b83fa64ea85e71af5f30f46d6b6e32b111e72cc1fe573",
+      "eve-box-icon-192.png": "26eb4b8a01cc3b079570910cd74d523ae40229bdf41dbfdbea826ad1b277ad87",
+      "eve-box-icon-512.png": "bcc095379e0ffaf6bd06d846dbce6b024bab07849c3fd91e8a637fa407c2dfbf",
+      "eve-box-icon-minimal.png": "6cd0a7983369b0f7e2d9f429ef825459b3c926fcd3ddf1d724e787c0e332e077",
+      "eve-box-icon-minimal.svg": "de64b2803413a864752f5f29f04d7da8aeb701810e484b4b4962f44893a6769b",
+      "eve-box-icon.png": "c777f3ac8d09d0e7850e8a48b3111342d9fdefdf2f251c9b59a2edba99ecf8cc",
+      "eve-box-icon.svg": "ba509fa9d69723e5d4794add77847725014be361fad437c10f4092003106344d",
+      "eve-box-readme-hero-1600x900.png": "d05816af93cbf581bb959b9b530ebcce9b48ad48c08ad1aad504af782216c061",
+      "eve-box-readme-hero-1600x900.svg": "588f2d64afc6fe875ed5a5140d8c9c8dc25af1d0c368eafed9662a6326ec3197",
+      "eve-box-tv-banner-320x180.png": "5a63cbce04978e969cede1f65de16280b45dc7205c0d3555bafa74feac198400",
+      "eve-box-tv-banner-640x360.svg": "3a97f46e76751a9f8761a92aa917e81e5d7cc887c03e9fb5169ae03d47864181",
+      "eve-box-ui-concept-preview.png": "544b600a9637cce5bc015160e0577be1920c7a4c0e8df60ba202393738c123e7"
+    }
+  },
+  "font": {
+    "name": "Inter Variable",
+    "instance": "Default Regular, 400",
+    "sha256": "4989b125924991b90d05b2d16e0e388c48f7d5bb8b30539bbf9c755278d0ccaf",
+    "license": "SIL Open Font License 1.1",
+    "embeddedFontFiles": false,
+    "outlineApi": "WPF GlyphTypeface.GetGlyphOutline",
+    "licenseFile": "INTER-OFL.txt",
+    "licenseSha256": "262481e844521b326f5ecd053e59b98c8b2da78c8ee1bdbb6e8174305e54935a"
+  },
+  "renderer": {
+    "library": "sharp",
+    "version": "0.35.5",
+    "svg": "2.63.2",
+    "pipeline": "SVG directly to PNG; no raster source input, compositing, resizing or post-processing"
+  },
+  "checks": {
+    "selfContainedSvg": true,
+    "noSvgTextOrExternalImages": true,
+    "sourceHashesUnchanged": true
+  },
+  "assets": [
+    {
+      "file": "eve-box-icon-1024.png",
+      "sha256": "714a655c471b8082232f07e52516ec945efc5deb6451c90c3e7d74acce3f11e3",
+      "bytes": 198373,
+      "width": 1024,
+      "height": 1024,
+      "hasAlpha": true
+    },
+    {
+      "file": "eve-box-icon-192.png",
+      "sha256": "8a47441b85b16d5c73f66ed2784ad5100b6745335121b6034586d3be89ffdca7",
+      "bytes": 26803,
+      "width": 192,
+      "height": 192,
+      "hasAlpha": true
+    },
+    {
+      "file": "eve-box-icon-512.png",
+      "sha256": "205db2ff1a6e6fc188e50c1b4452dd9cbc9e269eafe32b5e55c9e29a340ac26e",
+      "bytes": 86092,
+      "width": 512,
+      "height": 512,
+      "hasAlpha": true
+    },
+    {
+      "file": "eve-box-icon.svg",
+      "sha256": "9224a4551bc4a7cb6bc3aab87e67a835dd4c363f6d877e421a16ad1170092fc7",
+      "bytes": 3120
+    },
+    {
+      "file": "eve-box-mark-mono.png",
+      "sha256": "40706384dda48651209bb48cbed5e5c66b85f061b83085a9669d06f4012b7c60",
+      "bytes": 6541,
+      "width": 512,
+      "height": 512,
+      "hasAlpha": true
+    },
+    {
+      "file": "eve-box-mark-mono.svg",
+      "sha256": "b745d249d5ed2a4cf3c6b6319c15ae2706201c3edb50e83411c7ba94510563c2",
+      "bytes": 606
+    },
+    {
+      "file": "eve-box-mark.png",
+      "sha256": "d288d92cf98bc7447ecbbeae89182ed0732d98addc19226e80397450c5f941f9",
+      "bytes": 11869,
+      "width": 512,
+      "height": 512,
+      "hasAlpha": true
+    },
+    {
+      "file": "eve-box-mark.svg",
+      "sha256": "8d4acbb6173d18cd02f9ca4b227007bde20ce7db7b78bb65c82a2e94100a014c",
+      "bytes": 2636
+    },
+    {
+      "file": "eve-box-readme-hero-1600x900.png",
+      "sha256": "9a4bd9cd3e818593a40b7d040fccc087c19dda7d382a1f6bf24f2f1ce1894810",
+      "bytes": 275882,
+      "width": 1600,
+      "height": 900,
+      "hasAlpha": true
+    },
+    {
+      "file": "eve-box-readme-hero-1600x900.svg",
+      "sha256": "185a46f02a55ce25c336fc853d04c6d81b86469d24ab4267b3b481772ce809ea",
+      "bytes": 38997
+    },
+    {
+      "file": "eve-box-social-preview-1280x640.png",
+      "sha256": "6c226358d128850af3dbaef9d64529870a860769951a3f348608a8018f1b0f23",
+      "bytes": 198750,
+      "width": 1280,
+      "height": 640,
+      "hasAlpha": true
+    },
+    {
+      "file": "eve-box-social-preview-1280x640.svg",
+      "sha256": "68a0f4fb72d3ae3e17889e6d69794b13e31f86399b995d625259550816de3a82",
+      "bytes": 28784
+    },
+    {
+      "file": "eve-box-tv-banner-320x180.png",
+      "sha256": "f40b3aec249fc985bb1d58c72ee15d9243382aed2ef809be2cb53e5124ca1ccc",
+      "bytes": 28436,
+      "width": 320,
+      "height": 180,
+      "hasAlpha": true
+    },
+    {
+      "file": "eve-box-tv-banner-320x180.svg",
+      "sha256": "f4d03d4476da21dbb578f26512b83823f3b0d184162fc98ca4f0b8b4aeb387b8",
+      "bytes": 6010
+    },
+    {
+      "file": "eve-box-tv-banner-640x360.png",
+      "sha256": "81162da8b79e10d65a9eae3806bfdad5d5f6136e112fee651eee6d10b9dbde98",
+      "bytes": 62489,
+      "width": 640,
+      "height": 360,
+      "hasAlpha": true
+    },
+    {
+      "file": "eve-box-tv-banner-640x360.svg",
+      "sha256": "cbd0512c66abd87bf0f27fbbb63baa3b8f733ca0ad3a1ffae74db84aa22215cc",
+      "bytes": 6010
+    },
+    {
+      "file": "eve-box-wordmark-mono.png",
+      "sha256": "28e584c39b01201486b1bf3db737f91c8ed46d5f8f3bbecaf928bf790be34e96",
+      "bytes": 19808,
+      "width": 1360,
+      "height": 256,
+      "hasAlpha": true
+    },
+    {
+      "file": "eve-box-wordmark-mono.svg",
+      "sha256": "35e5e671e27ca4551fa6f422789bb22ebd7e945b4c802bc537fbce41bd7289a3",
+      "bytes": 3916
+    },
+    {
+      "file": "eve-box-wordmark.png",
+      "sha256": "798103b87fc6059c333b5947bf34b112f0726343797f71554c47f523e28400d1",
+      "bytes": 28120,
+      "width": 1360,
+      "height": 256,
+      "hasAlpha": true
+    },
+    {
+      "file": "eve-box-wordmark.svg",
+      "sha256": "26e64dfac630169d3e1a013074f1eb65c10a72210294685964af7634eeb7d0f9",
+      "bytes": 5976
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "releaseTag": "v0.3.0-candidate.14-setup.2",
+  "channel": "private-prerelease",
+  "name": "EVE-BOX one-command setup",
+  "host": "Windows PowerShell 5.1 / PowerShell 7 on Windows",
+  "apk": {
+    "file": "softlumi-0.3.0-candidate.14.apk",
+    "package": "io.github.ekkzy.softlumi",
+    "versionName": "0.3.0-candidate.14",
+    "versionCode": 35,
+    "bytes": 47030664,
+    "sha256": "9f6787ba2badeb63c067eabc1153e2545773cadd9adfe024c5e1eaa6a5f556a6",
+    "signingCertSha256": "0774ab7eed2656fcd295934cefe672e89e9bbb8e99f3fb4febc40d6f646d96c6"
+  },
+  "guide": "docs/one-command-setup-ru.md",
+  "verification": "docs/ai-setup-validation.md",
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 54,
+      "sha256": "12b46272a8ef6951128df49d1c4ba21d300f98264d1bcfc5a4b99fa7e942f2e5"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1078,
+      "sha256": "408b035569da2f1862c2b03fc59700ea66921dd42a3abfadfc78759dd201fa65"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1211,
+      "sha256": "f9db8a4abf6f387d5247b182e580679b890a109310ca43ee05f2090d8a625b8d"
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "bytes": 5225,
+      "sha256": "1581239173c5ab77193d46dec5a52620938ef709e3a90ddcb9f7243e422a764a"
+    },
+    {
+      "path": "docs/ai-setup-validation.md",
+      "bytes": 8796,
+      "sha256": "146ca1ef58e3a7f87328be60518c994f4c541df9a515e019d30aba0df592f894"
+    },
+    {
+      "path": "docs/one-command-setup-ru.md",
+      "bytes": 10590,
+      "sha256": "5fc35dcdb9bc84e50d926e7cac67fc5ee604997996a547432c26b8086d9d5186"
+    },
+    {
+      "path": "install.cmd",
+      "bytes": 187,
+      "sha256": "d61d36cd88857ccbbb2288f220d00b3d7cec9530b7f201b2ddabacf819785734"
+    },
+    {
+      "path": "licenses/FreeMyTV-MIT.txt",
+      "bytes": 1101,
+      "sha256": "98b361d2dcd6be41a9c50514b23a7304bb6c079e08cb46adee2175dbaea66b4c"
+    },
+    {
+      "path": "licenses/Inter-OFL.txt",
+      "bytes": 4380,
+      "sha256": "262481e844521b326f5ecd053e59b98c8b2da78c8ee1bdbb6e8174305e54935a"
+    },
+    {
+      "path": "licenses/Outfit-OFL.txt",
+      "bytes": 4482,
+      "sha256": "916fdcb34129e58b62d12a9d27ac746bb8742bc42409521c1438521cfcea7eb5"
+    },
+    {
+      "path": "licenses/Simple-Icons-CC0.txt",
+      "bytes": 6570,
+      "sha256": "d2e6bb6e23587b8abaad0060005a83ae07811c7cf3019d3879b72710ee221713"
+    },
+    {
+      "path": "licenses/SmartTube-MIT.txt",
+      "bytes": 1073,
+      "sha256": "5a2d8b0cd9bd8a1c808ac8653bc0e91fcab9a8af78930a7888812ae36296e73b"
+    },
+    {
+      "path": "scripts/EveSetup.Wizard.psm1",
+      "bytes": 34340,
+      "sha256": "ade72bdcd81a684956122c37eadde9d767b045fa3b14b25b2ea4712387083562"
+    },
+    {
+      "path": "scripts/TvSetup.Common.psm1",
+      "bytes": 63152,
+      "sha256": "ced77800bba65adc0d12496b351cd206ef423109d5a64a9df25492e6006c7195"
+    },
+    {
+      "path": "scripts/setup-eve-box.ps1",
+      "bytes": 1293,
+      "sha256": "ec34ee6d55e21eed7d3bf854354e44de9593feac186a11ccd7fe75292b9a7183"
+    },
+    {
+      "path": "scripts/setup-profiles/generic-install-only.json",
+      "bytes": 178,
+      "sha256": "6bccf53db327a1b0ebc5c2b496d5633c975f65b8069fbb771d0bad390f546578"
+    },
+    {
+      "path": "scripts/setup-profiles/mi-box-s3-android14.json",
+      "bytes": 2781,
+      "sha256": "aa96437b52c2078be2366926066659a5dbd1e6fb6692a8582b0718c1ff8707ac"
+    },
+    {
+      "path": "scripts/setup-tv.ps1",
+      "bytes": 2488,
+      "sha256": "0d62ee1b961270c13df1c0a1a427d9b93f82af959bc3a7e1289c2243711b78f0"
+    },
+    {
+      "path": "softlumi-0.3.0-candidate.14.apk",
+      "bytes": 47030664,
+      "sha256": "9f6787ba2badeb63c067eabc1153e2545773cadd9adfe024c5e1eaa6a5f556a6"
+    }
+  ],
+  "entrypoint": "install.cmd",
+  "releaseId": "candidate.14"
+}

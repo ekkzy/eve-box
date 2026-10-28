@@ -55,15 +55,54 @@ function Read-TvJson([string]$Path, [int]$Maximum = 1048576) {
     finally { $hash.Dispose() }
     return [pscustomobject]@{ Path = $full; Value = $value; Sha256 = $digest; Base64 = [Convert]::ToBase64String($bytes) }
 }
-function Write-TvJson([string]$Path, $Value, [switch]$Create) {
+function Test-TvJsonBytes([byte[]]$Actual, [byte[]]$Expected) {
+    if ($Actual.Length -ne $Expected.Length) { return $false }
+    for ($i = 0; $i -lt $Actual.Length; $i++) { if ($Actual[$i] -ne $Expected[$i]) { return $false } }
+    return $true
+}
+function Get-TvJsonReplacementState([string]$Target, [string]$Temporary, [byte[]]$Before, [byte[]]$Intended) {
+    $observed = [IO.File]::ReadAllBytes($Target)
+    if (Test-TvJsonBytes $observed $Intended) { return 'Intended' }
+    if (!(Test-TvJsonBytes $observed $Before) -or ![IO.File]::Exists($Temporary)) { return 'Unknown' }
+    if (!(Test-TvJsonBytes ([IO.File]::ReadAllBytes($Temporary)) $Intended)) { return 'Unknown' }
+    return 'Unchanged'
+}
+function Invoke-TvJsonReplace([string]$Temporary, [string]$Target) {
+    [IO.File]::Replace($Temporary, $Target, [System.Management.Automation.Language.NullString]::Value)
+}
+function Write-TvJson {
+    [CmdletBinding()]
+    param([string]$Path, $Value, [switch]$Create)
     $full = Get-TvJsonPath $Path
     $parent = [IO.Path]::GetDirectoryName($full)
     if (!(Test-Path -LiteralPath $parent)) { [void][IO.Directory]::CreateDirectory($parent) }
     $temporary = $full + '.' + [guid]::NewGuid().ToString('N') + '.tmp'
+    $intended = [Text.UTF8Encoding]::new($false).GetBytes(($Value | ConvertTo-Json -Depth 40) + "`n")
     try {
-        [IO.File]::WriteAllText($temporary, (($Value | ConvertTo-Json -Depth 40) + "`n"), [Text.UTF8Encoding]::new($false))
+        [IO.File]::WriteAllBytes($temporary, $intended)
         if ($Create) { [IO.File]::Move($temporary, $full) }
-        else { [IO.File]::Replace($temporary, $full, [System.Management.Automation.Language.NullString]::Value) }
+        else {
+            $before = [IO.File]::ReadAllBytes($full)
+            $delays = @(40, 100)
+            for ($attempt = 0; ; $attempt++) {
+                try { Invoke-TvJsonReplace $temporary $full; break }
+                catch {
+                    $failure = $_; $ioFailure = $_.Exception
+                    while ($ioFailure -isnot [IO.IOException] -and $null -ne $ioFailure.InnerException) { $ioFailure = $ioFailure.InnerException }
+                    # Only HRESULT_FROM_WIN32 sharing/lock/removal refusals.
+                    $code = $ioFailure.HResult -band 65535
+                    if ($ioFailure -isnot [IO.IOException] -or ($ioFailure.HResult -band -65536) -ne -2147024896 -or $code -notin @(32, 33, 1175)) { throw }
+                    $state = Get-TvJsonReplacementState $full $temporary $before $intended
+                    if ($state -ceq 'Intended') { break }
+                    if ($state -cne 'Unchanged' -or $attempt -ge $delays.Count) { throw }
+                    Write-Verbose ('Atomic journal replacement retry {0}/2 after verified unchanged bytes (Win32 {1}).' -f ($attempt + 1), $code)
+                    Start-Sleep -Milliseconds $delays[$attempt]
+                    $state = Get-TvJsonReplacementState $full $temporary $before $intended
+                    if ($state -ceq 'Intended') { break }
+                    if ($state -cne 'Unchanged') { throw $failure }
+                }
+            }
+        }
     } finally { if ([IO.File]::Exists($temporary)) { [IO.File]::Delete($temporary) } }
 }
 function Test-TvEqual($Left, $Right) {
@@ -145,6 +184,31 @@ function Get-TvTarget($Context) {
     Assert-TvCondition ($abi -cmatch '^[A-Za-z0-9_-]{1,32}$') 'invalid_abi'
     return [pscustomobject][ordered]@{ serial = $Context.serial; model = $model; fingerprint = $fingerprint; sdkInt = [int]$sdk; abi = $abi; userId = 0; emulator = [bool]$Context.emulator; adbServerPort = $Context.adbServerPort }
 }
+function Get-TvPinnedReleaseInfo {
+    [CmdletBinding()]
+    param([Parameter(Mandatory = $true)][ValidateSet('candidate.14')][string]$ReleaseId)
+    Assert-TvCondition ($ReleaseId -ceq 'candidate.14') 'unknown_pinned_release'
+    # Return new objects on every call. Neither a caller nor a manifest can
+    # change the publisher-verified record used by a later Plan or Apply.
+    return [pscustomobject][ordered]@{
+        releaseId = 'candidate.14'; recordVersion = 1
+        apk = [pscustomobject][ordered]@{
+            file = 'softlumi-0.3.0-candidate.14.apk'; bytes = 47030664
+            sha256 = '9f6787ba2badeb63c067eabc1153e2545773cadd9adfe024c5e1eaa6a5f556a6'
+            signingCertSha256 = '0774ab7eed2656fcd295934cefe672e89e9bbb8e99f3fb4febc40d6f646d96c6'
+            package = 'io.github.ekkzy.softlumi'; component = 'io.github.ekkzy.softlumi/io.github.ekkzy.softlumi.MainActivity'
+            versionName = '0.3.0-candidate.14'; versionCode = '35'; minSdk = 26
+        }
+        profiles = @(
+            [pscustomobject]@{ id = 'generic-install-only'; sha256 = '6bccf53db327a1b0ebc5c2b496d5633c975f65b8069fbb771d0bad390f546578' }
+            [pscustomobject]@{ id = 'mi-box-s3-android14'; sha256 = 'aa96437b52c2078be2366926066659a5dbd1e6fb6692a8582b0718c1ff8707ac' }
+        )
+    }
+}
+function Assert-TvPinnedProfile($Release, [string]$ProfileId, [string]$ProfileHash) {
+    $matchedProfiles = @($Release.profiles | Where-Object { $_.id -ceq $ProfileId })
+    Assert-TvCondition ($matchedProfiles.Count -eq 1 -and $matchedProfiles[0].sha256 -ceq $ProfileHash) 'pinned_profile_mismatch'
+}
 function Get-TvProfile([string]$Id) {
     Assert-TvCondition ($Id -cin @('generic-install-only', 'mi-box-s3-android14')) 'unknown_profile'
     $loaded = Read-TvJson (Join-Path $PSScriptRoot ('setup-profiles/' + $Id + '.json')) 65536
@@ -213,6 +277,18 @@ function Get-TvApk([string]$Path, [string]$Hash, [string]$Cert, [string]$Signer,
 }
 function Remove-TvApk($Apk) {
     if ($null -ne $Apk) { if ([IO.File]::Exists($Apk.file)) { [IO.File]::Delete($Apk.file) }; if ([IO.Directory]::Exists($Apk.temporaryDirectory)) { [IO.Directory]::Delete($Apk.temporaryDirectory) } }
+}
+function Get-TvPinnedApk([string]$Path, [string]$ReleaseId) {
+    $release = Get-TvPinnedReleaseInfo -ReleaseId $ReleaseId
+    $source = Get-Item -LiteralPath $Path -ErrorAction Stop
+    Assert-TvCondition (!$source.PSIsContainer -and $source.Extension -ieq '.apk' -and $source.Length -eq $release.apk.bytes -and !($source.Attributes -band [IO.FileAttributes]::ReparsePoint) -and !$source.FullName.StartsWith('\\')) 'invalid_pinned_apk_file'
+    $temp = Join-Path ([IO.Path]::GetTempPath()) ('softlumi-tv-setup-' + [guid]::NewGuid().ToString('N'))
+    [void][IO.Directory]::CreateDirectory($temp); $copy = Join-Path $temp 'verified.apk'
+    try {
+        [IO.File]::Copy($source.FullName, $copy)
+        Assert-TvCondition ((Get-Item -LiteralPath $copy).Length -eq $release.apk.bytes -and (Get-TvFileHash $copy) -ceq $release.apk.sha256) 'pinned_apk_sha256_mismatch'
+        return [pscustomobject]@{ file = $copy; temporaryDirectory = $temp; sourcePath = $source.FullName; sha256 = $release.apk.sha256; signingCertSha256 = $release.apk.signingCertSha256; versionCode = $release.apk.versionCode; minSdk = $release.apk.minSdk }
+    } catch { if ([IO.File]::Exists($copy)) { [IO.File]::Delete($copy) }; [IO.Directory]::Delete($temp); throw }
 }
 function Get-TvInstalledHash($Context) {
     $paths = Invoke-TvAdb $Context @('shell', 'pm', 'path', '--user', '0', $script:TvPackage)
@@ -284,8 +360,20 @@ function Assert-TvPackageSnapshot($State, [switch]$Soft) {
     } else { Assert-TvCondition ($null -eq $State.componentState -and $null -eq $State.baseSha256) 'invalid_profile_package_snapshot' }
 }
 function Assert-TvPlan($Plan, $Context, [switch]$Fresh) {
-    Assert-TvKeys $Plan @('schemaVersion', 'tool', 'transactionId', 'createdUtc', 'expiresUtc', 'target', 'profile', 'apk', 'selection', 'before', 'protected', 'tools')
-    Assert-TvCondition ($Plan.schemaVersion -eq 1 -and $Plan.tool -ceq $script:TvToolName -and $Plan.transactionId -cmatch '^[a-f0-9]{32}$') 'unsupported_plan'
+    $keys = @('schemaVersion', 'tool', 'transactionId', 'createdUtc', 'expiresUtc', 'target', 'profile', 'apk', 'selection', 'before', 'protected', 'tools')
+    $version = $Plan.PSObject.Properties['schemaVersion']
+    $pinned = $null -ne $version -and $version.Value -eq 2
+    if ($pinned) { $keys += 'verification' }
+    Assert-TvKeys $Plan $keys
+    Assert-TvCondition ($Plan.schemaVersion -in @(1, 2) -and $Plan.tool -ceq $script:TvToolName -and $Plan.transactionId -cmatch '^[a-f0-9]{32}$') 'unsupported_plan'
+    $release = $null
+    if ($pinned) {
+        Assert-TvCondition ($Plan.schemaVersion -is [int] -or $Plan.schemaVersion -is [long]) 'invalid_pinned_verification'
+        Assert-TvKeys $Plan.verification @('kind', 'releaseId', 'recordVersion', 'apkSha256')
+        Assert-TvCondition ($Plan.verification.kind -ceq 'PinnedRelease' -and ($Plan.verification.recordVersion -is [int] -or $Plan.verification.recordVersion -is [long]) -and $Plan.verification.recordVersion -eq 1) 'invalid_pinned_verification'
+        $release = Get-TvPinnedReleaseInfo -ReleaseId $Plan.verification.releaseId
+        Assert-TvCondition ($Plan.verification.apkSha256 -ceq $release.apk.sha256) 'pinned_verification_mismatch'
+    }
     $created = Get-TvTime $Plan.createdUtc; $expires = Get-TvTime $Plan.expiresUtc
     Assert-TvCondition (($expires - $created).TotalSeconds -eq 1800 -and $created -le [DateTimeOffset]::UtcNow.AddMinutes(2)) 'invalid_plan_time'
     if ($Fresh) { Assert-TvCondition ([DateTimeOffset]::UtcNow -le $expires) 'plan_expired_create_new_preview' }
@@ -294,12 +382,16 @@ function Assert-TvPlan($Plan, $Context, [switch]$Fresh) {
     Assert-TvKeys $Plan.profile @('id', 'sha256')
     $loadedProfile = Get-TvProfile $Plan.profile.id
     Assert-TvCondition ($loadedProfile.sha256 -ceq $Plan.profile.sha256) 'profile_changed_create_new_preview'
+    if ($pinned) { Assert-TvPinnedProfile $release $Plan.profile.id $Plan.profile.sha256 }
     Assert-TvSelection $loadedProfile.value $Plan.target $Plan.selection
     Assert-TvKeys $Plan.apk @('sourcePath', 'sha256', 'signingCertSha256', 'versionCode', 'minSdk')
     Assert-TvString $Plan.apk.sourcePath 1024
     Assert-TvCondition ([IO.Path]::IsPathRooted($Plan.apk.sourcePath) -and !$Plan.apk.sourcePath.StartsWith('\\') -and [IO.Path]::GetExtension($Plan.apk.sourcePath) -ieq '.apk') 'invalid_plan_apk_path'
     [void](Get-TvDigest $Plan.apk.sha256); [void](Get-TvDigest $Plan.apk.signingCertSha256)
     Assert-TvCondition ($Plan.apk.versionCode -is [string] -and $Plan.apk.versionCode -cmatch '^[1-9][0-9]{0,9}$' -and [long]$Plan.apk.versionCode -le 2147483647 -and $Plan.apk.minSdk -ge 1 -and $Plan.apk.minSdk -le $Plan.target.sdkInt) 'invalid_plan_apk_metadata'
+    if ($pinned) {
+        Assert-TvCondition ($Plan.apk.sha256 -ceq $release.apk.sha256 -and $Plan.apk.signingCertSha256 -ceq $release.apk.signingCertSha256 -and $Plan.apk.versionCode -ceq $release.apk.versionCode -and ($Plan.apk.minSdk -is [int] -or $Plan.apk.minSdk -is [long]) -and $Plan.apk.minSdk -eq $release.apk.minSdk) 'pinned_apk_metadata_mismatch'
+    }
     Assert-TvKeys $Plan.before @('soft', 'homeComponent', 'homePackage', 'packages')
     Assert-TvPackageSnapshot $Plan.before.soft -Soft
     [void](Get-TvComponent $Plan.before.homeComponent)
@@ -321,8 +413,10 @@ function Assert-TvPlan($Plan, $Context, [switch]$Fresh) {
     foreach ($property in $Plan.protected.PSObject.Properties) {
         Assert-TvCondition ($property.Value -is [string] -and $property.Value.Length -le 16384 -and $property.Value -notmatch '[\x00-\x1f\x7f]') 'invalid_protected_snapshot'
     }
-    Assert-TvKeys $Plan.tools @('adbPath', 'adbSha256', 'apkSignerPath', 'apkSignerSha256', 'aaptPath', 'aaptSha256')
-    foreach ($name in @('adb', 'apkSigner', 'aapt')) {
+    $toolNames = @('adb', 'apkSigner', 'aapt')
+    if ($pinned) { Assert-TvKeys $Plan.tools @('adbPath', 'adbSha256'); $toolNames = @('adb') }
+    else { Assert-TvKeys $Plan.tools @('adbPath', 'adbSha256', 'apkSignerPath', 'apkSignerSha256', 'aaptPath', 'aaptSha256') }
+    foreach ($name in $toolNames) {
         Assert-TvString $Plan.tools.($name + 'Path') 1024
         [void](Get-TvDigest $Plan.tools.($name + 'Sha256'))
     }
@@ -346,10 +440,15 @@ function New-TvPlan($Context, $Options) {
     $path = Get-TvJsonPath $Options.PlanPath
     Assert-TvCondition (!(Test-Path -LiteralPath $path)) 'plan_path_already_exists'
     $profile = Get-TvProfile $Options.ProfileId
-    $signer = Resolve-TvTool $Options.ApkSignerPath; $aapt = Resolve-TvTool $Options.AaptPath
+    $release = $null; $signer = $null; $aapt = $null
+    if ($Context.pinnedRelease -cne '') {
+        $release = Get-TvPinnedReleaseInfo -ReleaseId $Context.pinnedRelease
+        Assert-TvPinnedProfile $release $Options.ProfileId $profile.sha256
+    } else { $signer = Resolve-TvTool $Options.ApkSignerPath; $aapt = Resolve-TvTool $Options.AaptPath }
     $apk = $null
     try {
-        $apk = Get-TvApk $Options.Apk $Options.ApkSha256 $Options.SigningCertSha256 $signer $aapt $Context.commandTimeoutSeconds
+        if ($null -ne $release) { $apk = Get-TvPinnedApk $Options.Apk $release.releaseId }
+        else { $apk = Get-TvApk $Options.Apk $Options.ApkSha256 $Options.SigningCertSha256 $signer $aapt $Context.commandTimeoutSeconds }
         $target = Get-TvTarget $Context
         Assert-TvCondition ($target.sdkInt -ge $apk.minSdk) 'apk_requires_newer_android'
         $selection = [pscustomobject][ordered]@{ setHome = [bool]$Options.SetHome; disableStockHome = [bool]$Options.DisableStockHome; disablePackages = @($Options.DisablePackages) }
@@ -359,12 +458,19 @@ function New-TvPlan($Context, $Options) {
         $protected = Get-TvProtected $Context
         $now = [DateTimeOffset]::UtcNow
         $plan = [pscustomobject][ordered]@{
-            schemaVersion = 1; tool = $script:TvToolName; transactionId = [guid]::NewGuid().ToString('N')
+            schemaVersion = $(if ($null -ne $release) { 2 } else { 1 }); tool = $script:TvToolName; transactionId = [guid]::NewGuid().ToString('N')
             createdUtc = $now.ToString('o'); expiresUtc = $now.AddMinutes(30).ToString('o'); target = $target
             profile = [pscustomobject][ordered]@{ id = $profile.value.id; sha256 = $profile.sha256 }
             apk = [pscustomobject][ordered]@{ sourcePath = $apk.sourcePath; sha256 = $apk.sha256; signingCertSha256 = $apk.signingCertSha256; versionCode = $apk.versionCode; minSdk = $apk.minSdk }
             selection = $selection; before = $before; protected = $protected
-            tools = [pscustomobject][ordered]@{ adbPath = $Context.adbPath; adbSha256 = (Get-TvFileHash $Context.adbPath); apkSignerPath = $signer; apkSignerSha256 = (Get-TvFileHash $signer); aaptPath = $aapt; aaptSha256 = (Get-TvFileHash $aapt) }
+            tools = $(if ($null -ne $release) {
+                [pscustomobject][ordered]@{ adbPath = $Context.adbPath; adbSha256 = (Get-TvFileHash $Context.adbPath) }
+            } else {
+                [pscustomobject][ordered]@{ adbPath = $Context.adbPath; adbSha256 = (Get-TvFileHash $Context.adbPath); apkSignerPath = $signer; apkSignerSha256 = (Get-TvFileHash $signer); aaptPath = $aapt; aaptSha256 = (Get-TvFileHash $aapt) }
+            })
+        }
+        if ($null -ne $release) {
+            $plan | Add-Member -NotePropertyName verification -NotePropertyValue ([pscustomobject][ordered]@{ kind = 'PinnedRelease'; releaseId = $release.releaseId; recordVersion = $release.recordVersion; apkSha256 = $release.apk.sha256 })
         }
         [void](Assert-TvPlan $plan $Context -Fresh)
         Write-TvJson $path $plan -Create
@@ -421,6 +527,9 @@ function Read-TvJournal([string]$Path, $Context) {
     }
     Assert-TvCondition (Test-TvEqual $decoded $journal.plan) 'journal_plan_changed'
     [void](Assert-TvPlan $journal.plan $Context)
+    if ($Context.pinnedRelease -cne '') {
+        Assert-TvCondition ($journal.plan.schemaVersion -eq 2 -and $journal.plan.verification.releaseId -ceq $Context.pinnedRelease) 'pinned_release_plan_mismatch'
+    }
     if ($null -ne $journal.ownedHomeFallback) {
         [void](Get-TvComponent $journal.ownedHomeFallback -AllowChooser)
         Assert-TvCondition ($journal.plan.selection.setHome -and @($journal.plan.before.packages | Where-Object { $_.packageName -ceq $journal.plan.before.homePackage.packageName -and $_.state.enabledState -in @(0, 1) }).Count -eq 1) 'unowned_home_fallback'
@@ -471,11 +580,18 @@ function Invoke-TvApply($Context, $Options) {
     $plan = $loaded.Value; $profile = Assert-TvPlan $plan $Context -Fresh
     $journalPath = Get-TvJsonPath $Options.JournalPath
     Assert-TvCondition (!(Test-Path -LiteralPath $journalPath)) 'journal_path_already_exists_no_automatic_retry'
-    $signer = Resolve-TvTool $plan.tools.apkSignerPath; $aapt = Resolve-TvTool $plan.tools.aaptPath
-    Assert-TvCondition ((Get-TvFileHash $signer) -ceq $plan.tools.apkSignerSha256 -and (Get-TvFileHash $aapt) -ceq $plan.tools.aaptSha256) 'apk_tool_changed_since_preview'
+    $signer = $null; $aapt = $null
+    if ($plan.schemaVersion -eq 2) {
+        Assert-TvCondition ($Context.pinnedRelease -ceq $plan.verification.releaseId) 'pinned_release_plan_mismatch'
+    } else {
+        Assert-TvCondition ($Context.pinnedRelease -ceq '') 'pinned_release_plan_mismatch'
+        $signer = Resolve-TvTool $plan.tools.apkSignerPath; $aapt = Resolve-TvTool $plan.tools.aaptPath
+        Assert-TvCondition ((Get-TvFileHash $signer) -ceq $plan.tools.apkSignerSha256 -and (Get-TvFileHash $aapt) -ceq $plan.tools.aaptSha256) 'apk_tool_changed_since_preview'
+    }
     $apk = $null; $journal = $null
     try {
-        $apk = Get-TvApk $plan.apk.sourcePath $plan.apk.sha256 $plan.apk.signingCertSha256 $signer $aapt $Context.commandTimeoutSeconds
+        if ($plan.schemaVersion -eq 2) { $apk = Get-TvPinnedApk $plan.apk.sourcePath $plan.verification.releaseId }
+        else { $apk = Get-TvApk $plan.apk.sourcePath $plan.apk.sha256 $plan.apk.signingCertSha256 $signer $aapt $Context.commandTimeoutSeconds }
         Assert-TvCondition ($apk.versionCode -ceq $plan.apk.versionCode -and $apk.minSdk -eq $plan.apk.minSdk) 'apk_metadata_changed'
         Assert-TvBeforeApply $Context $plan $profile
         $journal = [pscustomobject][ordered]@{ schemaVersion = 1; tool = $script:TvToolName; transactionId = $plan.transactionId; createdUtc = [DateTimeOffset]::UtcNow.ToString('o'); updatedUtc = [DateTimeOffset]::UtcNow.ToString('o'); planSha256 = $loaded.Sha256; planJson = $loaded.Base64; plan = $plan; status = 'Prepared'; actions = @(New-TvActions $plan); lastError = $null; ownedHomeFallback = $null }
@@ -649,7 +765,10 @@ function Invoke-TvSetup([string]$Mode, [hashtable]$Options) {
     Assert-TvString $Options.Serial 256; Assert-TvString $Options.ExpectedModel 128; Assert-TvString $Options.ExpectedFingerprint 512
     Assert-TvCondition ($Options.Serial -cmatch '^[A-Za-z0-9][A-Za-z0-9._:\[\]-]*$') 'explicit_safe_serial_required'
     if (!$Options.Emulator) { Assert-TvCondition ($Options.Serial -notmatch '^emulator-') 'emulator_switch_required' }
-    $context = [pscustomobject]@{ serial = $Options.Serial; expectedModel = $Options.ExpectedModel; expectedFingerprint = $Options.ExpectedFingerprint; emulator = [bool]$Options.Emulator; adbPath = (Resolve-TvTool $Options.AdbPath); adbServerPort = [int]$Options.AdbServerPort; commandTimeoutSeconds = [int]$Options.CommandTimeoutSeconds; installTimeoutSeconds = [int]$Options.InstallTimeoutSeconds }
+    $pinnedRelease = ''
+    if ($Options.ContainsKey('PinnedRelease')) { $pinnedRelease = $Options.PinnedRelease }
+    Assert-TvCondition ($pinnedRelease -is [string] -and $pinnedRelease -cin @('', 'candidate.14')) 'unknown_pinned_release'
+    $context = [pscustomobject]@{ serial = $Options.Serial; expectedModel = $Options.ExpectedModel; expectedFingerprint = $Options.ExpectedFingerprint; emulator = [bool]$Options.Emulator; adbPath = (Resolve-TvTool $Options.AdbPath); adbServerPort = [int]$Options.AdbServerPort; commandTimeoutSeconds = [int]$Options.CommandTimeoutSeconds; installTimeoutSeconds = [int]$Options.InstallTimeoutSeconds; pinnedRelease = $pinnedRelease }
     Assert-TvCondition ($context.adbServerPort -ge 1024 -and $context.adbServerPort -le 65535 -and $context.commandTimeoutSeconds -ge 1 -and $context.commandTimeoutSeconds -le 120 -and $context.installTimeoutSeconds -ge 1 -and $context.installTimeoutSeconds -le 300) 'invalid_transport_bounds'
     $mutex = $null; $owned = $false
     try {
@@ -678,4 +797,4 @@ function Invoke-TvSetup([string]$Mode, [hashtable]$Options) {
     } finally { if ($owned) { $mutex.ReleaseMutex() }; if ($null -ne $mutex) { $mutex.Dispose() } }
 }
 
-Export-ModuleMember -Function Invoke-TvSetup
+Export-ModuleMember -Function Invoke-TvSetup, Get-TvPinnedReleaseInfo

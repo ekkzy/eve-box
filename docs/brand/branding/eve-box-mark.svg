@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" role="img" aria-label="EVE-BOX — transparent three-capsule mark">
+<title>EVE-BOX — transparent three-capsule mark</title>
+<desc>Refined from the user-supplied EVE-BOX SVG kit. Letterforms are vector paths, with no external fonts or images.</desc>
+<defs>
+      <linearGradient id="background" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#070b16"/><stop offset="0.55" stop-color="#0c1020"/><stop offset="1" stop-color="#191125"/></linearGradient>
+      <radialGradient id="aura" cx=".40" cy=".50" r=".54"><stop offset="0" stop-color="#ffc59d" stop-opacity=".74"/><stop offset=".32" stop-color="#e48fa4" stop-opacity=".32"/><stop offset=".69" stop-color="#695bd6" stop-opacity=".12"/><stop offset="1" stop-color="#695bd6" stop-opacity="0"/></radialGradient>
+      <radialGradient id="purpleGlow"><stop offset="0" stop-color="#8776ec" stop-opacity=".3"/><stop offset="1" stop-color="#8776ec" stop-opacity="0"/></radialGradient>
+      <radialGradient id="planet" cx=".78" cy=".75" r=".93"><stop offset="0" stop-color="#101529"/><stop offset=".50" stop-color="#0a1021"/><stop offset=".77" stop-color="#131c3c"/><stop offset="1" stop-color="#29335e"/></radialGradient>
+      <linearGradient id="rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff3db"/><stop offset=".15" stop-color="#ffcea2"/><stop offset=".32" stop-color="#c88fae"/><stop offset=".59" stop-color="#6d62c4" stop-opacity=".72"/><stop offset="1" stop-color="#4672a9" stop-opacity=".08"/></linearGradient>
+      <linearGradient id="bar" x1="0" x2="1" y1="0" y2=".3"><stop offset="0" stop-color="#fff9f2"/><stop offset=".57" stop-color="#f4e7ff"/><stop offset="1" stop-color="#edc6dc"/></linearGradient>
+      <linearGradient id="warmBar" x1="0" x2="1"><stop offset="0" stop-color="#ffe0c8"/><stop offset=".48" stop-color="#f9c0bf"/><stop offset="1" stop-color="#c69cee"/></linearGradient>
+      <linearGradient id="whitePurple" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#fff7ec"/><stop offset=".56" stop-color="#ffffff"/><stop offset="1" stop-color="#c8b6f8"/></linearGradient>
+      <linearGradient id="rule" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffc69e" stop-opacity=".9"/><stop offset="1" stop-color="#8b83f1" stop-opacity="0"/></linearGradient>
+    </defs>
+<g transform="translate(12 12)"><rect x="0" y="0" width="96" height="18" rx="9" fill="url(#whitePurple)"/><rect x="0" y="39" width="77" height="18" rx="9" fill="url(#warmBar)"/><rect x="0" y="78" width="96" height="18" rx="9" fill="url(#whitePurple)"/></g>
+</svg>

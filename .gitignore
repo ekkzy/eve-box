@@ -41,3 +41,5 @@ progress.md
 *setup-journal*.json
 setup-private/
 scripts/.tv-setup-test-*/
+scripts/.eve-setup-test-*/
+scripts/.tv-journal-test-*/

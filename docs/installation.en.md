@@ -2,46 +2,112 @@
 
 [Русский](installation.md) · [Home](../README.en.md)
 
-Use an Android TV 8.0+ television or box with a D-pad remote. Phones and touch
-input are not supported. Default Home selection and access to viewing cards
-depend on the firmware.
+EVE-BOX is the project's new name. The app in this release is still called
+**softlumi** on the TV: `0.3.0-candidate.14`, code 35. Its package,
+`io.github.ekkzy.softlumi`, and signing key are unchanged.
 
-## APK
+Use an Android TV 8.0+ television or box with a D-pad remote. Default Home
+selection depends on the firmware. Members of the private repository can get
+the files from the [setup.2 prerelease](https://github.com/ekkzy/softlumi/releases/tag/v0.3.0-candidate.14-setup.2).
 
-Members of the private repository can download a signed APK in the
-[setup kit](ai-setup.md). There is no public stable release yet.
-You can also [build the app](building.en.md). Do not install a build of unknown origin.
+## Choose an installation method
 
-1. Transfer the APK to your device and open it in a file manager.
-2. If needed, allow installation from that source in Android settings.
-3. Install it and open softlumi from the app list.
+| Method | Requirements | HOME and other apps |
+| --- | --- | --- |
+| [APK manually or through ADB](#apk-manually-or-through-adb) | The APK; ADB for command-line installation | Left unchanged |
+| [AI assistant](ai-setup.md) | Windows, an assistant with a local terminal, ADB, Build-Tools and Java | Only through an approved plan and an exact device profile |
+| [One Windows command](one-command-setup-ru.md) | The EVE-BOX kit and ADB; no AI, Java or Build-Tools | Optional, explicitly approved, for the exact supported Mi Box S 3 firmware |
 
-An update needs the same package and signing key as the installed app. Do not
-uninstall the app to work around a signature mismatch: uninstalling deletes
-local settings. Debug builds use a separate `.debug` package and can coexist
-with the main app.
+Update an existing softlumi installation without uninstalling it. A compatible
+update with the same package and signer keeps its app data. These methods do
+not import another launcher's settings or viewing history.
 
-## First launch
+## APK manually or through ADB
 
-Add favorite apps, then choose a card format and background. Weather and app
-recommendations are off by default. Choose a city for weather; enable
-recommendations and select the apps you want. TV card access uses a separate
+Download [softlumi-0.3.0-candidate.14.apk](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.2/softlumi-0.3.0-candidate.14.apk)
+and compare its SHA-256 with
+[SHA256SUMS.txt](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.2/SHA256SUMS.txt)
+from the same trusted release. In PowerShell:
+
+```powershell
+Get-FileHash .\softlumi-0.3.0-candidate.14.apk -Algorithm SHA256
+```
+
+To install without a computer:
+
+1. Transfer the APK to your TV and open it in a file manager.
+2. Allow that file manager to install apps if Android asks.
+3. Install the APK, then open softlumi from the app list.
+
+With ADB already configured, run these commands from the APK folder:
+
+```powershell
+adb devices -l
+adb -s SERIAL install -r --user 0 softlumi-0.3.0-candidate.14.apk
+```
+
+Replace `SERIAL` with the intended target from the device list. For a network
+connection, use your TV's own address and debugging port, for example:
+
+```powershell
+adb connect 192.168.1.42:5555
+```
+
+That address is an example. The owner enables debugging, accepts authorization
+on the TV and completes code pairing when required. See the
+[ADB documentation](https://developer.android.com/tools/adb).
+
+The manual command keeps app data but creates no restoration journal. It does
+not select HOME or disable packages. Investigate a signature or version error;
+do not uninstall the app or clear its data to bypass it.
+
+## HOME and optional cleanup
+
+After a normal installation, select softlumi in Android's default-app settings
+if the firmware offers that choice. Keep access to the previous launcher. Use
+one of the setup kits if you want a recorded, reversible transition.
+
+Both kits allow automatic HOME selection and package disabling only for an
+exact match to the [Mi Box S 3 profile](../scripts/setup-profiles/mi-box-s3-android14.json):
+model `MiTV-AFMU0`, API 34 and the Xiaomi build fingerprint specified there.
+The product name or Android version alone is insufficient. Other firmware gets
+installation-only, without automatic HOME or package changes.
+
+All additional actions are off by default. Disabling Google TV Home requires
+selecting the HOME transition. Optional apps are selected separately. “Cleanup”
+means disabling selected packages for Android user 0 without deleting their
+data. It does not promise to remove every ad or telemetry source. Apps that
+are already disabled retain their exact previous state.
+
+## Check and restore
+
+The kits save a local plan and journal. `Inspect` reads the current state;
+`Restore` returns recorded HOME and package changes when the current state
+still allows a safe restore. It keeps the installed APK and app data. Follow
+the [Windows guide in Russian](one-command-setup-ru.md) or
+the [AI guide](ai-setup.md#restore-or-handle-an-error).
+
+After a connection failure, a command's outcome may be unknown. Keep the journal,
+inspect the state and do not retry the installation blindly. A journal is not
+a backup of the previous APK. A complete run of the new kit on a factory-configured
+physical Mi Box S 3 is not yet confirmed; emulator checks do not establish it.
+
+After installation, check the physical Home button, Back, app launches and
+favorites. The installers do not configure remote services, accessibility,
+CEC, screensaver or sleep settings.
+
+## First launch and moving settings
+
+Add favorites and choose a card format and background. Weather and app
+recommendations are off by default. Select a city for weather; enable
+recommendations and choose the apps you want. TV card access uses a separate
 Android permission where the firmware makes it available.
 
-Installing an APK does not change Home, remote-control services or sleep
-settings. To use softlumi as Home, select it in Android's default-app settings
-if that option is available. Keep a way back to the previous Home. Some firmware
-restricts Home selection; the [setup kit](ai-setup.md) has a separate profile
-for one Mi Box S 3 firmware. Do not transfer its app-disabling profile to other models.
+Settings export uses JSON, and import shows a preview. The file may include
+favorites, app labels and your city. Enabled recommendation apps and Android
+permissions are not transferred; choose those again on the destination device.
+Keep plans, journals and personal backups private.
 
-Remapping the two supported Xiaomi remote buttons is optional. It requires
-both the softlumi switch and manual enablement in Android Accessibility
-settings. The launcher itself does not need accessibility access.
-
-## Moving settings
-
-Export a JSON file from softlumi settings to a location you choose. Import
-shows a preview before applying changes. The file may include favorites,
-custom app labels and your selected city; review it before sharing.
-Enabled recommendation apps and Android permissions are not transferred.
-Choose those apps again on the destination device.
+The [EVE-BOX brand kit](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.2/EVE-BOX-brand-kit.zip)
+contains graphics, not an installer. To build from source, follow the
+[developer guide](building.en.md).

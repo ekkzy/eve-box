@@ -43,3 +43,19 @@ grant Android permissions.
 
 If possible, check the current source and mention whether the issue only
 affects an older build.
+
+## One-command Windows setup
+
+The [EVE-BOX wizard](docs/one-command-setup-ru.md) uses the same local
+Plan/Apply/Inspect/Restore backend with explicit device and app selection.
+Its pinned release mode accepts only the exact publisher-verified APK35 and
+profile bytes. The client verifies their size/hash without Java or Build-Tools;
+signature and package metadata were checked before packaging. Download the
+whole kit from a trusted source: APK pinning cannot authenticate a replaced script.
+
+Confirmation is bound to the displayed plan or journal. Concurrent wizards for
+the same target are blocked, and unresolved transactions require inspection.
+Journal writes use atomic replacement; bounded retries require exact old/new
+bytes and specific Windows file-lock errors. ADB mutations are not retried blindly.
+Keep `setup-private` local and out of reports. Restoration preserves the installed
+APK and app data and does not restore an earlier APK version.

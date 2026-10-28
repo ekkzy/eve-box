@@ -21,6 +21,7 @@ param(
     [string]$Apk = '',
     [string]$ApkSha256 = '',
     [string]$SigningCertSha256 = '',
+    [AllowEmptyString()][ValidateSet('', 'candidate.14')][string]$PinnedRelease = '',
     [string]$ApkSignerPath = 'apksigner',
     [string]$AaptPath = 'aapt',
     [ValidateSet('generic-install-only', 'mi-box-s3-android14')][string]$ProfileId = 'generic-install-only',
@@ -38,7 +39,7 @@ try {
     $options = @{
         Serial = $Serial; ExpectedModel = $ExpectedModel; ExpectedFingerprint = $ExpectedFingerprint; Emulator = $Emulator.IsPresent
         AdbPath = $AdbPath; AdbServerPort = $AdbServerPort; CommandTimeoutSeconds = $CommandTimeoutSeconds; InstallTimeoutSeconds = $InstallTimeoutSeconds
-        Apk = $Apk; ApkSha256 = $ApkSha256; SigningCertSha256 = $SigningCertSha256; ApkSignerPath = $ApkSignerPath; AaptPath = $AaptPath
+        Apk = $Apk; ApkSha256 = $ApkSha256; SigningCertSha256 = $SigningCertSha256; PinnedRelease = $PinnedRelease; ApkSignerPath = $ApkSignerPath; AaptPath = $AaptPath
         ProfileId = $ProfileId; SetHome = $SetHome.IsPresent; DisableStockHome = $DisableStockHome.IsPresent; DisablePackages = @($DisablePackages)
         PlanPath = $PlanPath; ApprovedPlanSha256 = $ApprovedPlanSha256; JournalPath = $JournalPath
     }
