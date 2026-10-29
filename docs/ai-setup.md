@@ -1,6 +1,6 @@
-# EVE-BOX: install with an AI assistant
+# Eve Box: install with an AI assistant
 
-[Installation options](https://github.com/ekkzy/softlumi/blob/main/docs/installation.en.md) · [Русский](ai-setup-ru.md)
+[Installation options](https://github.com/ekkzy/eve-box/blob/main/docs/installation.en.md) · [Русский](ai-setup-ru.md)
 
 The assistant checks the kit, helps connect your TV, and starts the same
 Windows wizard used for [one-command installation](one-command-setup-ru.md).
@@ -9,8 +9,8 @@ can explain the steps; you will need to run the command yourself.
 
 ## Get started
 
-1. Download [EVE-BOX-setup-candidate.14.zip](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.3/EVE-BOX-setup-candidate.14.zip)
-   from [release setup.3](https://github.com/ekkzy/softlumi/releases/tag/v0.3.0-candidate.14-setup.3)
+1. Download [Eve-Box-setup-candidate.15.zip](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.15-setup.1/Eve-Box-setup-candidate.15.zip)
+   from [release candidate.15-setup.1](https://github.com/ekkzy/eve-box/releases/tag/v0.3.0-candidate.15-setup.1)
    and extract the complete ZIP into a separate, writable local folder.
 2. Open that folder in your assistant and give it the
    [prompt below](#ready-to-copy-prompt).
@@ -38,7 +38,7 @@ wizard, it should prepare the command for your own terminal.
 ## Ready-to-copy prompt
 
 ```text
-Help me install EVE-BOX on my Android TV using docs/one-command-setup-ru.md.
+Help me install Eve Box on my Android TV using docs/one-command-setup-ru.md.
 Verify the kit's source, release SHA256SUMS, manifest.json files, and ADB.
 Help me connect my chosen TV; I will authorize debugging and code pairing.
 Start .\install.cmd interactively, or give me the command for my own terminal.
@@ -52,9 +52,9 @@ Report the result, anything unverified, the journal path, and how to use Restore
 
 ## What changes
 
-By default, the wizard only installs and opens the app. In this release it is
-still named **softlumi 0.3.0-candidate.14 / code 35**; its package and signing key
-are unchanged. A compatible update preserves app data.
+By default, the wizard only installs and opens the app. This release is
+**Eve Box 0.3.0-candidate.15 / code 36**. Its package, `io.github.ekkzy.softlumi`,
+and signing key are retained for compatible updates that preserve app data.
 
 Changing the HOME app and disabling apps are separate choices. They are
 available only when the model, Android API, and firmware exactly match the
@@ -65,7 +65,7 @@ data. Remote-control services, screensaver, and sleep timers are not configured.
 The wizard accepts only this release's pinned APK. Its signature was checked
 when preparing the kit; your computer checks its size and SHA-256. The
 assistant should verify the source and kit against
-[SHA256SUMS.txt](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.3/SHA256SUMS.txt)
+[SHA256SUMS.txt](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.15-setup.1/SHA256SUMS.txt)
 and `manifest.json`. A matching hash does not establish trust in an unknown source.
 
 ## Check and restore

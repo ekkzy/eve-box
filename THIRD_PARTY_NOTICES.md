@@ -1,11 +1,11 @@
 # Third-party notices
 
-softlumi code is distributed under the [MIT License](LICENSE). Fonts, publisher
+Eve Box code is distributed under the [MIT License](LICENSE). Fonts, publisher
 marks and external data retain their own licenses and rights.
 
 ## Project history
 
-Early softlumi revisions incorporated selected implementations from
+Early project revisions, then named softlumi, incorporated selected implementations from
 [Free My TV](https://github.com/simbasjungles/free-my-tv). The main transferred
 components were later rewritten or removed. The original
 [MIT notice](docs/licenses/FreeMyTV-MIT.txt), Copyright (c) 2026 Free My TV
@@ -36,16 +36,17 @@ and [source notes](app/src/main/assets/app-logos/SOURCES.md).
   public-domain textlogo descriptions identified in the manifest.
 - Other publisher artwork is read from the installed app's own Android
   resources. Movie posters are supplied by Android TV providers and are not
-  bundled with softlumi.
+  bundled with Eve Box.
 
 Software and artwork licenses do not grant trademark rights or imply
-affiliation with the named services. The softlumi settings symbol, launcher
-icon and native Canvas/vector backgrounds are original project artwork.
+affiliation with the named services. The Eve Box settings symbol and native
+Canvas/vector backgrounds are original project artwork. The launcher icon
+and TV banner use the project owner's brand assets described below.
 
 ## Background images
 
 The app includes **36 lossless WebP backgrounds**, generated specifically
-for softlumi. Thirteen daylight variants were edited from their corresponding
+for Eve Box. Thirteen daylight variants were edited from their corresponding
 night scenes. The gallery has twenty choices, including the native calm
 background and content ambience. There is no bundled screensaver, DreamService,
 video catalog or scene-layer collection.
@@ -72,7 +73,7 @@ is Apache-2.0. JUnit 4 is EPL-1.0, AndroidX Test is Apache-2.0 and JSON-java
 is public domain; these dependencies are used for development/tests.
 No third-party production UI or networking library is bundled.
 
-## EVE-BOX branding
+## Eve Box branding
 
 The project owner supplied the original EVE-Box brand kit and promotional image
 for refinement. The refined SVG/PNG files, image-generation edit and unchanged
@@ -81,3 +82,9 @@ The wordmark uses outlined Inter glyphs; the [Inter OFL](docs/brand/branding/INT
 is included. Third-party app marks in interface images retain their owners' rights
 and do not imply endorsement. Branding materials do not change the existing
 application package or signing identity.
+
+Starting with `0.3.0-candidate.15`, the app uses the supplied
+`eve-box-icon-512.png` as its launcher icon and `eve-box-tv-banner-320x180.png`
+as its TV banner, with no image changes. Sources and exact file hashes are
+recorded in `app/src/main/assets/eve-box-brand-SOURCE.json`. No new artwork
+was generated for this integration.

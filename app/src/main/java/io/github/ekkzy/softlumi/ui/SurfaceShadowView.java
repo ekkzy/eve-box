@@ -69,8 +69,8 @@ public final class SurfaceShadowView extends View {
     }
     @android.annotation.TargetApi(31)
     private static final class Api31 implements Gpu{
-        private final RenderNode filtered=new RenderNode("softlumi shadow filter");
-        private final RenderNode raster=new RenderNode("softlumi shadow raster");
+        private final RenderNode filtered=new RenderNode("Eve Box shadow filter");
+        private final RenderNode raster=new RenderNode("Eve Box shadow raster");
         Api31(int width,int height,RectF shape,float radius,float blur,int opacity){
             filtered.setPosition(0,0,width,height);filtered.setClipToBounds(true);
             Paint paint=new Paint(Paint.ANTI_ALIAS_FLAG);paint.setColor(opacity<<24);

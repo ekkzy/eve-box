@@ -186,7 +186,23 @@ function Get-TvTarget($Context) {
 }
 function Get-TvPinnedReleaseInfo {
     [CmdletBinding()]
-    param([Parameter(Mandatory = $true)][ValidateSet('candidate.14')][string]$ReleaseId)
+    param([Parameter(Mandatory = $true)][ValidateSet('candidate.14', 'candidate.15')][string]$ReleaseId)
+    if ($ReleaseId -ceq 'candidate.15') {
+        return [pscustomobject][ordered]@{
+            releaseId = 'candidate.15'; recordVersion = 1
+            apk = [pscustomobject][ordered]@{
+                file = 'Eve-Box-0.3.0-candidate.15.apk'; bytes = 47129158
+                sha256 = '05acbffb15ed3234d42720b69d26d237df66fd22c775686ab313240fbdb04d98'
+                signingCertSha256 = '0774ab7eed2656fcd295934cefe672e89e9bbb8e99f3fb4febc40d6f646d96c6'
+                package = 'io.github.ekkzy.softlumi'; component = 'io.github.ekkzy.softlumi/io.github.ekkzy.softlumi.MainActivity'
+                versionName = '0.3.0-candidate.15'; versionCode = '36'; minSdk = 26
+            }
+            profiles = @(
+                [pscustomobject]@{ id = 'generic-install-only'; sha256 = '6bccf53db327a1b0ebc5c2b496d5633c975f65b8069fbb771d0bad390f546578' }
+                [pscustomobject]@{ id = 'mi-box-s3-android14'; sha256 = 'aa96437b52c2078be2366926066659a5dbd1e6fb6692a8582b0718c1ff8707ac' }
+            )
+        }
+    }
     Assert-TvCondition ($ReleaseId -ceq 'candidate.14') 'unknown_pinned_release'
     # Return new objects on every call. Neither a caller nor a manifest can
     # change the publisher-verified record used by a later Plan or Apply.
@@ -478,7 +494,7 @@ function New-TvPlan($Context, $Options) {
         Write-Output ('Profile: ' + $profile.value.id + '; SetHome=' + $selection.setHome + '; DisableStockHome=' + $selection.disableStockHome)
         foreach ($entry in @($profile.value.packages)) {
             $selected = ($entry.role -ceq 'stockHome' -and $selection.disableStockHome) -or ($entry.role -ceq 'optional' -and @($selection.disablePackages) -ccontains $entry.packageName)
-            Write-Output ('Option ' + $entry.packageName + '; selected=' + $selected + '; ' + $entry.reason)
+            Write-Output ('Option ' + $entry.packageName + '; selected=' + $selected + '; ' + $entry.reason.Replace('explicitly requested softlumi Home plan', 'explicitly requested Eve Box Home plan'))
         }
         foreach ($entry in @($before.packages)) {
             $desired = 3
@@ -767,7 +783,7 @@ function Invoke-TvSetup([string]$Mode, [hashtable]$Options) {
     if (!$Options.Emulator) { Assert-TvCondition ($Options.Serial -notmatch '^emulator-') 'emulator_switch_required' }
     $pinnedRelease = ''
     if ($Options.ContainsKey('PinnedRelease')) { $pinnedRelease = $Options.PinnedRelease }
-    Assert-TvCondition ($pinnedRelease -is [string] -and $pinnedRelease -cin @('', 'candidate.14')) 'unknown_pinned_release'
+    Assert-TvCondition ($pinnedRelease -is [string] -and $pinnedRelease -cin @('', 'candidate.14', 'candidate.15')) 'unknown_pinned_release'
     $context = [pscustomobject]@{ serial = $Options.Serial; expectedModel = $Options.ExpectedModel; expectedFingerprint = $Options.ExpectedFingerprint; emulator = [bool]$Options.Emulator; adbPath = (Resolve-TvTool $Options.AdbPath); adbServerPort = [int]$Options.AdbServerPort; commandTimeoutSeconds = [int]$Options.CommandTimeoutSeconds; installTimeoutSeconds = [int]$Options.InstallTimeoutSeconds; pinnedRelease = $pinnedRelease }
     Assert-TvCondition ($context.adbServerPort -ge 1024 -and $context.adbServerPort -le 65535 -and $context.commandTimeoutSeconds -ge 1 -and $context.commandTimeoutSeconds -le 120 -and $context.installTimeoutSeconds -ge 1 -and $context.installTimeoutSeconds -le 300) 'invalid_transport_bounds'
     $mutex = $null; $owned = $false

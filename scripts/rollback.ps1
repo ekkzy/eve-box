@@ -1,7 +1,7 @@
 #requires -Version 5.1
 <#
 .SYNOPSIS
-Restores the journaled HOME and exact softlumi component override; keeps APK/data.
+Restores the journaled HOME and exact Eve Box component override; keeps APK/data.
 #>
 [CmdletBinding()]
 param(
@@ -68,6 +68,6 @@ try {
         $journal.Status = 'RollbackFailed'
         try { Write-InstallJournal $journalFile $journal } catch { Write-Warning 'Could not update rollback status; retain the original journal.' }
     }
-    [Console]::Error.WriteLine('softlumi rollback: ' + $_.Exception.Message)
+    [Console]::Error.WriteLine('Eve Box rollback: ' + $_.Exception.Message)
     exit 1
 }

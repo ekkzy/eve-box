@@ -2,50 +2,51 @@
 
 [English](installation.en.md) · [На главную](../README.md)
 
-EVE-BOX — новое имя проекта. В этом выпуске приложение на приставке ещё
-называется **softlumi**: `0.3.0-candidate.14`, code 35. Пакет
-`io.github.ekkzy.softlumi` и ключ подписи сохранены.
+Приложение на приставке называется **Eve Box**: `0.3.0-candidate.15`, code 36.
+Пакет `io.github.ekkzy.softlumi` и ключ подписи сохранены для совместимого
+обновления с прежними данными.
 
 Нужны Android TV 8.0+ и пульт с D-pad. Выбор домашнего экрана зависит от прошивки.
 Файлы доступны в
-[предварительном выпуске setup.3](https://github.com/ekkzy/softlumi/releases/tag/v0.3.0-candidate.14-setup.3).
+[предварительном выпуске candidate.15-setup.1](https://github.com/ekkzy/eve-box/releases/tag/v0.3.0-candidate.15-setup.1).
 
 ## Выбери способ
 
 | Способ | Что нужно | HOME и приложения |
 | --- | --- | --- |
 | [APK вручную или через ADB](#apk-вручную-или-через-adb) | APK; для команды установки — ADB | Автоматически не меняются |
-| [Через ИИ-помощника](ai-setup-ru.md) | Тот же комплект EVE-BOX, ADB и помощник с локальным терминалом | Только по подтверждённому плану и точному профилю |
-| [Windows: одна команда](one-command-setup-ru.md) | Комплект EVE-BOX и ADB; ИИ, Java и Build-Tools не нужны | Только после выбора и подтверждения, на точной прошивке Mi Box S 3 |
+| [Через ИИ-помощника](ai-setup-ru.md) | Тот же комплект Eve Box, ADB и помощник с локальным терминалом | Только по подтверждённому плану и точному профилю |
+| [Windows: одна команда](one-command-setup-ru.md) | Комплект Eve Box и ADB; ИИ, Java и Build-Tools не нужны | Только после выбора и подтверждения, на точной прошивке Mi Box S 3 |
 
 Для установки с ИИ используется тот же архив и мастер; Java и SDK Build-Tools не нужны.
 
-Во всех вариантах обновляй существующий softlumi без удаления приложения.
+Во всех вариантах обновляй существующий Eve Box без удаления приложения,
+в том числе если предыдущая версия установлена под именем softlumi.
 Совместимое обновление с тем же package и подписью сохраняет его данные.
 Ни один способ не переносит настройки или историю другого лаунчера.
 
 ## APK вручную или через ADB
 
-Скачай [softlumi-0.3.0-candidate.14.apk](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.3/softlumi-0.3.0-candidate.14.apk)
+Скачай [Eve-Box-0.3.0-candidate.15.apk](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.15-setup.1/Eve-Box-0.3.0-candidate.15.apk)
 и сверь SHA-256 с
-[SHA256SUMS.txt](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.3/SHA256SUMS.txt)
+[SHA256SUMS.txt](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.15-setup.1/SHA256SUMS.txt)
 из того же доверенного выпуска. В PowerShell хеш файла показывает команда:
 
 ```powershell
-Get-FileHash .\softlumi-0.3.0-candidate.14.apk -Algorithm SHA256
+Get-FileHash .\Eve-Box-0.3.0-candidate.15.apk -Algorithm SHA256
 ```
 
 Для установки без компьютера:
 
 1. Передай APK на приставку и открой его файловым менеджером.
 2. Если Android попросит, разреши этому файловому менеджеру установку приложений.
-3. Установи APK и открой softlumi из списка приложений.
+3. Установи APK и открой Eve Box из списка приложений.
 
 Если ADB уже настроен, из папки с APK можно выполнить:
 
 ```powershell
 adb devices -l
-adb -s SERIAL install -r --user 0 softlumi-0.3.0-candidate.14.apk
+adb -s SERIAL install -r --user 0 Eve-Box-0.3.0-candidate.15.apk
 ```
 
 Замени `SERIAL` на адресат, который ты проверил в списке. Для сетевого
@@ -65,9 +66,9 @@ adb connect 192.168.1.42:5555
 
 ## HOME и необязательная очистка
 
-После обычной установки можно выбрать softlumi домашним экраном в системных
+После обычной установки можно выбрать Eve Box домашним экраном в системных
 настройках Android, если прошивка предоставляет такой выбор. Сохрани доступ
-к прежнему лаунчеру. Для перехода с журналом используй общий комплект EVE-BOX.
+к прежнему лаунчеру. Для перехода с журналом используй общий комплект Eve Box.
 
 Мастер предлагает автоматический переход HOME и отключение приложений
 только при точном совпадении с
@@ -112,6 +113,6 @@ CEC, заставку и таймеры сна.
 рекомендаций и системные разрешения не переносятся: выбери их заново на другом
 устройстве. Планы, журналы и личные резервные копии не публикуй.
 
-[Брендкит EVE-BOX](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.3/EVE-BOX-brand-kit.zip)
+[Брендкит Eve Box](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.15-setup.1/EVE-BOX-brand-kit.zip)
 содержит графические материалы, а не установщик. Для сборки из исходников см.
 [инструкцию разработчика](building.md).

@@ -1,11 +1,11 @@
-# Запрос ИИ-помощнику для установки EVE-BOX
+# Запрос ИИ-помощнику для установки Eve Box
 
-Распакуй [EVE-BOX-setup-candidate.14.zip](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.3/EVE-BOX-setup-candidate.14.zip),
+Распакуй [Eve-Box-setup-candidate.15.zip](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.15-setup.1/Eve-Box-setup-candidate.15.zip),
 открой папку в помощнике с локальным терминалом Windows и передай текст ниже.
 [Что потребуется и что изменится](ai-setup-ru.md).
 
 ```text
-Помоги установить EVE-BOX на мою Android TV по docs/one-command-setup-ru.md.
+Помоги установить Eve Box на мою Android TV по docs/one-command-setup-ru.md.
 Проверь источник комплекта, SHA256SUMS выпуска, файлы по manifest.json и ADB.
 Помоги подключить выбранную мной приставку; отладку и сопряжение подтверждаю я.
 Запусти .\install.cmd интерактивно или дай команду для моего терминала.

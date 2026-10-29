@@ -1,0 +1,17 @@
+{
+  "origin": "Owner-provided Eve Box brand kit, 2026-10-28",
+  "sourceDocument": "docs/brand/SOURCE.md",
+  "transformation": "Unmodified PNG bytes; Android bitmap resource wrappers only",
+  "files": [
+    {
+      "path": "res/drawable-nodpi/eve_box_app_icon.png",
+      "source": "docs/brand/branding/eve-box-icon-512.png",
+      "sha256": "205db2ff1a6e6fc188e50c1b4452dd9cbc9e269eafe32b5e55c9e29a340ac26e"
+    },
+    {
+      "path": "res/drawable-nodpi/eve_box_tv_banner.png",
+      "source": "docs/brand/branding/eve-box-tv-banner-320x180.png",
+      "sha256": "f40b3aec249fc985bb1d58c72ee15d9243382aed2ef809be2cb53e5124ca1ccc"
+    }
+  ]
+}

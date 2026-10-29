@@ -1,7 +1,7 @@
 #requires -Version 5.1
 <#
 .SYNOPSIS
-Validates and installs one explicitly supplied softlumi APK; HOME is opt-in.
+Validates and installs one explicitly supplied Eve Box APK; HOME is opt-in.
 .DESCRIPTION
 Stage A accepts only a named, verified emulator. Physical targets require the
 explicit StageBPhysicalDevice switch and independently selected identity.
@@ -91,7 +91,7 @@ try {
             $homeOutput = Invoke-TargetAdb $adb $target.Serial @('shell', 'cmd', 'package', 'set-home-activity', '--user', '0', $script:Component)
             if ($homeOutput -notmatch '(?i)success') { throw "HOME change was not confirmed: $homeOutput" }
             $actualHome = Get-CurrentHome $adb $target.Serial
-            if ($actualHome -cne $script:Component -and $actualHome -cne ($script:Package + '/.MainActivity')) { throw 'HOME resolution did not return softlumi.' }
+            if ($actualHome -cne $script:Component -and $actualHome -cne ($script:Package + '/.MainActivity')) { throw 'HOME resolution did not return Eve Box.' }
             $journal.Status = 'HomeChanged'; Write-InstallJournal $journalFile $journal
         } catch {
             $journal.Status = 'HomeChangeFailed'; Write-InstallJournal $journalFile $journal
@@ -101,7 +101,7 @@ try {
     Write-Output "Installed successfully. HOME requested: $($SetHome.IsPresent). Keep the private journal: $journalFile"
     exit 0
 } catch {
-    [Console]::Error.WriteLine('softlumi install: ' + $_.Exception.Message)
+    [Console]::Error.WriteLine('Eve Box install: ' + $_.Exception.Message)
     if ($null -ne $journal) { Write-Output "Transaction journal retained: $journalFile (status $($journal.Status))." }
     exit 1
 } finally { Remove-ValidatedApk $verified }

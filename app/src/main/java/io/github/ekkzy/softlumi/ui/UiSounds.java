@@ -40,7 +40,7 @@ public final class UiSounds implements AutoCloseable {
     private final Handler main = new Handler(Looper.getMainLooper());
     private final ThreadPoolExecutor worker = new ThreadPoolExecutor(1, 1, 10, TimeUnit.SECONDS,
             new ArrayBlockingQueue<>(1), task -> {
-                Thread thread = new Thread(task, "softlumi-cue-preparation");
+                Thread thread = new Thread(task, "eve-box-cue-preparation");
                 thread.setDaemon(true);
                 return thread;
             }, new ThreadPoolExecutor.AbortPolicy());

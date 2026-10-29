@@ -72,7 +72,7 @@ function global:Read-Host {
         $externalOptions = @{
             Serial=$firstPlan.target.serial;ExpectedModel=$firstPlan.target.model;ExpectedFingerprint=$firstPlan.target.fingerprint;
             Emulator=[bool]$firstPlan.target.emulator;AdbPath=$firstPlan.tools.adbPath;AdbServerPort=$firstPlan.target.adbServerPort;
-            CommandTimeoutSeconds=10;InstallTimeoutSeconds=10;PinnedRelease='candidate.14';Apk=$firstPlan.apk.sourcePath;
+            CommandTimeoutSeconds=10;InstallTimeoutSeconds=10;PinnedRelease=$firstPlan.verification.releaseId;Apk=$firstPlan.apk.sourcePath;
             ApkSha256='';SigningCertSha256='';ApkSignerPath='no-sdk-signer';AaptPath='no-sdk-aapt';ProfileId=$firstPlan.profile.id;
             SetHome=$false;DisableStockHome=$false;DisablePackages=@();PlanPath=$externalPlan;JournalPath=$externalJournal;ApprovedPlanSha256=''
         }

@@ -94,7 +94,7 @@ public final class PublicationScreenshotsTest {
     @Before public void prepareIsolatedDemo() {
         context = InstrumentationRegistry.getInstrumentation().getTargetContext();
         assertEquals("Never alter release preferences", "io.github.ekkzy.softlumi.debug", context.getPackageName());
-        assertEquals("Publication describes candidate.14", 35, BuildConfig.VERSION_CODE);
+        assertEquals("Publication describes candidate.15", 36, BuildConfig.VERSION_CODE);
         assertTrue("Owned emulator only", "ranchu".equals(Build.HARDWARE) || "goldfish".equals(Build.HARDWARE));
         assertEquals(34, Build.VERSION.SDK_INT);
         device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());

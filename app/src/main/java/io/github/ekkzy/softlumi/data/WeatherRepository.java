@@ -727,8 +727,8 @@ public final class WeatherRepository {
         String message = "cityLookup outcome=" + outcome.name() + " matched=" + matched + " elapsedMs="
                 + Math.max(0, (System.nanoTime() - startedNanos) / 1_000_000L) + " http=" + httpStatus + " failure=" + failure.name();
         try {
-            if (outcome == CityLookupOutcome.TRANSIENT_FAILURE) Log.w("SoftlumiWeather", message);
-            else Log.d("SoftlumiWeather", message);
+            if (outcome == CityLookupOutcome.TRANSIENT_FAILURE) Log.w("EveBoxWeather", message);
+            else Log.d("EveBoxWeather", message);
         } catch (RuntimeException unavailableLogger) { /* JVM fixtures do not have Android's logger. */ }
     }
     private static boolean sameLegacyCity(LauncherPrefs.Settings settings, City candidate) {
@@ -845,7 +845,7 @@ public final class WeatherRepository {
 
     private static void logFailure(Failure failure, int httpStatus, Exception exception) {
         // Never log a URL, coordinates, city, response body, message or exception stack.
-        try { Log.w("SoftlumiWeather", "failure=" + failure.name() + " http=" + httpStatus
+        try { Log.w("EveBoxWeather", "failure=" + failure.name() + " http=" + httpStatus
                 + " exception=" + exception.getClass().getSimpleName()); }
         catch (RuntimeException unavailableLogger) { /* JVM fixtures do not have Android's logger. */ }
     }
@@ -948,7 +948,7 @@ public final class WeatherRepository {
             connection.setInstanceFollowRedirects(false);
             connection.setUseCaches(false);
             connection.setRequestProperty("Accept", "application/json");
-            connection.setRequestProperty("User-Agent", "softlumi/0.1 (Android TV launcher)");
+            connection.setRequestProperty("User-Agent", "Eve-Box/0.1 (Android TV launcher)");
             try {
                 checkInterrupted();
                 connection.connect();

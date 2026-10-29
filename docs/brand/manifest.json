@@ -1,5 +1,5 @@
 {
-  "name": "EVE-BOX",
+  "name": "Eve Box",
   "files": [
     {
       "file": "branding/eve-box-icon-1024.png",
@@ -123,13 +123,13 @@
     },
     {
       "file": "README-RU.md",
-      "bytes": 2873,
-      "sha256": "181d516ec9517e141b2e572d70ebd1763f81e34e3e5196c144c9809cb4f1e9cd"
+      "bytes": 2906,
+      "sha256": "0ab520588a94bd087e851216a38ee5db541d97e3a8ef827e8afcac7e016e2ba2"
     },
     {
       "file": "SOURCE.md",
-      "bytes": 1914,
-      "sha256": "84c03655e44f48d4502c6e13048d98aaab9df5d1969e43de4b23d728a641a86d"
+      "bytes": 2574,
+      "sha256": "dfb66977c31a3e2325bf0931241eae9678b9be465410d24658de2ab33cb0c79b"
     }
   ],
   "checks": [

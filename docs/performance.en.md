@@ -2,9 +2,13 @@
 
 [Русский](performance.md) · [Back to the project](../README.en.md) · [All observations as JSON](performance-data.json)
 
-On October 27, 2026, the installed versions of softlumi and Google TV Home were
+On October 27, 2026, the installed versions of Eve Box and Google TV Home were
 compared on one Xiaomi Mi Box S 3. Eight short observations covered an open
 home screen without remote input. APK size, memory and CPU are reported separately.
+
+The measured release was `0.3.0-candidate.12`, code 33, then named softlumi.
+The text below uses the current name Eve Box; the original names and values
+in JSON are preserved. These results do not describe `candidate.15`.
 
 **Memory accounting correction:** the initial description labelled `TOTAL PSS`
 as PSS without separating swap. Android 14 includes swapped-out pages in that
@@ -15,9 +19,9 @@ device run or application change was made.
 
 The table shows the median of four observations, with minimum and maximum in
 parentheses. Memory and CPU cover every discovered process named for each
-package: Google's main and `:coreservices` processes, and one softlumi process.
+package: Google's main and `:coreservices` processes, and one Eve Box process.
 
-| Metric | Google TV Home | softlumi |
+| Metric | Google TV Home | Eve Box |
 | --- | ---: | ---: |
 | Android TOTAL PSS, including SwapPss, MiB | 121.70 (119.87–130.44) | 139.48 (139.39–140.58) |
 | Resident PSS: TOTAL PSS − SwapPss, MiB | 121.33 (119.51–129.91) | 96.54 (96.43–97.60) |
@@ -40,15 +44,15 @@ afterward. Additional observations for independent recalculation:
 | Block | App | TOTAL PSS, KiB | SwapPss, KiB | Resident PSS, KiB |
 | --- | --- | ---: | ---: | ---: |
 | 1 | Google | 133568 | 537 | 133031 |
-| 2 | softlumi | 143958 | 44014 | 99944 |
-| 3 | softlumi | 142834 | 43994 | 98840 |
+| 2 | Eve Box | 143958 | 44014 | 99944 |
+| 3 | Eve Box | 142834 | 43994 | 98840 |
 | 4 | Google | 124470 | 375 | 124095 |
-| 5 | softlumi | 142734 | 43986 | 98748 |
+| 5 | Eve Box | 142734 | 43986 | 98748 |
 | 6 | Google | 124774 | 375 | 124399 |
 | 7 | Google | 122749 | 375 | 122374 |
-| 8 | softlumi | 142822 | 43958 | 98864 |
+| 8 | Eve Box | 142822 | 43958 | 98864 |
 
-Each pair's **TOTAL PSS including swap** difference, softlumi minus Google:
+Each pair's **TOTAL PSS including swap** difference, Eve Box minus Google:
 
 | Pair | Run order | Difference, MiB | Relative to Google |
 | --- | --- | ---: | ---: |
@@ -59,11 +63,11 @@ Each pair's **TOTAL PSS including swap** difference, softlumi minus Google:
 
 The median paired difference is 17.74 MiB; the median relative difference
 is 14.57%. Positive values mean a larger **total including swap**, not a larger
-resident PSS. The earlier conclusion that softlumi uses more RAM based on this
+resident PSS. The earlier conclusion that Eve Box uses more RAM based on this
 total alone was too broad. Overall device RAM savings from changing launchers
 are not established by this experiment.
 
-### What occupies memory in softlumi
+### What occupies memory in Eve Box
 
 In the last block, resident PSS was 96.55 MiB: about 68.0 MiB Graphics,
 15.9 MiB Native Heap in App Summary, 4.3 MiB Java Heap and 8.3 MiB other
@@ -81,12 +85,12 @@ Graphics layers are the first profiling target; neither a leak nor a specific
 amount of recoverable memory has been established.
 
 CPU windows lasted 30.400–30.440 seconds, at 100 counter ticks/second.
-Google accumulated 11 ticks and softlumi 4 across their four windows each.
+Google accumulated 11 ticks and Eve Box 4 across their four windows each.
 These short windows do not describe average load in everyday use. Zero ticks
 means no recorded increment in that window, not zero work or energy use.
 
 Device-wide CPU, including unrelated processes, had a median of
-4.59% with Google and 4.63% with softlumi,
+4.59% with Google and 4.63% with Eve Box,
 normalized to aggregate CPU capacity. Ranges were 4.44–5.02%
 and 4.44–4.82%. These values do not isolate the launcher
 from other apps' background work.
@@ -96,10 +100,10 @@ from other apps' background work.
 | Application | Version | APK files | Combined size |
 | --- | --- | ---: | ---: |
 | Google TV Home | 1.0.994451607, code 831927 | 4: base and three splits | 23.54 MiB |
-| softlumi | 0.3.0-candidate.12, code 33 | 1 | 44.85 MiB |
+| Eve Box | 0.3.0-candidate.12, code 33 | 1 | 44.85 MiB |
 
 The exact sizes are 24,683,288 and 47,026,568 bytes respectively. Bundled
-wallpapers occupy 46,275,588 bytes inside the softlumi APK, about 98.4% of
+wallpapers occupy 46,275,588 bytes inside the Eve Box APK, about 98.4% of
 the file. They work offline but increase the package size. This excludes
 app data, caches, optimized Android code and Google's immutable system copy;
 it does not measure storage freed by changing launchers.
@@ -109,7 +113,7 @@ it does not measure storage freed by changing launchers.
 - Xiaomi MiTV-AFMU0, Android 14/API 34, armeabi-v7a. Actual UI: 1920×1080,
   320 dpi, font scale 1.0. The README's 4K screenshots were captured separately
   on an emulator and are not measurement evidence.
-- A is Google; B is softlumi. Run order: **ABBABAAB**, four pairs AB/BA/BA/AB.
+- A is Google; B is Eve Box. Run order: **ABBABAAB**, four pairs AB/BA/BA/AB.
   Each interval followed a direct Home launch and 15 seconds of settling.
   All 8/8 cases completed; no selection of faster results. Memory was sampled
   after each CPU window through individual PID queries, with process identities
@@ -120,7 +124,7 @@ it does not measure storage freed by changing launchers.
 - Enabling Google temporarily changes the system Home on this firmware. A legacy
   service redirecting Home to another launcher was paused in both configurations;
   the remote-key service stayed enabled. Afterward, Google was disabled again,
-  softlumi returned to Home, and the exact service list and sleep timers were restored.
+  Eve Box returned to Home, and the exact service list and sleep timers were restored.
 - System animation scales stayed at 0.5. CPU frequency and power settings were not
   changed; dynamic frequency control and thermal state were not normalized.
   Isolated or unattributed helpers and the full compositor cost are not

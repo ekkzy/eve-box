@@ -97,7 +97,7 @@ public final class MainActivity extends Activity {
     private final java.util.concurrent.ThreadPoolExecutor cityIo=new java.util.concurrent.ThreadPoolExecutor(1,1,15,
             java.util.concurrent.TimeUnit.SECONDS,new java.util.concurrent.ArrayBlockingQueue<>(1),task->new Thread(()->{
                 android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);task.run();
-            },"softlumi-city"));
+            },"eve-box-city"));
     private UiImageLoader imageLoader;
     private final android.view.ViewTreeObserver.OnScrollChangedListener imageVisibilityListener=this::loadVisibleIcons;
     private UiMotion uiMotion;
@@ -1041,7 +1041,7 @@ public final class MainActivity extends Activity {
             String value=onOff(selected)+(selectedSource(pkg)==null?tr(" · Пока недоступно"," · Currently unavailable"):"");
             row("app:"+pkg,"tv",sourceLabel(pkg),value,index++,()->toggleRecommendationApp(pkg)).setSelected(selected);
         }
-        rowNote(tr("До 6 приложений. Новые рекомендации включённых приложений добавляются автоматически. Выбор действует только в softlumi.","Up to 6 apps. New recommendations from enabled apps are included automatically. The selection applies only to softlumi."));
+        rowNote(tr("До 6 приложений. Новые рекомендации включённых приложений добавляются автоматически. Выбор действует только в Eve Box.","Up to 6 apps. New recommendations from enabled apps are included automatically. The selection applies only to Eve Box."));
     }
     private void toggleRecommendationApp(String packageName){
         List<String> selected=new ArrayList<>(prefs.recommendationPackages),order=new ArrayList<>(prefs.recommendationSourceOrder);
@@ -1197,13 +1197,13 @@ public final class MainActivity extends Activity {
         text(board,tr("Настройки","Settings"),60,HEIGHT+84,900,42,30,palette.ambientText,true);
         String[] keys={"apps","wifi","bluetooth","wallpapers","launcher","tv"};
         String[] symbols={"apps-outline","wifi-outline","bluetooth-outline","wallpaper-outline","sliders","tv-outline"};
-        String[] labels={tr("Приложения","Applications"),"Wi-Fi","Bluetooth",tr("Обои","Wallpapers"),tr("Настройки SL","SL settings"),tr("Настройки ТВ","TV settings")};
+        String[] labels={tr("Приложения","Applications"),"Wi-Fi","Bluetooth",tr("Обои","Wallpapers"),"Eve Box",tr("Настройки ТВ","TV settings")};
         Runnable[] actions={()->push(Screen.ALL_APPS),()->systemSettings(Settings.ACTION_WIFI_SETTINGS),()->systemSettings(Settings.ACTION_BLUETOOTH_SETTINGS),()->push(Screen.GALLERY),()->push(Screen.SETTINGS),()->systemSettings(Settings.ACTION_SETTINGS)};
         for(int i=0;i<keys.length;i++){
             FrameLayout button=focusBox("shortcut-"+keys[i],52+i*198,HEIGHT+148,186,114,false,actions[i]);
             SymbolView symbol=new SymbolView(this,symbols[i],palette.text);place(button,symbol,77,18,32,32);
             TextView caption=text(button,labels[i],8,60,170,36,18,palette.text,false);caption.setGravity(Gravity.CENTER);caption.setSingleLine(true);
-            button.setContentDescription(labels[i]);
+            button.setContentDescription(i==4?tr("Настройки Eve Box","Eve Box settings"):labels[i]);
         }
         FrameLayout weatherCard=new FrameLayout(this);weatherCard.setTag("home-forecast-card");
         weatherCard.setBackground(glassBackdrop.drawable(weatherCard,glassScene,26,palette.light,true));clipRounded(weatherCard,26);
@@ -1291,7 +1291,7 @@ public final class MainActivity extends Activity {
         sectionTitle(tr("Настройки","Settings"),54,306);
         String[] keys={"apps","wifi","bluetooth","theme","launcher","tv"};
         String[] symbols={"apps","wifi","bluetooth","theme","settings","tv"};
-        String[] labels={tr("Приложения","Applications"),"Wi-Fi","Bluetooth",tr("Оформление","Appearance"),tr("Настройки SL","SL settings"),tr("Настройки ТВ","TV settings")};
+        String[] labels={tr("Приложения","Applications"),"Wi-Fi","Bluetooth",tr("Оформление","Appearance"),"Eve Box",tr("Настройки ТВ","TV settings")};
         Runnable[] actions={()->push(Screen.ALL_APPS),()->systemSettings(Settings.ACTION_WIFI_SETTINGS),
                 ()->systemSettings(Settings.ACTION_BLUETOOTH_SETTINGS),()->push(Screen.APPEARANCE),
                 ()->push(Screen.SETTINGS),()->systemSettings(Settings.ACTION_SETTINGS)};
@@ -1299,14 +1299,14 @@ public final class MainActivity extends Activity {
             FrameLayout button=focusBox("shortcut-"+keys[i],48+i*198,362,190,116,false,actions[i]);
             SymbolView symbol=new SymbolView(this,symbols[i],palette.text); place(button,symbol,79,17,32,32);
             TextView caption=text(button,labels[i],12,50,166,58,19,palette.text,false); caption.setGravity(Gravity.CENTER); caption.setMaxLines(2);
-            button.setContentDescription(labels[i].replace('\n',' '));
+            button.setContentDescription(i==4?tr("Настройки Eve Box","Eve Box settings"):labels[i].replace('\n',' '));
         }
         weatherStrip(board,54,504,1172,true);
     }
 
     private void accessibleDrawer(){
         beginRows(tr("Настройки","Settings"),"");
-        row("shortcut-apps","apps",tr("Приложения","Applications"),"",0,()->push(Screen.ALL_APPS));row("shortcut-wifi","wifi","Wi-Fi","",1,()->systemSettings(Settings.ACTION_WIFI_SETTINGS));row("shortcut-bluetooth","bluetooth","Bluetooth","",2,()->systemSettings(Settings.ACTION_BLUETOOTH_SETTINGS));row("shortcut-theme","theme",tr("Оформление","Appearance"),"",3,()->push(Screen.APPEARANCE));row("shortcut-launcher","settings",tr("Настройки SL","SL settings"),"",4,()->push(Screen.SETTINGS));row("shortcut-tv","tv",tr("Настройки ТВ","TV settings"),"",5,()->systemSettings(Settings.ACTION_SETTINGS));
+        row("shortcut-apps","apps",tr("Приложения","Applications"),"",0,()->push(Screen.ALL_APPS));row("shortcut-wifi","wifi","Wi-Fi","",1,()->systemSettings(Settings.ACTION_WIFI_SETTINGS));row("shortcut-bluetooth","bluetooth","Bluetooth","",2,()->systemSettings(Settings.ACTION_BLUETOOTH_SETTINGS));row("shortcut-theme","theme",tr("Оформление","Appearance"),"",3,()->push(Screen.APPEARANCE));row("shortcut-launcher","settings",tr("Настройки Eve Box","Eve Box settings"),"",4,()->push(Screen.SETTINGS));row("shortcut-tv","tv",tr("Настройки ТВ","TV settings"),"",5,()->systemSettings(Settings.ACTION_SETTINGS));
         if(prefs.weatherEnabled){
             FrameLayout weatherContent=new FrameLayout(this);register(weatherContent,"shortcut-weather");configureFocus(weatherContent,false);
             int height=weatherStrip(weatherContent,20,12,settingsWidth-40,false);settingsRows.addView(weatherContent,new LinearLayout.LayoutParams(-1,height+24));
@@ -1321,14 +1321,14 @@ public final class MainActivity extends Activity {
     private int textWidth(String value,float size){Paint paint=new Paint();paint.setTypeface(textFace(size,false));paint.setTextSize(textPixels(size));return (int)Math.ceil(paint.measureText(value));}
     private Typeface textFace(float size,boolean medium){return size>=32?(medium?typography.displaySemibold:typography.displayMedium):(medium?typography.medium:typography.regular);}
     private void settings() {
-        beginRows(tr("Настройки SL","SL settings"),tr("Оформление, погода и привычные действия пульта.","Appearance, weather and familiar remote actions."));
+        beginRows(tr("Настройки Eve Box","Eve Box settings"),tr("Оформление, погода и привычные действия пульта.","Appearance, weather and familiar remote actions."));
         row("settings-appearance","theme",tr("Оформление","Appearance"),cardFormatName(),0,()->push(Screen.APPEARANCE));
         row("settings-wallpapers","image",tr("Обои","Wallpapers"),backgroundName(prefs.background),1,()->push(Screen.GALLERY));
         row("settings-sources","tv",tr("Рекомендации приложений","App recommendations"),onOff(prefs.recommendationsEnabled),2,()->push(Screen.SOURCES));
         row("settings-weather","weather",tr("Погода","Weather"),prefs.weatherEnabled?prefs.cityName:tr("Выкл.","Off"),1,()->push(Screen.WEATHER));
         row("settings-sounds","sound",tr("Звуки навигации","Navigation sounds"),onOff(prefs.sounds),2,()->{preferences.setSounds(!prefs.sounds);renderPreservingFocus();});
         row("settings-sound-test","sound",tr("Проверить звук","Test sound"),"",3,()->{
-            android.util.Log.i("SoftlumiSound",uiSounds.diagnostics());
+            android.util.Log.i("EveBoxSound",uiSounds.diagnostics());
             if(!prefs.sounds)toast(tr("Включите звуки навигации","Enable navigation sounds"));
             else if(!uiSounds.isReady())toast(tr("Звук загружается. Нажмите ещё раз.","Sound is loading. Press again."));
         });
@@ -1337,11 +1337,11 @@ public final class MainActivity extends Activity {
     private void pageTitle(String title,String description) {
         if(largeText()){
             int backHeight=textHeight(22,1)+8;
-            if(screen==Screen.SETTINGS)text(board,"softlumi",48,20,1184,backHeight,22,palette.ambientMuted,false);else actionLink("page-back",tr("‹ Назад","‹ Back"),48,20,1184,backHeight,this::goBack);
+            if(screen==Screen.SETTINGS)text(board,"Eve Box",48,20,1184,backHeight,22,palette.ambientMuted,false);else actionLink("page-back",tr("‹ Назад","‹ Back"),48,20,1184,backHeight,this::goBack);
             TextView heading=text(board,title.replace('\n',' '),48,96,1184,textHeight(38,1),38,palette.ambientText,true);heading.setSingleLine(true);return;
         }
-        if(screen!=Screen.SETTINGS) actionLink("page-back",screen==Screen.REMOTE_TARGETS?tr("‹ Кнопки пульта","‹ Remote buttons"):screen==Screen.CARD_FORMAT?tr("‹ Оформление","‹ Appearance"):tr("‹ Настройки SL","‹ SL settings"),70,144,392,38,this::goBack);
-        else text(board,"softlumi",70,150,360,34,22,palette.ambientMuted,false);
+        if(screen!=Screen.SETTINGS) actionLink("page-back",screen==Screen.REMOTE_TARGETS?tr("‹ Кнопки пульта","‹ Remote buttons"):screen==Screen.CARD_FORMAT?tr("‹ Оформление","‹ Appearance"):tr("‹ Настройки Eve Box","‹ Eve Box settings"),70,144,392,38,this::goBack);
+        else text(board,"Eve Box",70,150,360,34,22,palette.ambientMuted,false);
         float titleSize=title.length()>22?43:!title.contains("\n")&&title.length()>12?48:58;
         TextView heading=text(board,title,70,202,400,205,titleSize,palette.ambientText,true);
         if(title.contains("\n"))heading.setMaxLines(3);
@@ -1419,12 +1419,12 @@ public final class MainActivity extends Activity {
             case "weather-units":return tr("Авто использует регион системы. Также доступны °C и °F.","Auto uses the system region. You can also choose °C or °F.");
             case "weather-enabled":return tr("Город и прогноз на главном экране и в нижней панели.","City and forecast on Home and in the lower panel.");
             case "advanced-favorites":return tr("До восьми приложений. Удерживайте OK для изменения порядка.","Up to eight applications. Hold OK to reorder.");
-            case "advanced-language":return tr("Язык интерфейса softlumi.","softlumi interface language.");
+            case "advanced-language":return tr("Язык интерфейса Eve Box.","Eve Box interface language.");
             case "advanced-remote":return tr("Выбор приложений для Netflix и Prime Video на пульте Xiaomi.","Choose applications for the Xiaomi remote's Netflix and Prime Video buttons.");
             case "remote-enabled":return tr("Для пульта Xiaomi Mi Box S 3. Требуется доступ в Android. HOME, питание и сон не меняются.","For the Xiaomi Mi Box S 3 remote. Requires Android access. Home, power and sleep stay unchanged.");
-            case "remote-access":return RemoteButtonService.isLegacyRemapperEnabled(this)?tr("Выключи кнопки FreeMyTV и включи «Кнопки пульта softlumi» в Android.","Disable FreeMyTV button remapping, then enable softlumi Remote buttons in Android."):tr("Включи «Кнопки пульта softlumi» в специальных возможностях Android.","Enable softlumi Remote buttons in Android Accessibility settings.");
+            case "remote-access":return RemoteButtonService.isLegacyRemapperEnabled(this)?tr("Выключи кнопки FreeMyTV и включи «Кнопки пульта Eve Box» в Android.","Disable FreeMyTV button remapping, then enable Eve Box remote buttons in Android."):tr("Включи «Кнопки пульта Eve Box» в специальных возможностях Android.","Enable Eve Box remote buttons in Android Accessibility settings.");
             case "remote-netflix":case "remote-prime":return tr("Выбери приложение или стандартное действие. Если приложение недоступно, кнопка работает как прежде.","Choose an app or the original action. If the app is unavailable, the button keeps its original action.");
-            case "advanced-watch-permission":return tr("Разрешите softlumi читать системные записи продолжения просмотра. Если Android больше не показывает запрос, откройте разрешения приложения.","Allow softlumi to read system continue-watching entries. If Android no longer shows a prompt, open the app's permissions.");
+            case "advanced-watch-permission":return tr("Разрешите Eve Box читать системные записи продолжения просмотра. Если Android больше не показывает запрос, откройте разрешения приложения.","Allow Eve Box to read system continue-watching entries. If Android no longer shows a prompt, open the app's permissions.");
             default:return "";
         }
     }
@@ -1730,7 +1730,7 @@ public final class MainActivity extends Activity {
         if(!allowed)toast(tr("Нет доступа к продолжению просмотра. Его можно разрешить в настройках Android.","No access to continue-watching entries. You can allow it in Android settings."));
     }
     private void languages() {
-        beginRows(tr("Язык","Language"),tr("Язык интерфейса softlumi.","softlumi interface language."));String[] codes={"system","ru","en"};String[] names={tr("Системный","System"),"Русский","English"};
+        beginRows(tr("Язык","Language"),tr("Язык интерфейса Eve Box.","Eve Box interface language."));String[] codes={"system","ru","en"};String[] names={tr("Системный","System"),"Русский","English"};
         for(int i=0;i<codes.length;i++){String code=codes[i];row("language-"+code,"language",names[i],prefs.language.equals(code)?"✓":"",i,()->{preferences.setLanguage(code);renderPreservingFocus();});}
     }
 
@@ -1759,7 +1759,7 @@ public final class MainActivity extends Activity {
         }}
     }
     private void appOptions(){
-        AppEntry app=appsById.get(managedAppId);beginRows(app==null?tr("Приложение","Application"):displayName(app),tr("Изменения действуют только внутри softlumi.","Changes apply only inside softlumi."));
+        AppEntry app=appsById.get(managedAppId);beginRows(app==null?tr("Приложение","Application"):displayName(app),tr("Изменения действуют только внутри Eve Box.","Changes apply only inside Eve Box."));
         if(app==null){rowNote(tr("Приложение недоступно","Application unavailable"));return;}
         row("app-visibility","apps",prefs.hiddenPackages.contains(app.packageName)?tr("Показать приложение","Show application"):tr("Скрыть приложение","Hide application"),"",0,()->{preferences.setPackageHidden(app.packageName,!prefs.hiddenPackages.contains(app.packageName));renderPreservingFocus();});
         row("app-rename","language",tr("Название в лаунчере","Launcher name"),displayName(app),1,()->push(Screen.RENAME_APP));
@@ -1772,7 +1772,7 @@ public final class MainActivity extends Activity {
     }
     private void backupSettings(){
         beginRows(tr("Резервная копия","Settings backup"),tr("Сохранение и восстановление настроек через выбранный файл.","Save and restore settings using a chosen file."));
-        row("backup-export","image",tr("Экспорт настроек","Export settings"),"",0,()->{try{pendingExportJson=SettingsBackup.exportJson(preferences.read());Intent intent=new Intent(Intent.ACTION_CREATE_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType("application/json").putExtra(Intent.EXTRA_TITLE,"softlumi-settings.json");startActivityForResult(intent,EXPORT_SETTINGS);}catch(IllegalArgumentException|ActivityNotFoundException|SecurityException e){toast(tr("Не удалось подготовить файл настроек","Unable to prepare settings file"));}});
+        row("backup-export","image",tr("Экспорт настроек","Export settings"),"",0,()->{try{pendingExportJson=SettingsBackup.exportJson(preferences.read());Intent intent=new Intent(Intent.ACTION_CREATE_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType("application/json").putExtra(Intent.EXTRA_TITLE,"eve-box-settings.json");startActivityForResult(intent,EXPORT_SETTINGS);}catch(IllegalArgumentException|ActivityNotFoundException|SecurityException e){toast(tr("Не удалось подготовить файл настроек","Unable to prepare settings file"));}});
         row("backup-import","apps",tr("Импорт настроек","Import settings"),"",1,()->pickDocument("application/json",IMPORT_SETTINGS));rowNote(tr("Перед применением появится проверенное описание изменений. История просмотра, кэш и разрешения устройства в файл не включаются.","You will review validated changes before applying them. Viewing history, caches and device permissions are not included."));if(!backupError.isEmpty())rowNote(backupError);
     }
     private void backupPreview(){
@@ -1854,7 +1854,7 @@ public final class MainActivity extends Activity {
     }
     private void selectRemoteTarget(String packageName){if(remotePreferences.setPackage(remoteEditingButton,packageName))goBack();}
     private void about() {
-        beginRows(tr("О приложении","About"),"softlumi");rowNote("softlumi  "+appVersion());
+        beginRows(tr("О приложении","About"),"Eve Box");rowNote("Eve Box  "+appVersion());
         rowNote(tr("Самостоятельный Android TV лаунчер.\nБез телеметрии. Избранное и настройки хранятся на устройстве.\n\nПогода: Open-Meteo и MET Norway (CC BY 4.0). Города: GeoNames. Продолжение просмотра: доступные системные записи.\n\nШрифт: Inter Variable (SIL OFL 1.1).","An independent Android TV launcher.\nNo telemetry. Favorites and settings stay on the device.\n\nWeather: Open-Meteo and MET Norway (CC BY 4.0). Cities: GeoNames. Continue watching: available system entries.\n\nFont: Inter Variable (SIL OFL 1.1)."));
         row("about-weather","info","Open-Meteo ↗","",0,()->openUrl("https://open-meteo.com/"));row("about-met","info","MET Norway ↗","",1,()->openUrl("https://api.met.no/"));
     }

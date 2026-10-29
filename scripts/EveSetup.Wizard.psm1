@@ -220,12 +220,11 @@ function Assert-EveNoPendingJournal($Backend, [string]$Root, $Identity) {
         }
     }
 }
-function Show-EvePlan($Plan, [string]$Path) {
+function Show-EvePlan($Plan, [string]$Path, $Release) {
     Write-Host ''
-    Write-Host 'План установки EVE-BOX'
+    Write-Host 'План установки Eve Box'
     Write-Host ('  Приставка: {0}, Android API {1}, {2}' -f $Plan.target.model, $Plan.target.sdkInt, $Plan.target.serial)
-    Write-Host ('  APK: softlumi 0.3.0-candidate.14 (code {0}).' -f $Plan.apk.versionCode)
-    Write-Host '  Название установленного приложения пока остаётся softlumi.'
+    Write-Host ('  APK: Eve Box {0} (code {1}).' -f $Release.apk.versionName, $Plan.apk.versionCode)
     if ($Plan.before.soft.installed) { Write-Host ('  Обновление code {0} → {1}; данные приложения сохраняются.' -f $Plan.before.soft.versionCode, $Plan.apk.versionCode) }
     else { Write-Host '  Новая установка приложения.' }
     if ($Plan.selection.setHome) { Write-Host ('  HOME: {0} → io.github.ekkzy.softlumi/io.github.ekkzy.softlumi.MainActivity' -f $Plan.before.homeComponent) }
@@ -304,7 +303,7 @@ function Invoke-EveSetupWizard([hashtable]$Options) {
         $root = Get-EveLocalRoot $Options.KitRoot
         $backend = Import-Module (Join-Path $PSScriptRoot 'TvSetup.Common.psm1') -Force -PassThru -DisableNameChecking
         $adbPath = Resolve-EveAdb $Options.AdbPath $root
-        Write-Host 'EVE-BOX — установка и возврат настроек'
+        Write-Host 'Eve Box — установка и возврат настроек'
         if ($Options.Mode -in @('Inspect', 'Restore')) {
             $journalPath = [string]$Options.JournalPath
             if (!$journalPath) { $journalPath = [string](Read-Host 'Путь к сохранённому setup-journal.json; пусто — отмена') }
@@ -336,8 +335,8 @@ function Invoke-EveSetupWizard([hashtable]$Options) {
             return [pscustomobject]@{ status = 'Restored'; journalPath = $journalPath }
         }
 
-        $release = & $backend { Get-TvPinnedReleaseInfo -ReleaseId 'candidate.14' }
-        Assert-EveCondition ($release.releaseId -ceq 'candidate.14' -and $release.recordVersion -eq 1) 'unsupported_pinned_release'
+        $release = & $backend { Get-TvPinnedReleaseInfo -ReleaseId 'candidate.15' }
+        Assert-EveCondition ($release.releaseId -ceq 'candidate.15' -and $release.recordVersion -eq 1) 'unsupported_pinned_release'
         Assert-EveCondition ([IO.Path]::GetFileName([string]$release.apk.file) -ceq $release.apk.file) 'invalid_pinned_apk_filename'
         $apkPath = Join-Path $root $release.apk.file
         $apkFile = Get-Item -LiteralPath $apkPath -ErrorAction Stop
@@ -359,10 +358,10 @@ function Invoke-EveSetupWizard([hashtable]$Options) {
         if ($exactProfile.Count -eq 1) {
             $profile = $exactProfile[0]
             Write-Host 'Найден точный профиль Mi Box S 3 для этой прошивки.'
-            $setHome = Read-EveYesNo 'Назначить EVE-BOX основным экраном HOME?'
+            $setHome = Read-EveYesNo 'Назначить Eve Box основным экраном HOME?'
             if ($setHome) {
                 Write-Host 'Google TV Home можно отключить отдельно. Он станет недоступен до возврата настроек; данные не удаляются.'
-                $disableStock = Read-EveYesNo 'Отключить Google TV Home при переходе на EVE-BOX?'
+                $disableStock = Read-EveYesNo 'Отключить Google TV Home при переходе на Eve Box?'
             }
             $available = @()
             foreach ($entry in @($profile.packages | Where-Object { $_.role -ceq 'optional' })) {
@@ -389,13 +388,13 @@ function Invoke-EveSetupWizard([hashtable]$Options) {
         $planPath = Join-Path $transactionRoot 'setup-plan.json'
         $journalPath = Join-Path $transactionRoot 'setup-journal.json'
         $backendOptions = New-EveBackendOptions $identity $adbPath
-        $backendOptions.PinnedRelease = 'candidate.14'; $backendOptions.Apk = $apkPath; $backendOptions.ProfileId = $profile.id
+        $backendOptions.PinnedRelease = $release.releaseId; $backendOptions.Apk = $apkPath; $backendOptions.ProfileId = $profile.id
         $backendOptions.SetHome = $setHome; $backendOptions.DisableStockHome = $disableStock; $backendOptions.DisablePackages = @($selectedPackages)
         $backendOptions.PlanPath = $planPath; $backendOptions.JournalPath = $journalPath
         [void](Invoke-EveBackend $backend 'Plan' $backendOptions)
         $loadedPlan = Read-EveLocalJson $backend $planPath
         $planHash = $loadedPlan.Sha256
-        Show-EvePlan $loadedPlan.Value $planPath
+        Show-EvePlan $loadedPlan.Value $planPath $release
         if ($Options.PreviewOnly) {
             Write-Host 'Только предварительный просмотр. Установка и изменения на приставке не выполнялись.'
             return [pscustomobject]@{ status = 'Previewed'; planPath = $planPath; planSha256 = $planHash }

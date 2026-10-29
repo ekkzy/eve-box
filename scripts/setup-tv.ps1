@@ -1,7 +1,7 @@
 #requires -Version 5.1
 <#
 .SYNOPSIS
-Plans, applies, inspects, or restores a reviewed softlumi TV setup transaction.
+Plans, applies, inspects, or restores a reviewed Eve Box TV setup transaction.
 .DESCRIPTION
 Plan and Inspect run only read-only device commands. Apply requires the SHA-256
 of the exact saved plan. No arbitrary package commands, downloads, uninstall,
@@ -21,7 +21,7 @@ param(
     [string]$Apk = '',
     [string]$ApkSha256 = '',
     [string]$SigningCertSha256 = '',
-    [AllowEmptyString()][ValidateSet('', 'candidate.14')][string]$PinnedRelease = '',
+    [AllowEmptyString()][ValidateSet('', 'candidate.14', 'candidate.15')][string]$PinnedRelease = '',
     [string]$ApkSignerPath = 'apksigner',
     [string]$AaptPath = 'aapt',
     [ValidateSet('generic-install-only', 'mi-box-s3-android14')][string]$ProfileId = 'generic-install-only',
@@ -46,6 +46,6 @@ try {
     Invoke-TvSetup $Mode $options
     exit 0
 } catch {
-    [Console]::Error.WriteLine('softlumi setup: ' + $_.Exception.Message)
+    [Console]::Error.WriteLine('Eve Box setup: ' + $_.Exception.Message)
     exit 1
 }

@@ -2,7 +2,7 @@
 
 [English](building.en.md) · [На главную](../README.md)
 
-softlumi написан на Java и native Android Views. Для сборки нужны JDK 17,
+Eve Box написан на Java и native Android Views. Для сборки нужны JDK 17,
 Android SDK Platform 35 и Build Tools 35.0.0. Репозиторий фиксирует Android
 Gradle Plugin 8.9.2 и Gradle Wrapper 8.11.1. Минимальная версия Android — 8.0
 (API 26), target SDK — 35.

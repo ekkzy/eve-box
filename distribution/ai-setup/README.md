@@ -1,7 +1,7 @@
-# EVE-BOX: установка с ИИ-помощником
+# Eve Box: установка с ИИ-помощником
 
 Для установки с ИИ используется общий
-[EVE-BOX-setup-candidate.14.zip](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.3/EVE-BOX-setup-candidate.14.zip)
+[Eve-Box-setup-candidate.15.zip](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.15-setup.1/Eve-Box-setup-candidate.15.zip)
 и команда `install.cmd`. Отдельный AI-архив больше не нужен.
 
 Распакуй ZIP, открой его папку в помощнике с локальным терминалом Windows
@@ -10,8 +10,8 @@
 Выбор действий и подтверждение конкретного плана вводишь ты.
 Нужны Windows и Platform-Tools с ADB; Java и SDK Build-Tools не требуются.
 
-По умолчанию устанавливается и открывается softlumi `0.3.0-candidate.14`
-/ code 35 с сохранением данных. Смена HOME и отключение приложений — отдельный
+По умолчанию устанавливается и открывается Eve Box `0.3.0-candidate.15`
+/ code 36 с сохранением данных. Смена HOME и отключение приложений — отдельный
 выбор, доступный только для точной поддерживаемой прошивки Mi Box S 3.
 Возврат по журналу восстанавливает записанные HOME и пакеты, сохраняя APK
 и данные. Если результат установки неизвестен, сначала нужен разбор состояния.

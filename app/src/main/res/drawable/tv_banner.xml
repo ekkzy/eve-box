@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- TV launcher banner has a 16:9 320×180 canvas; this static vector is never animated. -->
-<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" tools:ignore="VectorRaster" android:width="320dp" android:height="180dp" android:viewportWidth="320" android:viewportHeight="180">
-    <path android:fillColor="#10213A" android:pathData="M0,0H320V180H0Z"/>
-    <path android:fillColor="#DFE9F5" android:pathData="M239,26C207,23 191,48 203,71C216,94 249,87 256,65C230,76 216,48 239,26Z"/>
-    <path android:fillColor="#3F5875" android:pathData="M0,128L61,58L108,108L170,45L224,112L270,73L320,126V180H0Z"/>
-    <path android:fillColor="#A2B8CF" android:pathData="M143,77L170,45L199,80L175,67L168,74L160,65Z"/>
-    <path android:fillColor="#162F49" android:pathData="M0,127H320V180H0Z"/>
-    <path android:fillColor="#839DB9" android:pathData="M70,143H250V146H70ZM109,156H218V158H109Z"/>
-</vector>
+<!-- Unmodified 320x180 TV banner from the owner's Eve Box brand kit. -->
+<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+    android:src="@drawable/eve_box_tv_banner" android:gravity="fill" android:filter="true" />

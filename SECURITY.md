@@ -46,9 +46,9 @@ affects an older build.
 
 ## One-command Windows setup
 
-The [EVE-BOX wizard](docs/one-command-setup-ru.md) uses the same local
+The [Eve Box wizard](docs/one-command-setup-ru.md) uses the same local
 Plan/Apply/Inspect/Restore backend with explicit device and app selection.
-Its pinned release mode accepts only the exact publisher-verified APK35 and
+Its pinned release mode accepts only the exact publisher-verified APK36 and
 profile bytes. The client verifies their size/hash without Java or Build-Tools;
 signature and package metadata were checked before packaging. Download the
 whole kit from a trusted source: APK pinning cannot authenticate a replaced script.

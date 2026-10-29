@@ -2,7 +2,7 @@
 
 [Русский](privacy.md) · [Home](../README.en.md)
 
-softlumi has no accounts, ads, analytics, automatic crash uploads or
+Eve Box has no accounts, ads, analytics, automatic crash uploads or
 project-operated server.
 
 ## Data on the device
@@ -13,7 +13,7 @@ Weather is cached locally. TV cards and their artwork are cached in memory.
 Android system backup is disabled in the manifest.
 
 Continue watching and recommendations are read from the Android TV provider
-when permission is available. softlumi does not write provider data or upload
+when permission is available. Eve Box does not write provider data or upload
 cards to a server. Recommendations are off by default: you select source apps,
 and Home loads publications for the active tab. This does not connect accounts
 or access a service's private viewing history.
@@ -34,7 +34,7 @@ the recommendation cache before a result is shown.
   further behavior follows its own policies.
 
 Weather is enabled by choosing a city and can be turned off in settings.
-There is no softlumi background or logo download catalog: backgrounds ship
+There is no Eve Box background or logo download catalog: backgrounds ship
 with the app; logos use the licensed bundled set or installed-app resources.
 
 ## Export and optional access
@@ -50,7 +50,7 @@ enables it in Android. It handles only two supported Xiaomi button codes,
 does not request screen content, record input or send it over the network.
 Home works without this service.
 
-Clearing softlumi's data or uninstalling it removes its local settings and
+Clearing Eve Box's data or uninstalling it removes its local settings and
 cache. It does not delete another app's history. Delete deliberately exported
 JSON files separately.
 

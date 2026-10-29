@@ -6,7 +6,7 @@
 подготовки отдельного файла плана и его применения по одобренному SHA-256.
 
 Команды ниже выполняются из корня распакованного
-[EVE-BOX-setup-candidate.14.zip](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.3/EVE-BOX-setup-candidate.14.zip).
+[Eve-Box-setup-candidate.15.zip](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.15-setup.1/Eve-Box-setup-candidate.15.zip).
 Нужны Windows PowerShell 5.1 или PowerShell 7, доверенные
 [Platform-Tools](https://developer.android.com/tools/releases/platform-tools),
 [Build-Tools](https://developer.android.com/tools/releases/build-tools)
@@ -17,7 +17,7 @@
 ## Подготовка плана
 
 Сверь источник и файлы комплекта с `manifest.json` и
-[SHA256SUMS.txt](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.3/SHA256SUMS.txt).
+[SHA256SUMS.txt](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.15-setup.1/SHA256SUMS.txt).
 Метаданные содержат ожидаемые package, версию, SHA-256 APK и сертификата.
 Хеш неизвестного файла сам по себе не подтверждает доверие к издателю.
 
@@ -52,7 +52,7 @@ $setupApprovedSha = (Get-FileHash $setupPlan -Algorithm SHA256).Hash.ToLowerInva
 [профиль Mi Box S 3](../scripts/setup-profiles/mi-box-s3-android14.json).
 В команду **Plan** можно явно добавить:
 
-- `-ProfileId mi-box-s3-android14 -SetHome` — назначить softlumi домашним экраном;
+- `-ProfileId mi-box-s3-android14 -SetHome` — назначить Eve Box домашним экраном;
 - `-DisableStockHome` — отключить Google TV Home; требует `-SetHome`;
 - `-DisablePackages` — массив точных имён выбранных необязательных пакетов профиля.
 

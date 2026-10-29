@@ -34,7 +34,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 /** Same-process, explicit-opt-in filtering for the supported remote's two application buttons. */
 public final class RemoteButtonService extends AccessibilityService {
-    private static final String TAG = "SoftlumiRemote";
+    private static final String TAG = "EveBoxRemote";
     private static final ComponentName LEGACY_SERVICE = new ComponentName("io.freemytv", "io.freemytv.RemoteKeyService");
     private static volatile WeakReference<RemoteButtonService> current = new WeakReference<>(null);
     private final Handler main = new Handler(Looper.getMainLooper());
@@ -74,7 +74,7 @@ public final class RemoteButtonService extends AccessibilityService {
         app = getApplicationContext(); power = app.getSystemService(PowerManager.class);
         preferences = new RemoteButtonPreferences(app);
         resolver = new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<>(1), runnable -> {
-            Thread worker = new Thread(runnable, "softlumi-remote-targets"); worker.setDaemon(true); return worker;
+            Thread worker = new Thread(runnable, "eve-box-remote-targets"); worker.setDaemon(true); return worker;
         }, new ThreadPoolExecutor.AbortPolicy());
         connected = true; current = new WeakReference<>(this);
         preferences.registerListener(preferenceListener);

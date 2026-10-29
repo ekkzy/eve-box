@@ -1,6 +1,6 @@
-# EVE-BOX: установка с ИИ-помощником
+# Eve Box: установка с ИИ-помощником
 
-[Все способы установки](https://github.com/ekkzy/softlumi/blob/main/docs/installation.md) · [English](ai-setup.md)
+[Все способы установки](https://github.com/ekkzy/eve-box/blob/main/docs/installation.md) · [English](ai-setup.md)
 
 Помощник проверит комплект, поможет подключить приставку и запустить
 тот же Windows-мастер, что используется для
@@ -10,8 +10,8 @@
 
 ## Как начать
 
-1. Скачай [EVE-BOX-setup-candidate.14.zip](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.3/EVE-BOX-setup-candidate.14.zip)
-   из [выпуска setup.3](https://github.com/ekkzy/softlumi/releases/tag/v0.3.0-candidate.14-setup.3)
+1. Скачай [Eve-Box-setup-candidate.15.zip](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.15-setup.1/Eve-Box-setup-candidate.15.zip)
+   из [выпуска candidate.15-setup.1](https://github.com/ekkzy/eve-box/releases/tag/v0.3.0-candidate.15-setup.1)
    и полностью распакуй в отдельную локальную папку, доступную для записи.
 2. Открой эту папку в помощнике и передай ему
    [готовый запрос](installation-prompt-ru.md).
@@ -38,8 +38,9 @@
 ## Что изменится
 
 По умолчанию мастер только устанавливает и открывает приложение.
-В этом выпуске оно ещё называется **softlumi 0.3.0-candidate.14 / code 35**;
-package и подпись прежние. Совместимое обновление сохраняет данные.
+В этом выпуске оно называется **Eve Box 0.3.0-candidate.15 / code 36**.
+Пакет `io.github.ekkzy.softlumi` и подпись сохранены для совместимого
+обновления с прежними данными.
 
 Назначение домашнего экрана HOME и отключение приложений выбираются отдельно.
 Они доступны только при точном совпадении модели, Android API и прошивки
@@ -50,7 +51,7 @@ package и подпись прежние. Совместимое обновле�
 Мастер принимает только закреплённый APK выпуска. Подпись этого файла проверена
 при подготовке комплекта; на твоём компьютере проверяются его размер и SHA-256.
 Помощник должен сверить источник и комплект с
-[SHA256SUMS.txt](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.3/SHA256SUMS.txt)
+[SHA256SUMS.txt](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.15-setup.1/SHA256SUMS.txt)
 и `manifest.json`. Совпадение хеша не делает неизвестный источник доверенным.
 
 ## Проверка и возврат

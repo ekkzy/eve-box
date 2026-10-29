@@ -80,7 +80,7 @@ public final class UiImageLoader {
     private final Context app;
     private final Handler main=new Handler(Looper.getMainLooper());
     private final ThreadPoolExecutor io=new ThreadPoolExecutor(2,2,20,TimeUnit.SECONDS,new ArrayBlockingQueue<>(24),task->
-            new Thread(()->{Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);task.run();},"softlumi-artwork"),new ThreadPoolExecutor.AbortPolicy());
+            new Thread(()->{Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);task.run();},"eve-box-artwork"),new ThreadPoolExecutor.AbortPolicy());
     private final ScheduledExecutorService timeouts=Executors.newScheduledThreadPool(1);
     private final Map<String,Job> jobs=new LinkedHashMap<>();
     private final LruCache<String,Bitmap> cache=new LruCache<String,Bitmap>(12*1024*1024){

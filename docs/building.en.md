@@ -2,7 +2,7 @@
 
 [Русский](building.md) · [Home](../README.en.md)
 
-softlumi uses Java and native Android Views. Install JDK 17, Android SDK
+Eve Box uses Java and native Android Views. Install JDK 17, Android SDK
 Platform 35 and Build Tools 35.0.0. The repository pins Android Gradle Plugin
 8.9.2 and Gradle Wrapper 8.11.1. Minimum Android version is 8.0 (API 26);
 target SDK is 35.

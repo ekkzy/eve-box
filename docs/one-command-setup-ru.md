@@ -1,17 +1,16 @@
-# EVE-BOX: установка одной командой
+# Eve Box: установка одной командой
 
-[Все способы установки](https://github.com/ekkzy/softlumi/blob/main/docs/installation.md)
+[Все способы установки](https://github.com/ekkzy/eve-box/blob/main/docs/installation.md)
 
 Windows-мастер устанавливает лаунчер через ADB, показывает план и выполняет
 его после твоего подтверждения. ИИ, Java, Android Studio и SDK Build-Tools
 для этого комплекта не нужны.
 
-Скачай [EVE-BOX-setup-candidate.14.zip](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.3/EVE-BOX-setup-candidate.14.zip)
-из [выпуска setup.3](https://github.com/ekkzy/softlumi/releases/tag/v0.3.0-candidate.14-setup.3).
-EVE-BOX — новое имя проекта, но
-установленное приложение этого выпуска пока называется
-**softlumi 0.3.0-candidate.14 / code 35**. Package и ключ подписи прежние;
-совместимое обновление сохраняет данные существующего softlumi.
+Скачай [Eve-Box-setup-candidate.15.zip](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.15-setup.1/Eve-Box-setup-candidate.15.zip)
+из [выпуска candidate.15-setup.1](https://github.com/ekkzy/eve-box/releases/tag/v0.3.0-candidate.15-setup.1).
+Приложение этого выпуска — **Eve Box 0.3.0-candidate.15 / code 36**.
+Пакет `io.github.ekkzy.softlumi` и ключ подписи сохранены для совместимого
+обновления с прежними данными.
 
 ## Запуск
 
@@ -60,7 +59,7 @@ EVE-BOX — новое имя проекта, но
 
 В точном профиле можно отдельно выбрать:
 
-- назначить softlumi домашним экраном HOME;
+- назначить Eve Box домашним экраном HOME;
 - отключить Google TV Home вместе с переходом HOME;
 - отключить установленные необязательные приложения из списка: Netflix,
   Prime Video, YouTube Music, Google Play Games, Mi Music, Xiaomi analytics
@@ -127,12 +126,12 @@ analytics не отключает телеметрию других прилож
 
 ## Проверенный APK и приватность
 
-Мастер принимает только точные байты APK35, закреплённые в коде установщика.
+Мастер принимает только точные байты APK36, закреплённые в коде установщика.
 Подпись и метаданные этого файла проверяются при подготовке выпуска;
 на компьютере пользователя проверяются размер и встроенный SHA-256.
 Другой APK или изменённый профиль не будут приняты. Скачивай комплект
 из доверенного выпуска и сверяй
-[SHA256SUMS.txt](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.3/SHA256SUMS.txt):
+[SHA256SUMS.txt](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.15-setup.1/SHA256SUMS.txt):
 проверка APK не защищает от подмены самого установщика.
 
 Планы и журналы содержат адресат, прошивку, HOME и состояния пакетов.

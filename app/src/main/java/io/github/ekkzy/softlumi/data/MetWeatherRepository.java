@@ -155,7 +155,7 @@ public final class MetWeatherRepository implements WeatherRepository.Fallback {
         String version = "development";
         try { version = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName; }
         catch (Exception unavailable) { /* The application/package identity remains truthful. */ }
-        return "softlumi/" + safeHeader(version) + " (" + safeHeader(context.getPackageName()) + "; Android TV launcher)";
+        return "Eve-Box/" + safeHeader(version) + " (" + safeHeader(context.getPackageName()) + "; Android TV launcher)";
     }
     private static String safeHeader(String value) {
         if (value == null || value.length() > 256 || value.indexOf('\r') >= 0 || value.indexOf('\n') >= 0) return "";

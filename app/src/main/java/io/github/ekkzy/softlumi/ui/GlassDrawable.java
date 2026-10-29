@@ -240,7 +240,7 @@ public final class GlassDrawable extends Drawable implements View.OnAttachStateC
     /** API 26 fallback never constructs these graphics objects. */
     @android.annotation.TargetApi(31)
     private static final class Api31 implements Gpu {
-        private final RenderNode node = new RenderNode("softlumi rectangular live blur");
+        private final RenderNode node = new RenderNode("Eve Box rectangular live blur");
         private final Matrix transform = new Matrix();
         private final float[] values = new float[9];
         private RenderNode sharedSource;

@@ -449,7 +449,7 @@ public final class RecommendationsSession implements AutoCloseable {
     private static ExecutorService newExecutor() {
         AtomicInteger sequence = new AtomicInteger();
         return new ThreadPoolExecutor(2, 2, 0L, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<>(2), task ->
-                new Thread(task, "softlumi-recommendations-" + sequence.incrementAndGet()));
+                new Thread(task, "eve-box-recommendations-" + sequence.incrementAndGet()));
     }
     private static void requireMain() { if (Looper.myLooper() != Looper.getMainLooper()) throw new IllegalStateException("Activity must own this session on main"); }
     private static final class Run {

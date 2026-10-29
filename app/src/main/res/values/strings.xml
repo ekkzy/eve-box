@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">softlumi</string>
-    <string name="remote_button_service_label">softlumi remote buttons</string>
+    <string name="app_name" translatable="false">Eve Box</string>
+    <string name="remote_button_service_label">Eve Box remote buttons</string>
     <string name="remote_button_service_summary">Optional shortcuts for two supported remote buttons</string>
-    <string name="remote_button_service_description">Opens the apps you choose with two supported remote buttons. Processes button events only and does not read screen content. Enable manually in Android Accessibility settings and turn on the option in softlumi.</string>
+    <string name="remote_button_service_description">Opens the apps you choose with two supported remote buttons. Processes button events only and does not read screen content. Enable manually in Android Accessibility settings and turn on the option in Eve Box.</string>
 </resources>

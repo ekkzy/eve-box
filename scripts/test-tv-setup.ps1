@@ -184,6 +184,15 @@ try {
         Assert-That ((Get-Content -LiteralPath $statePath -Raw) -ceq $before) 'Plan changed fixture state.'
         Assert-That (!(Test-Path -LiteralPath $journalPath)) 'Plan wrote a mutation journal.'
     }
+    Test-Case 'plan-shows-current-brand-with-unchanged-profile' {
+        $before=Get-Content -LiteralPath $statePath -Raw
+        $r=Invoke-Setup (Plan-Parameters @{ProfileId='mi-box-s3-android14';SetHome=$true;DisableStockHome=$true})
+        Assert-That ($r.Code -eq 0) $r.Output
+        Assert-That ($r.Output.Contains('explicitly requested Eve Box Home plan') -and !$r.Output.Contains('explicitly requested softlumi Home plan')) 'Plan showed the legacy product name.'
+        $plan=Read-Json $planPath
+        Assert-That ($plan.profile.sha256 -ceq 'aa96437b52c2078be2366926066659a5dbd1e6fb6692a8582b0718c1ff8707ac') 'Display formatting changed the pinned profile.'
+        Assert-That (@(Get-Mutations).Count -eq 0 -and (Get-Content -LiteralPath $statePath -Raw) -ceq $before -and !(Test-Path -LiteralPath $journalPath)) 'Display formatting changed read-only Plan behavior.'
+    }
     Test-Case 'explicit-target-required' {
         $p=Plan-Parameters; $p.Remove('Serial'); $r=Invoke-Setup $p
         Assert-RefusedWithoutMutation $r

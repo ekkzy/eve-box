@@ -302,7 +302,7 @@ public final class ChannelProbeSession implements AutoCloseable {
         AtomicInteger sequence = new AtomicInteger();
         // The second fixed worker only prevents cooperative cancellation from blocking UI/query exit.
         return new ThreadPoolExecutor(2, 2, 0L, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<>(2), task ->
-                new Thread(task, "softlumi-channel-probe-" + sequence.incrementAndGet()));
+                new Thread(task, "eve-box-channel-probe-" + sequence.incrementAndGet()));
     }
 
     private static void requireMain() {

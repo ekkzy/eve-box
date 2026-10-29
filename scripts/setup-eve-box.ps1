@@ -1,7 +1,7 @@
 ﻿#requires -Version 5.1
 <#
 .SYNOPSIS
-Interactive Windows installer for the pinned EVE-BOX setup kit.
+Interactive Windows installer for the pinned Eve Box setup kit.
 .DESCRIPTION
 Uses the existing TV setup transaction backend. No downloads or automatic
 approvals. PreviewOnly creates a read-only plan; Inspect never changes the TV.
@@ -31,6 +31,6 @@ try {
     if ($result.status -eq 'Failed') { exit 1 }
     exit 0
 } catch {
-    [Console]::Error.WriteLine('EVE-BOX: ' + $_.Exception.Message)
+    [Console]::Error.WriteLine('Eve Box: ' + $_.Exception.Message)
     exit 1
 }

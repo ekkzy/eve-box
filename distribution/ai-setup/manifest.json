@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "releaseTag": "v0.3.0-candidate.14-setup.3",
-  "channel": "public-prerelease",
-  "name": "EVE-BOX setup",
+  "releaseTag": "v0.3.0-candidate.15-setup.1",
+  "channel": "private-prerelease",
+  "name": "Eve Box setup",
   "host": "Windows PowerShell 5.1 / PowerShell 7 on Windows",
   "apk": {
-    "file": "softlumi-0.3.0-candidate.14.apk",
+    "file": "Eve-Box-0.3.0-candidate.15.apk",
     "package": "io.github.ekkzy.softlumi",
-    "versionName": "0.3.0-candidate.14",
-    "versionCode": 35,
-    "bytes": 47030664,
-    "sha256": "9f6787ba2badeb63c067eabc1153e2545773cadd9adfe024c5e1eaa6a5f556a6",
+    "versionName": "0.3.0-candidate.15",
+    "versionCode": 36,
+    "bytes": 47129158,
+    "sha256": "05acbffb15ed3234d42720b69d26d237df66fd22c775686ab313240fbdb04d98",
     "signingCertSha256": "0774ab7eed2656fcd295934cefe672e89e9bbb8e99f3fb4febc40d6f646d96c6"
   },
   "guide": "docs/one-command-setup-ru.md",
@@ -22,49 +22,54 @@
       "sha256": "12b46272a8ef6951128df49d1c4ba21d300f98264d1bcfc5a4b99fa7e942f2e5"
     },
     {
+      "path": "Eve-Box-0.3.0-candidate.15.apk",
+      "bytes": 47129158,
+      "sha256": "05acbffb15ed3234d42720b69d26d237df66fd22c775686ab313240fbdb04d98"
+    },
+    {
       "path": "LICENSE",
       "bytes": 1078,
       "sha256": "408b035569da2f1862c2b03fc59700ea66921dd42a3abfadfc78759dd201fa65"
     },
     {
       "path": "README.md",
-      "bytes": 1554,
-      "sha256": "7b601eefa67719fa686e0405fb66e6d0973a500f0fac48965578e5079610ec54"
+      "bytes": 1547,
+      "sha256": "d4e706b4009c5bca565b1a696f09a6f613ee80152c2674f8c1bc327f1767bbf3"
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
-      "bytes": 5225,
-      "sha256": "b5fcd38120e6f2178b499c66dbc9452c2652e96504a91ead097b244a4d97bcf1"
+      "bytes": 5643,
+      "sha256": "d8088178226abcdb27f99439a4ea3445dd601a32679655b636f81c6e95996738"
     },
     {
       "path": "docs/advanced-setup.md",
-      "bytes": 8515,
-      "sha256": "af4250399e98dad81fbe6dee9f9f5c2404554efb32555ec675510d16e65e8a0d"
+      "bytes": 8512,
+      "sha256": "a0bd50bb84461f5741383e6b656712f98fd506c8907c541fc27f5615a7e08164"
     },
     {
       "path": "docs/ai-setup-ru.md",
-      "bytes": 6112,
-      "sha256": "844fc6f667455da6b86e8bce0680a1fda62ee5ffec9b23c98c27be3fb87ac124"
+      "bytes": 6158,
+      "sha256": "d7e53c144a7d2fd89ef7a8663d7d40b12b229c3a6f7c09be3c0ff11912316369"
     },
     {
       "path": "docs/ai-setup-validation.md",
-      "bytes": 9055,
-      "sha256": "acff0a2e285989d5478b7113defe7f1d52f68ceeeb215da8cc40488b4d6a9213"
+      "bytes": 13803,
+      "sha256": "b92842f3d8299b7ee1f71d24c0c014d5f35e393ddb4a146cf1a590cb284daf05"
     },
     {
       "path": "docs/ai-setup.md",
-      "bytes": 4799,
-      "sha256": "c61bbc0c6bda4df6d223a97aa66b2a6164c904e7d1f2cba3d263aed0d390880e"
+      "bytes": 4823,
+      "sha256": "35caa9dd2815d160d522e546582dda0cc3b310cedff57d3901b3591fcecba545"
     },
     {
       "path": "docs/installation-prompt-ru.md",
-      "bytes": 1766,
-      "sha256": "3dece27230d024602071eeb0b0ee05f754f25887df3ac61c196bd20f02bb593c"
+      "bytes": 1765,
+      "sha256": "5733b139d52d6a8ef0a31df8b3a802172982580e375b44200febf87b0e2e3ae8"
     },
     {
       "path": "docs/one-command-setup-ru.md",
-      "bytes": 10502,
-      "sha256": "86d521bac74b83e74f36d35ec0952095578c3dbbafb01b84a7b755b63d680239"
+      "bytes": 10414,
+      "sha256": "373666be030c530935225caf8b082523d59b2c4a869fa4a1a4d6cfcd4bed7732"
     },
     {
       "path": "install.cmd",
@@ -98,18 +103,18 @@
     },
     {
       "path": "scripts/EveSetup.Wizard.psm1",
-      "bytes": 34340,
-      "sha256": "ade72bdcd81a684956122c37eadde9d767b045fa3b14b25b2ea4712387083562"
+      "bytes": 34251,
+      "sha256": "7aca6bb28caf3c18316aaea4afaacee0499ae7e68cf1be115200696e66c79cff"
     },
     {
       "path": "scripts/TvSetup.Common.psm1",
-      "bytes": 63152,
-      "sha256": "ced77800bba65adc0d12496b351cd206ef423109d5a64a9df25492e6006c7195"
+      "bytes": 64303,
+      "sha256": "9146618efe71161cc49c33adf2f770dc84dafef272705dcdb2de3e8ce52a492f"
     },
     {
       "path": "scripts/setup-eve-box.ps1",
       "bytes": 1293,
-      "sha256": "ec34ee6d55e21eed7d3bf854354e44de9593feac186a11ccd7fe75292b9a7183"
+      "sha256": "c7130876fa65003163cf4885bfb4c5ea2ccd2fe3df7cc1a196c3e4f2032b5467"
     },
     {
       "path": "scripts/setup-profiles/generic-install-only.json",
@@ -123,16 +128,11 @@
     },
     {
       "path": "scripts/setup-tv.ps1",
-      "bytes": 2488,
-      "sha256": "0d62ee1b961270c13df1c0a1a427d9b93f82af959bc3a7e1289c2243711b78f0"
-    },
-    {
-      "path": "softlumi-0.3.0-candidate.14.apk",
-      "bytes": 47030664,
-      "sha256": "9f6787ba2badeb63c067eabc1153e2545773cadd9adfe024c5e1eaa6a5f556a6"
+      "bytes": 2502,
+      "sha256": "b8b7f2c662fd3620f2229e7f91d0f96c8974e72d3be101ee70b7e24e0264b680"
     }
   ],
   "entrypoint": "install.cmd",
-  "releaseId": "candidate.14",
+  "releaseId": "candidate.15",
   "prompt": "docs/installation-prompt-ru.md"
 }

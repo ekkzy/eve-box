@@ -84,7 +84,7 @@ public final class GlassScene extends FrameLayout {
     }
     @android.annotation.TargetApi(31)
     private static final class Api31 implements Capture {
-        private final RenderNode node = new RenderNode("softlumi live underlay");
+        private final RenderNode node = new RenderNode("Eve Box live underlay");
         private final ArrayList<BlurSource> blurred = new ArrayList<>();
         private int blurRecordingCount;
         @Override public Canvas begin(int width, int height) {
@@ -122,8 +122,8 @@ public final class GlassScene extends FrameLayout {
         @Override public void release() { clearBlurred(); node.discardDisplayList(); }
         private static final class BlurSource {
             final float scale, blur;
-            final RenderNode node = new RenderNode("softlumi shared live blur raster");
-            final RenderNode filtered = new RenderNode("softlumi shared live blur filter");
+            final RenderNode node = new RenderNode("Eve Box shared live blur raster");
+            final RenderNode filtered = new RenderNode("Eve Box shared live blur filter");
             BlurSource(RenderNode scene, float scale, float blur, int halo, int width, int height) {
                 this.scale = scale; this.blur = blur;
                 filtered.setPosition(0, 0, width, height); filtered.setClipToBounds(true);
