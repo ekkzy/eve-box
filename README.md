@@ -6,7 +6,7 @@
 Интерфейс рассчитан на управление пультом: можно выбрать формат карточек,
 настроить рекомендации и автоматическую смену дневного и ночного оформления.
 
-[Скачать](https://github.com/ekkzy/softlumi/releases/tag/v0.3.0-candidate.14-setup.2) · [Установка](#установка) · [English](README.en.md) · [Сборка](docs/building.md)
+[Скачать](https://github.com/ekkzy/softlumi/releases/tag/v0.3.0-candidate.14-setup.3) · [Установка](#установка) · [English](README.en.md) · [Сборка](docs/building.md)
 
 ![EVE-BOX — промо](docs/brand/promo/eve-box-promo.png)
 
@@ -63,49 +63,39 @@ EVE-BOX появился из желания сделать собственну
 
 ## Установка
 
-В [текущем выпуске](https://github.com/ekkzy/softlumi/releases/tag/v0.3.0-candidate.14-setup.2) доступны три способа. Выбирай по тому, нужна ли
-тебе только установка приложения или ещё настройка приставки.
+Для Windows скачай [единый комплект EVE-BOX](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.3/EVE-BOX-setup-candidate.14.zip).
+Он подходит для самостоятельной установки и для работы с ИИ-помощником.
+Нужны Windows и [ADB](https://developer.android.com/tools/releases/platform-tools).
+Java, Android Studio и SDK Build-Tools устанавливать не нужно.
 
-| Способ | Что скачать | Что потребуется |
-| --- | --- | --- |
-| **Чистый APK** | [softlumi-0.3.0-candidate.14.apk](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.2/softlumi-0.3.0-candidate.14.apk) | Передать файл на ТВ и открыть установщиком. Компьютер и ИИ не обязательны. |
-| **Через ИИ** | [softlumi-ai-setup-candidate.14.zip](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.2/softlumi-ai-setup-candidate.14.zip) | Windows, ИИ с доступом к терминалу, ADB, Java 17 и Android SDK Build-Tools. |
-| **Через ADB одной командой** | [EVE-BOX-setup-candidate.14.zip](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.2/EVE-BOX-setup-candidate.14.zip) | Windows и ADB. ИИ, Java и Android Studio не нужны. |
-
-### 1. APK вручную
-
-Скачай APK, передай его на приставку и открой через файловый менеджер.
-При запросе Android разреши установку для этого файлового менеджера. APK ставит
-сам лаунчер; очистка и смена домашнего экрана выполняются отдельно.
-[Подробная инструкция](docs/installation.md).
-
-### 2. Установка через ИИ
-
-Распакуй AI-комплект и передай [готовый запрос](docs/installation-prompt-ru.md)
-помощнику с доступом к локальному терминалу, например Codex или Claude Code.
-Помощник проверит подключение и покажет план перед изменениями.
-[Инструкция и требования](docs/ai-setup-ru.md).
-
-### 3. Установка и очистка через ADB
-
-Распакуй EVE-BOX-комплект, включи отладку на ТВ и запусти из папки комплекта:
+1. Распакуй ZIP и включи отладку на приставке.
+2. Открой терминал в папке комплекта и запусти:
 
 ```powershell
 .\install.cmd
 ```
 
-Мастер предложит выбрать приставку или ввести её IP, отметить приложения для
-отключения и подтвердить общий план. [Подробная инструкция](docs/one-command-setup-ru.md).
+Мастер поможет подключиться к приставке, выбрать дополнительные действия
+и проверить план перед установкой. [Подробная инструкция](docs/one-command-setup-ru.md).
 
-В обоих установщиках очистка и назначение Home доступны для точной поддерживаемой
-прошивки Mi Box S 3. На остальных устройствах доступна установка APK. Ненужные
-приложения выбираются явно; их данные сохраняются. Журнал нужен для проверки
-и возврата состояний приложений и Home. Службы пульта и таймеры сна не меняются.
+**С помощью ИИ:** открой ту же папку в помощнике с локальным терминалом
+и отправь [готовый короткий запрос](docs/installation-prompt-ru.md).
+Он поможет подготовить ADB и пройти тот же мастер. Выбор устройства, приложений
+и подтверждение плана остаются за тобой. [Три шага с ИИ](docs/ai-setup-ru.md).
 
-Выпуск предварительный, репозиторий закрытый: для скачивания нужен доступ.
-EVE-BOX — новое название проекта; внутри APK пока **softlumi 0.3.0-candidate.14**,
-code35. Пакет и сертификат прежние, обновление сохраняет данные приложения.
-Хеши всех файлов находятся в `SHA256SUMS.txt` рядом с загрузками.
+**Только APK:** [скачай приложение](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.3/softlumi-0.3.0-candidate.14.apk),
+передай на ТВ и открой файловым менеджером. Компьютер не обязателен.
+[Установка APK и ручная команда ADB](docs/installation.md).
+
+Назначение Home и отключение выбранных приложений доступны в мастере только
+на точной поддерживаемой прошивке Mi Box S 3. На остальных устройствах доступна
+установка APK. Данные приложений сохраняются; журнал нужен для возврата
+изменений Home и пакетов. Службы пульта и таймеры сна не меняются.
+
+Выпуск предварительный. EVE-BOX — новое имя проекта; внутри APK пока
+**softlumi 0.3.0-candidate.14**, code35. Пакет и сертификат прежние,
+совместимое обновление сохраняет данные. Хеши файлов — в `SHA256SUMS.txt`
+рядом с загрузками. [Что проверено и какие есть ограничения](docs/ai-setup-validation.md).
 
 Нужен Android TV 8.0 или новее и пульт с D-pad. Основное устройство разработки —
 Xiaomi Mi Box S 3; доступ к телевизионным источникам и выбор домашнего экрана
@@ -149,4 +139,4 @@ Java 17 и native Android Views, без Compose и стороннего UI-фр�
 Код распространяется по [MIT](LICENSE). Шрифты, логотипы, данные погоды и
 изображения имеют отдельные условия; см. [лицензии и происхождение](THIRD_PARTY_NOTICES.md).
 
-[Логотипы и брендкит EVE-BOX](docs/brand/README-RU.md) · [Скачать брендкит ZIP](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.2/EVE-BOX-brand-kit.zip).
+[Логотипы и брендкит EVE-BOX](docs/brand/README-RU.md) · [Скачать брендкит ZIP](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.3/EVE-BOX-brand-kit.zip).

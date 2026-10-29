@@ -7,16 +7,18 @@ EVE-BOX is the project's new name. The app in this release is still called
 `io.github.ekkzy.softlumi`, and signing key are unchanged.
 
 Use an Android TV 8.0+ television or box with a D-pad remote. Default Home
-selection depends on the firmware. Members of the private repository can get
-the files from the [setup.2 prerelease](https://github.com/ekkzy/softlumi/releases/tag/v0.3.0-candidate.14-setup.2).
+selection depends on the firmware. Download
+the files from the [setup.3 prerelease](https://github.com/ekkzy/softlumi/releases/tag/v0.3.0-candidate.14-setup.3).
 
 ## Choose an installation method
 
 | Method | Requirements | HOME and other apps |
 | --- | --- | --- |
 | [APK manually or through ADB](#apk-manually-or-through-adb) | The APK; ADB for command-line installation | Left unchanged |
-| [AI assistant](ai-setup.md) | Windows, an assistant with a local terminal, ADB, Build-Tools and Java | Only through an approved plan and an exact device profile |
+| [AI assistant](ai-setup.md) | The same EVE-BOX kit, ADB and an assistant with a local terminal | Only through an approved plan and an exact device profile |
 | [One Windows command](one-command-setup-ru.md) | The EVE-BOX kit and ADB; no AI, Java or Build-Tools | Optional, explicitly approved, for the exact supported Mi Box S 3 firmware |
+
+AI assistance uses the same archive and wizard, without Java or SDK Build-Tools.
 
 Update an existing softlumi installation without uninstalling it. A compatible
 update with the same package and signer keeps its app data. These methods do
@@ -24,9 +26,9 @@ not import another launcher's settings or viewing history.
 
 ## APK manually or through ADB
 
-Download [softlumi-0.3.0-candidate.14.apk](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.2/softlumi-0.3.0-candidate.14.apk)
+Download [softlumi-0.3.0-candidate.14.apk](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.3/softlumi-0.3.0-candidate.14.apk)
 and compare its SHA-256 with
-[SHA256SUMS.txt](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.2/SHA256SUMS.txt)
+[SHA256SUMS.txt](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.3/SHA256SUMS.txt)
 from the same trusted release. In PowerShell:
 
 ```powershell
@@ -65,9 +67,9 @@ do not uninstall the app or clear its data to bypass it.
 
 After a normal installation, select softlumi in Android's default-app settings
 if the firmware offers that choice. Keep access to the previous launcher. Use
-one of the setup kits if you want a recorded, reversible transition.
+the shared EVE-BOX kit if you want a recorded, reversible transition.
 
-Both kits allow automatic HOME selection and package disabling only for an
+The wizard allows automatic HOME selection and package disabling only for an
 exact match to the [Mi Box S 3 profile](../scripts/setup-profiles/mi-box-s3-android14.json):
 model `MiTV-AFMU0`, API 34 and the Xiaomi build fingerprint specified there.
 The product name or Android version alone is insufficient. Other firmware gets
@@ -81,11 +83,11 @@ are already disabled retain their exact previous state.
 
 ## Check and restore
 
-The kits save a local plan and journal. `Inspect` reads the current state;
+The wizard saves a local plan and journal. `Inspect` reads the current state;
 `Restore` returns recorded HOME and package changes when the current state
 still allows a safe restore. It keeps the installed APK and app data. Follow
 the [Windows guide in Russian](one-command-setup-ru.md) or
-the [AI guide](ai-setup.md#restore-or-handle-an-error).
+the [AI guide](ai-setup.md).
 
 After a connection failure, a command's outcome may be unknown. Keep the journal,
 inspect the state and do not retry the installation blindly. A journal is not
@@ -108,6 +110,6 @@ favorites, app labels and your city. Enabled recommendation apps and Android
 permissions are not transferred; choose those again on the destination device.
 Keep plans, journals and personal backups private.
 
-The [EVE-BOX brand kit](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.2/EVE-BOX-brand-kit.zip)
+The [EVE-BOX brand kit](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.3/EVE-BOX-brand-kit.zip)
 contains graphics, not an installer. To build from source, follow the
 [developer guide](building.en.md).

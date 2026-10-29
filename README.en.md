@@ -6,7 +6,7 @@ Favorite apps, continue-watching cards and weather share one screen. The
 interface is designed for a remote: choose a card layout, manage recommendations
 and set up automatic switching between daytime and nighttime appearance.
 
-[Download](https://github.com/ekkzy/softlumi/releases/tag/v0.3.0-candidate.14-setup.2) · [Installation](#installation) · [Русский](README.md) · [Build](docs/building.en.md)
+[Download](https://github.com/ekkzy/softlumi/releases/tag/v0.3.0-candidate.14-setup.3) · [Installation](#installation) · [Русский](README.md) · [Build](docs/building.en.md)
 
 ![EVE-BOX promotional artwork](docs/brand/promo/eve-box-promo.png)
 
@@ -62,49 +62,39 @@ Open any image to view it at full resolution.
 
 ## Installation
 
-The [current release](https://github.com/ekkzy/softlumi/releases/tag/v0.3.0-candidate.14-setup.2) offers three installation methods.
-Choose whether you only need the app or also want to configure the TV box.
+On Windows, download the [EVE-BOX setup kit](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.3/EVE-BOX-setup-candidate.14.zip).
+Use the same kit yourself or with an AI assistant. You need Windows and
+[ADB](https://developer.android.com/tools/releases/platform-tools).
+Java, Android Studio and SDK Build-Tools are not required.
 
-| Method | Download | Requirements |
-| --- | --- | --- |
-| **APK only** | [softlumi-0.3.0-candidate.14.apk](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.2/softlumi-0.3.0-candidate.14.apk) | Transfer the file to your TV and open it with an installer. A PC and AI are optional. |
-| **With an AI assistant** | [softlumi-ai-setup-candidate.14.zip](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.2/softlumi-ai-setup-candidate.14.zip) | Windows, an assistant with terminal access, ADB, Java 17 and Android SDK Build-Tools. |
-| **One command through ADB** | [EVE-BOX-setup-candidate.14.zip](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.2/EVE-BOX-setup-candidate.14.zip) | Windows and ADB. No AI, Java or Android Studio required. |
-
-### 1. Install the APK manually
-
-Download the APK, transfer it to your TV and open it with a file manager.
-If Android asks, allow that file manager to install apps. This installs the
-launcher; app disabling and default Home selection are separate actions.
-[Step-by-step guide](docs/installation.en.md).
-
-### 2. Install with an AI assistant
-
-Extract the AI kit and give the [ready-made prompt](docs/installation-prompt-ru.md)
-to an assistant with local terminal access, such as Codex or Claude Code.
-The assistant checks the connection and presents a plan before changing anything.
-[Guide and requirements](docs/ai-setup.md).
-
-### 3. Install and clean up through ADB
-
-Extract the EVE-BOX kit, enable debugging on the TV and run from the kit folder:
+1. Extract the ZIP and enable debugging on your TV box.
+2. Open a terminal in the extracted folder and run:
 
 ```powershell
 .\install.cmd
 ```
 
-The wizard asks you to select a device or enter its IP, choose apps to disable
-and confirm the plan. [Detailed guide in Russian](docs/one-command-setup-ru.md).
+The wizard helps connect to your TV box, choose optional actions and review
+the plan before installation. [Detailed guide in Russian](docs/one-command-setup-ru.md).
 
-In both installers, cleanup and Home selection require the exact supported
-Mi Box S 3 firmware. Other devices get APK installation only. App disabling is
-explicit and preserves app data. Keep the journal for inspection and restoration
-of recorded package and Home states. Remote services and sleep timers are preserved.
+**With AI:** open the same folder in an assistant with a local terminal and
+send the [short setup prompt](docs/ai-setup.md#ready-to-copy-prompt).
+It helps prepare ADB and run the same wizard. You choose the device and apps
+and approve the plan. [Three steps with AI](docs/ai-setup.md).
 
-This is a prerelease in a private repository; downloads require access.
-EVE-BOX is the new project name. The APK still identifies itself as
-**softlumi 0.3.0-candidate.14**, code35, with the same package and signing key.
-Updates preserve application data. Download hashes are in `SHA256SUMS.txt`.
+**APK only:** [download the app](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.3/softlumi-0.3.0-candidate.14.apk),
+transfer it to your TV and open it in a file manager. A PC is optional.
+[APK installation and the manual ADB command](docs/installation.en.md).
+
+Home selection and app disabling in the wizard require the exact supported
+Mi Box S 3 firmware. Other devices get APK installation only. App data is
+preserved; keep the journal to restore recorded Home and package changes.
+Remote services and sleep timers are preserved.
+
+This is a prerelease. EVE-BOX is the new project name; the APK is still
+**softlumi 0.3.0-candidate.14**, code35, with the same package and signer.
+Compatible updates preserve app data. Download hashes are in `SHA256SUMS.txt`.
+[Verification and limitations, in Russian](docs/ai-setup-validation.md).
 
 Android TV 8.0 or later and a D-pad remote are required. The primary development
 device is Xiaomi Mi Box S 3. TV data access and default Home selection depend
@@ -148,4 +138,4 @@ See [SECURITY.md](SECURITY.md) for security reporting.
 Code is licensed under [MIT](LICENSE). Fonts, logos, weather data and images
 have separate terms listed in [third-party notices](THIRD_PARTY_NOTICES.md).
 
-[EVE-BOX logos and brand kit](docs/brand/README-RU.md) · [Download brand kit ZIP](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.2/EVE-BOX-brand-kit.zip).
+[EVE-BOX logos and brand kit](docs/brand/README-RU.md) · [Download brand kit ZIP](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.3/EVE-BOX-brand-kit.zip).

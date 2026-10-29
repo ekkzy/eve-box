@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "releaseTag": "v0.3.0-candidate.14-setup.2",
-  "channel": "private-prerelease",
-  "name": "EVE-BOX one-command setup",
+  "releaseTag": "v0.3.0-candidate.14-setup.3",
+  "channel": "public-prerelease",
+  "name": "EVE-BOX setup",
   "host": "Windows PowerShell 5.1 / PowerShell 7 on Windows",
   "apk": {
     "file": "softlumi-0.3.0-candidate.14.apk",
@@ -28,23 +28,43 @@
     },
     {
       "path": "README.md",
-      "bytes": 1211,
-      "sha256": "f9db8a4abf6f387d5247b182e580679b890a109310ca43ee05f2090d8a625b8d"
+      "bytes": 1554,
+      "sha256": "7b601eefa67719fa686e0405fb66e6d0973a500f0fac48965578e5079610ec54"
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
       "bytes": 5225,
-      "sha256": "1581239173c5ab77193d46dec5a52620938ef709e3a90ddcb9f7243e422a764a"
+      "sha256": "b5fcd38120e6f2178b499c66dbc9452c2652e96504a91ead097b244a4d97bcf1"
+    },
+    {
+      "path": "docs/advanced-setup.md",
+      "bytes": 8515,
+      "sha256": "af4250399e98dad81fbe6dee9f9f5c2404554efb32555ec675510d16e65e8a0d"
+    },
+    {
+      "path": "docs/ai-setup-ru.md",
+      "bytes": 6112,
+      "sha256": "844fc6f667455da6b86e8bce0680a1fda62ee5ffec9b23c98c27be3fb87ac124"
     },
     {
       "path": "docs/ai-setup-validation.md",
-      "bytes": 8796,
-      "sha256": "146ca1ef58e3a7f87328be60518c994f4c541df9a515e019d30aba0df592f894"
+      "bytes": 9055,
+      "sha256": "acff0a2e285989d5478b7113defe7f1d52f68ceeeb215da8cc40488b4d6a9213"
+    },
+    {
+      "path": "docs/ai-setup.md",
+      "bytes": 4799,
+      "sha256": "c61bbc0c6bda4df6d223a97aa66b2a6164c904e7d1f2cba3d263aed0d390880e"
+    },
+    {
+      "path": "docs/installation-prompt-ru.md",
+      "bytes": 1766,
+      "sha256": "3dece27230d024602071eeb0b0ee05f754f25887df3ac61c196bd20f02bb593c"
     },
     {
       "path": "docs/one-command-setup-ru.md",
-      "bytes": 10590,
-      "sha256": "5fc35dcdb9bc84e50d926e7cac67fc5ee604997996a547432c26b8086d9d5186"
+      "bytes": 10502,
+      "sha256": "86d521bac74b83e74f36d35ec0952095578c3dbbafb01b84a7b755b63d680239"
     },
     {
       "path": "install.cmd",
@@ -113,5 +133,6 @@
     }
   ],
   "entrypoint": "install.cmd",
-  "releaseId": "candidate.14"
+  "releaseId": "candidate.14",
+  "prompt": "docs/installation-prompt-ru.md"
 }

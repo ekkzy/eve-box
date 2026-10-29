@@ -6,9 +6,9 @@ Windows-мастер устанавливает лаунчер через ADB, �
 его после твоего подтверждения. ИИ, Java, Android Studio и SDK Build-Tools
 для этого комплекта не нужны.
 
-Скачай [EVE-BOX-setup-candidate.14.zip](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.2/EVE-BOX-setup-candidate.14.zip)
-из [приватного выпуска setup.2](https://github.com/ekkzy/softlumi/releases/tag/v0.3.0-candidate.14-setup.2).
-Для загрузки нужен доступ к репозиторию. EVE-BOX — новое имя проекта, но
+Скачай [EVE-BOX-setup-candidate.14.zip](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.3/EVE-BOX-setup-candidate.14.zip)
+из [выпуска setup.3](https://github.com/ekkzy/softlumi/releases/tag/v0.3.0-candidate.14-setup.3).
+EVE-BOX — новое имя проекта, но
 установленное приложение этого выпуска пока называется
 **softlumi 0.3.0-candidate.14 / code 35**. Package и ключ подписи прежние;
 совместимое обновление сохраняет данные существующего softlumi.
@@ -132,10 +132,10 @@ analytics не отключает телеметрию других прилож
 на компьютере пользователя проверяются размер и встроенный SHA-256.
 Другой APK или изменённый профиль не будут приняты. Скачивай комплект
 из доверенного выпуска и сверяй
-[SHA256SUMS.txt](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.2/SHA256SUMS.txt):
+[SHA256SUMS.txt](https://github.com/ekkzy/softlumi/releases/download/v0.3.0-candidate.14-setup.3/SHA256SUMS.txt):
 проверка APK не защищает от подмены самого установщика.
 
 Планы и журналы содержат адресат, прошивку, HOME и состояния пакетов.
 Храни `setup-private` локально и не загружай её на GitHub.
-Отдельный вариант с проверкой APK через SDK описан в
-[инструкции для ИИ-помощника](https://github.com/ekkzy/softlumi/blob/main/docs/ai-setup-ru.md).
+Этот же комплект можно пройти [с ИИ-помощником](ai-setup-ru.md).
+[Ручной SDK-режим](advanced-setup.md) оставлен для опытных пользователей.
