@@ -1,13 +1,13 @@
 # Controlled tool double. It never delegates to any native Android executable.
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
-if ($env:SOFTLUMI_TV_SETUP_TEST_MARKER -cne 'isolated-offline-fixture-v1' -or
-    !$env:SOFTLUMI_TV_SETUP_TEST_STATE -or !$env:SOFTLUMI_TV_SETUP_TEST_ROLE) {
+if ($env:EVEBOX_TV_SETUP_TEST_MARKER -cne 'isolated-offline-fixture-v1' -or
+    !$env:EVEBOX_TV_SETUP_TEST_STATE -or !$env:EVEBOX_TV_SETUP_TEST_ROLE) {
     throw 'An explicit isolated offline fixture and tool role are required.'
 }
-$statePath = $env:SOFTLUMI_TV_SETUP_TEST_STATE
+$statePath = $env:EVEBOX_TV_SETUP_TEST_STATE
 $fixture = Get-Content -LiteralPath $statePath -Raw | ConvertFrom-Json
-$role = $env:SOFTLUMI_TV_SETUP_TEST_ROLE
+$role = $env:EVEBOX_TV_SETUP_TEST_ROLE
 $argv = @($args | ForEach-Object { [string]$_ })
 Add-Content -LiteralPath ($statePath + '.calls') -Value (@{Tool=$role; Args=$argv} | ConvertTo-Json -Compress)
 function Save-Fixture { [IO.File]::WriteAllText($statePath, ($fixture | ConvertTo-Json -Depth 16)) }
@@ -28,7 +28,7 @@ if ($role -eq 'aapt') {
     Write-Output ("package: name='" + $fixture.CandidatePackage + "' versionCode='" + $fixture.CandidateVersion + "' versionName='controlled'")
     Write-Output "sdkVersion:'26'"
     # A real TV-only manifest is reported by aapt with this line alone.
-    Write-Output ("leanback-launchable-activity: name='" + $fixture.LaunchableActivity + "' label='softlumi' icon=''")
+    Write-Output ("leanback-launchable-activity: name='" + $fixture.LaunchableActivity + "' label='evebox' icon=''")
     exit 0
 }
 if ($role -ne 'adb') { throw 'Unknown test tool role.' }
@@ -70,17 +70,17 @@ switch -Regex ($command) {
         $name = $Matches[1]; $package = Get-Package $name
         if ($null -eq $package -or !$package.Installed) { $output = 'Unable to find package: ' + $name; break }
         $output = '  versionCode=' + $package.VersionCode + " minSdk=26 targetSdk=35`n  User 0: installed=true hidden=false suspended=false stopped=false enabled=" + $package.State
-        if ($name -ceq 'io.github.ekkzy.softlumi') {
-            if ($package.ComponentState -eq 1) { $output += "`n    enabledComponents:`n      io.github.ekkzy.softlumi.MainActivity" }
-            if ($package.ComponentState -eq 2) { $output += "`n    disabledComponents:`n      io.github.ekkzy.softlumi.MainActivity" }
+        if ($name -ceq 'io.github.ekkzy.evebox') {
+            if ($package.ComponentState -eq 1) { $output += "`n    enabledComponents:`n      io.github.ekkzy.evebox.MainActivity" }
+            if ($package.ComponentState -eq 2) { $output += "`n    disabledComponents:`n      io.github.ekkzy.evebox.MainActivity" }
         }
         $output += "`n  User 10: installed=true enabled=0"; break
     }
-    '^shell pm path --user 0 io.github.ekkzy.softlumi$' {
-        if ((Get-Package 'io.github.ekkzy.softlumi').Installed) { $output = 'package:/data/app/~~fixture==/softlumi/base.apk' }; break
+    '^shell pm path --user 0 io.github.ekkzy.evebox$' {
+        if ((Get-Package 'io.github.ekkzy.evebox').Installed) { $output = 'package:/data/app/~~fixture==/evebox/base.apk' }; break
     }
-    '^shell sha256sum /data/app/~~fixture==/softlumi/base.apk$' {
-        $output = (Get-Package 'io.github.ekkzy.softlumi').Hash + '  /data/app/~~fixture==/softlumi/base.apk'; break
+    '^shell sha256sum /data/app/~~fixture==/evebox/base.apk$' {
+        $output = (Get-Package 'io.github.ekkzy.evebox').Hash + '  /data/app/~~fixture==/evebox/base.apk'; break
     }
     '^shell cmd package resolve-activity --brief --user 0 -a android.intent.action.MAIN -c android.intent.category.HOME$' {
         $homePackage = Get-Package ($fixture.Home.Split('/')[0])
@@ -88,14 +88,14 @@ switch -Regex ($command) {
         else { $output = $fixture.Home }; break
     }
     '^install -r --user 0 ' {
-        $package = Get-Package 'io.github.ekkzy.softlumi'
+        $package = Get-Package 'io.github.ekkzy.evebox'
         $package.Installed = $true; $package.VersionCode = $fixture.CandidateVersion
         $package.Hash = if ($fixture.PostInstallHashMismatch) { 'f' * 64 } else { $fixture.CandidateHash }
         Save-Fixture; $output = 'Success'; break
     }
-    '^shell am start -W -n io.github.ekkzy.softlumi/io.github.ekkzy.softlumi.MainActivity$' {
-        $fixture.Foreground = 'io.github.ekkzy.softlumi/io.github.ekkzy.softlumi.MainActivity'
-        Save-Fixture; $output = "Status: ok`nActivity: io.github.ekkzy.softlumi/.MainActivity`nComplete"; break
+    '^shell am start -W -n io.github.ekkzy.evebox/io.github.ekkzy.evebox.MainActivity$' {
+        $fixture.Foreground = 'io.github.ekkzy.evebox/io.github.ekkzy.evebox.MainActivity'
+        Save-Fixture; $output = "Status: ok`nActivity: io.github.ekkzy.evebox/.MainActivity`nComplete"; break
     }
     '^shell am start -W -a android.intent.action.MAIN -c android.intent.category.HOME$' {
         $fixture.Foreground = $fixture.Home; Save-Fixture; $output = "Status: ok`nComplete"; break

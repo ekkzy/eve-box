@@ -21,7 +21,7 @@ param(
     [string]$Apk = '',
     [string]$ApkSha256 = '',
     [string]$SigningCertSha256 = '',
-    [AllowEmptyString()][ValidateSet('', 'candidate.14', 'candidate.15')][string]$PinnedRelease = '',
+    [AllowEmptyString()][ValidateSet('', 'candidate.14', 'candidate.15', 'candidate.16')][string]$PinnedRelease = '',
     [string]$ApkSignerPath = 'apksigner',
     [string]$AaptPath = 'aapt',
     [ValidateSet('generic-install-only', 'mi-box-s3-android14')][string]$ProfileId = 'generic-install-only',

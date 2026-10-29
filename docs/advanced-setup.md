@@ -6,7 +6,7 @@
 подготовки отдельного файла плана и его применения по одобренному SHA-256.
 
 Команды ниже выполняются из корня распакованного
-[Eve-Box-setup-candidate.15.zip](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.15-setup.1/Eve-Box-setup-candidate.15.zip).
+[Eve-Box-setup-candidate.16.zip](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.16-setup.1/Eve-Box-setup-candidate.16.zip).
 Нужны Windows PowerShell 5.1 или PowerShell 7, доверенные
 [Platform-Tools](https://developer.android.com/tools/releases/platform-tools),
 [Build-Tools](https://developer.android.com/tools/releases/build-tools)
@@ -17,8 +17,11 @@
 ## Подготовка плана
 
 Сверь источник и файлы комплекта с `manifest.json` и
-[SHA256SUMS.txt](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.15-setup.1/SHA256SUMS.txt).
+[SHA256SUMS.txt](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.16-setup.1/SHA256SUMS.txt).
 Метаданные содержат ожидаемые package, версию, SHA-256 APK и сертификата.
+Текущий пакет — `io.github.ekkzy.evebox`. Он устанавливается отдельно от прежнего;
+сначала перенеси настройки через JSON по [инструкции](package-migration.md).
+Старое приложение автоматически не удаляется.
 Хеш неизвестного файла сам по себе не подтверждает доверие к издателю.
 
 Сначала подключи нужную приставку и разреши отладку на её экране.
@@ -67,6 +70,13 @@ $setupApprovedSha = (Get-FileHash $setupPlan -Algorithm SHA256).Hash.ToLowerInva
 Используй новые имена плана и журнала для каждой операции и не запускай
 несколько установщиков для одной приставки одновременно.
 
+Прежние планы и журналы используй только с комплектом, который их создал:
+новый backend их не принимает и не меняет. В `scripts/install.ps1` имя журнала
+по умолчанию — `eve-box-install-journal.json`. Если в текущей папке найден
+старый `softlumi-install-journal.json`, запуск с путём по умолчанию остановится.
+Сохрани старый журнал и проверь результат той операции исходным комплектом;
+для новой операции явно укажи отдельный `-JournalPath`.
+
 ## Применение и проверка
 
 Только после подтверждения конкретного плана владельцем:
@@ -79,8 +89,8 @@ $setupApprovedSha = (Get-FileHash $setupPlan -Algorithm SHA256).Hash.ToLowerInva
     -JournalPath .\setup-private\apply-01.json
 ```
 
-`Apply` устанавливает APK с сохранением данных, проверяет фактические версию
-и SHA-256, открывает лаунчер и затем выполняет выбранные изменения пакетов
+`Apply` устанавливает APK, сохраняя данные уже установленного нового пакета,
+проверяет фактические версию и SHA-256, открывает лаунчер и затем выполняет выбранные изменения пакетов
 и HOME. Понижение версии не допускается. `Inspect` только читает состояние;
 он не исправляет ошибки и не перезаписывает журнал.
 

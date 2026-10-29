@@ -20,7 +20,7 @@ From the repository root:
 
 On Windows PowerShell, use `./gradlew.bat` instead of `./gradlew`.
 The APK is written to `app/build/outputs/apk/debug/app-debug.apk`.
-The debug package is `io.github.ekkzy.softlumi.debug`.
+The debug package is `io.github.ekkzy.evebox.debug`.
 
 ## Checks
 

@@ -14,13 +14,13 @@ $testRoot = Join-Path $PSScriptRoot ('.installer-test-' + [guid]::NewGuid().ToSt
 $hostExe = (Get-Process -Id $PID).Path
 $stubSource = Join-Path $PSScriptRoot 'tests\tool-stub.ps1'
 $stubContents = Get-Content -LiteralPath $stubSource -Raw
-$oldState = $env:SOFTLUMI_TEST_STATE
-$oldTool = $env:SOFTLUMI_TEST_TOOL
+$oldState = $env:EVEBOX_TEST_STATE
+$oldTool = $env:EVEBOX_TEST_TOOL
 $passes = 0
 $fails = 0
 $results = @()
 foreach ($role in @('adb', 'aapt', 'apksigner')) {
-    $header = '$env:SOFTLUMI_TEST_TOOL = ''' + $role + "'`n"
+    $header = '$env:EVEBOX_TEST_TOOL = ''' + $role + "'`n"
     [IO.File]::WriteAllText((Join-Path $testRoot ($role + '.ps1')), $header + $stubContents)
 }
 $apk = Join-Path $testRoot 'fixture with spaces.apk'
@@ -28,12 +28,12 @@ $apk = Join-Path $testRoot 'fixture with spaces.apk'
 $hash = (Get-FileHash -LiteralPath $apk -Algorithm SHA256).Hash
 $cert = 'a' * 64
 $statePath = Join-Path $testRoot 'fixture.json'
-$env:SOFTLUMI_TEST_STATE = $statePath
+$env:EVEBOX_TEST_STATE = $statePath
 
 function New-Fixture {
     $value = [ordered]@{
         Serial = 'emulator-5554'; Ready = 'device'; Qemu = '1'; Model = 'Controlled TV emulator'; Fingerprint = 'stub/test/device:35/fake/build:userdebug/test-keys'; User = '0'
-        Package = 'io.github.ekkzy.softlumi'; Cert = $cert; CandidateVersion = '2'; Installed = $false; InstalledVersion = '1'; ComponentState = 0
+        Package = 'io.github.ekkzy.evebox'; Cert = $cert; CandidateVersion = '2'; Installed = $false; InstalledVersion = '1'; ComponentState = 0
         Home = 'com.example.stock/.HomeActivity'; InstallFailure = $false; InstallExit = 1; TargetExit = 0; SignerExit = 0; AaptExit = 0
         HomeFailure = $false; PostInstallMismatch = $false; ExtraSigner = $false; ComponentMutationExit = 0; PostInstallComponentState = -1
         TargetInventory = @('emulator-5554', 'emulator-5556', 'physical-device')
@@ -58,11 +58,12 @@ function Assert-That {
     if (!$Condition) { throw $Message }
 }
 function Invoke-CaseInstaller {
-    param([string[]]$Extra = @(), [switch]$NoSerial, [string]$HashOverride = $hash, [string]$CertOverride = $cert)
+    param([string[]]$Extra = @(), [switch]$NoSerial, [switch]$DefaultJournal, [string]$HashOverride = $hash, [string]$CertOverride = $cert)
     $commandArgs = @('-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass', '-File', (Join-Path $PSScriptRoot 'install.ps1'), '-Apk', $apk,
-        '-ApkSha256', $HashOverride, '-SigningCertSha256', $CertOverride, '-JournalPath', (Join-Path $testRoot 'journal.json'),
+        '-ApkSha256', $HashOverride, '-SigningCertSha256', $CertOverride,
         '-AdbPath', (Join-Path $testRoot 'adb.ps1'), '-ApkSignerPath', (Join-Path $testRoot 'apksigner.ps1'), '-AaptPath', (Join-Path $testRoot 'aapt.ps1'))
     if (!$NoSerial) { $commandArgs += @('-EmulatorSerial', 'emulator-5554') }
+    if (!$DefaultJournal) { $commandArgs += @('-JournalPath', (Join-Path $testRoot 'journal.json')) }
     $savedPreference = $ErrorActionPreference
     try {
         $ErrorActionPreference = 'Continue'
@@ -312,6 +313,29 @@ try {
         Assert-That (@(Get-Calls).Count -eq 0) 'Rollback dry-run called ADB'
         Assert-That ((Get-Content -LiteralPath $journalPath -Raw) -ceq $before) 'Rollback dry-run changed journal'
     }
+    Test-Case 'legacy journal refused unchanged before ADB' {
+        $r = Invoke-CaseInstaller; Assert-That ($r.Code -eq 0) $r.Output
+        $j = Get-Content -LiteralPath $journalPath -Raw | ConvertFrom-Json
+        $j.Tool = 'softlumi-installer'; $j.Package = 'io.github.ekkzy.softlumi'
+        $j.Component = 'io.github.ekkzy.softlumi/io.github.ekkzy.softlumi.MainActivity'
+        [IO.File]::WriteAllText($journalPath, ($j | ConvertTo-Json -Depth 8))
+        $before = [IO.File]::ReadAllText($journalPath)
+        Remove-Item -LiteralPath ($statePath + '.calls') -Force
+        $r = Invoke-CaseRollback
+        Assert-That ($r.Code -ne 0 -and $r.Output -match 'original setup kit') $r.Output
+        Assert-That (@(Get-Calls).Count -eq 0 -and [IO.File]::ReadAllText($journalPath) -ceq $before) 'Legacy rejection queried ADB or rewrote the journal'
+    }
+    Test-Case 'legacy default journal is retained and not silently bypassed' {
+        $legacyPath = Join-Path $testRoot 'softlumi-install-journal.json'
+        [IO.File]::WriteAllText($legacyPath, '{"Tool":"softlumi-installer"}')
+        $before = [IO.File]::ReadAllText($legacyPath)
+        Push-Location $testRoot
+        try { $r = Invoke-CaseInstaller -DefaultJournal } finally { Pop-Location }
+        Assert-That ($r.Code -ne 0 -and $r.Output -match 'select a new -JournalPath explicitly') $r.Output
+        Assert-That (@(Get-Calls).Count -eq 0 -and [IO.File]::ReadAllText($legacyPath) -ceq $before) 'Legacy default journal guard ran tools or changed saved bytes'
+        Assert-That (!(Test-Path -LiteralPath (Join-Path $testRoot 'eve-box-install-journal.json'))) 'Guard created a new default journal'
+        Remove-Item -LiteralPath $legacyPath -Force
+    }
     Test-Case 'stale journal rejected before ADB' {
         $r = Invoke-CaseInstaller -Extra @('-SetHome'); Assert-That ($r.Code -eq 0) $r.Output
         $j = Get-Content -LiteralPath $journalPath -Raw | ConvertFrom-Json
@@ -378,8 +402,8 @@ try {
     if ($fails -gt 0) { exit 1 }
     exit 0
 } finally {
-    $env:SOFTLUMI_TEST_STATE = $oldState
-    $env:SOFTLUMI_TEST_TOOL = $oldTool
+    $env:EVEBOX_TEST_STATE = $oldState
+    $env:EVEBOX_TEST_TOOL = $oldTool
     # Remove individual known fixture files; never recursively delete a computed directory.
     foreach ($file in @(Get-ChildItem -LiteralPath $testRoot -File)) { Remove-Item -LiteralPath $file.FullName -Force }
     Remove-Item -LiteralPath $testRoot -Force

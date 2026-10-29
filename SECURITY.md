@@ -10,8 +10,11 @@
 ожидаемого и фактического поведения. Приложи минимальный пример без аккаунтов,
 истории просмотра, адресов устройств, токенов, приватных ключей и личных JSON-файлов.
 
-Устанавливай APK из доверенного источника. Обновление требует того же ключа
-подписи; удаление приложения ради обхода ошибки стирает данные. Файл настроек
+Устанавливай APK из доверенного источника. Обновление существующего пакета
+требует того же ключа подписи; удаление приложения ради обхода ошибки стирает
+данные. Переход на `io.github.ekkzy.evebox` создаёт отдельное приложение:
+настройки переносятся вручную через JSON, разрешения выдаются заново.
+[Инструкция по переходу](docs/package-migration.md). Файл настроек
 перед импортом проходит ограничение размера, проверку схемы и предварительный
 просмотр. Он не может предоставить системные разрешения.
 
@@ -36,8 +39,11 @@ Include Android and app versions, minimal reproduction steps, expected behavior
 and the observed result. Use a small example without accounts, viewing history,
 device addresses, tokens, private keys or personal settings exports.
 
-Install APKs from a trusted source. Updates require the same signing key;
-uninstalling to bypass a signature mismatch erases local data. Settings imports
+Install APKs from a trusted source. Updates to an existing package require the
+same signing key; uninstalling to bypass a signature mismatch erases local data.
+Moving to `io.github.ekkzy.evebox` creates a separate app: settings move through
+manual JSON export/import and permissions must be granted again.
+[Migration guide](docs/package-migration.en.md). Settings imports
 have a size limit, schema validation and a preview before applying. They cannot
 grant Android permissions.
 
@@ -48,9 +54,9 @@ affects an older build.
 
 The [Eve Box wizard](docs/one-command-setup-ru.md) uses the same local
 Plan/Apply/Inspect/Restore backend with explicit device and app selection.
-Its pinned release mode accepts only the exact publisher-verified APK36 and
+Its pinned release mode accepts only the exact pinned APK37 and
 profile bytes. The client verifies their size/hash without Java or Build-Tools;
-signature and package metadata were checked before packaging. Download the
+signature and package metadata must be checked before packaging. Download the
 whole kit from a trusted source: APK pinning cannot authenticate a replaced script.
 
 Confirmation is bound to the displayed plan or journal. Concurrent wizards for
@@ -59,3 +65,6 @@ Journal writes use atomic replacement; bounded retries require exact old/new
 bytes and specific Windows file-lock errors. ADB mutations are not retried blindly.
 Keep `setup-private` local and out of reports. Restoration preserves the installed
 APK and app data and does not restore an earlier APK version.
+Earlier plans and journals must be inspected or restored with the original kit;
+the new package's tools reject them without modifying them. Keep unresolved
+journals and establish their outcome before starting another operation.

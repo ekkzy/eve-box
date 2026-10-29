@@ -20,7 +20,7 @@ Gradle Plugin 8.9.2 и Gradle Wrapper 8.11.1. Минимальная верси�
 
 В Windows PowerShell используй `./gradlew.bat` вместо `./gradlew`.
 APK появится в `app/build/outputs/apk/debug/app-debug.apk`.
-Debug package — `io.github.ekkzy.softlumi.debug`.
+Debug package — `io.github.ekkzy.evebox.debug`.
 
 ## Проверки
 

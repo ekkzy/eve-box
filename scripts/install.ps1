@@ -17,7 +17,7 @@ param(
     [string]$DeviceSerial,
     [string]$ExpectedModel,
     [string]$ExpectedBuildFingerprint,
-    [string]$JournalPath = (Join-Path (Get-Location) 'softlumi-install-journal.json'),
+    [string]$JournalPath = (Join-Path (Get-Location) 'eve-box-install-journal.json'),
     [string]$AdbPath = 'adb',
     [string]$ApkSignerPath = 'apksigner',
     [string]$AaptPath = 'aapt',
@@ -27,12 +27,15 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 Import-Module (Join-Path $PSScriptRoot 'Installer.Common.psm1') -Force -DisableNameChecking
-$script:Package = 'io.github.ekkzy.softlumi'
-$script:Component = 'io.github.ekkzy.softlumi/io.github.ekkzy.softlumi.MainActivity'
+$script:Package = 'io.github.ekkzy.evebox'
+$script:Component = 'io.github.ekkzy.evebox/io.github.ekkzy.evebox.MainActivity'
 $verified = $null
 $journal = $null
 try {
     $request = Get-TargetRequest $EmulatorSerial $StageBPhysicalDevice.IsPresent $DeviceSerial $ExpectedModel $ExpectedBuildFingerprint
+    if (!$PSBoundParameters.ContainsKey('JournalPath') -and (Test-Path -LiteralPath (Join-Path (Get-Location) 'softlumi-install-journal.json'))) {
+        throw 'A legacy softlumi-install-journal.json is present. Retain it and use its original setup kit for rollback. To start a separate Eve Box transaction, select a new -JournalPath explicitly. The old app and journal have not been changed.'
+    }
     $journalFile = [IO.Path]::GetFullPath($JournalPath)
     if (Test-Path -LiteralPath $journalFile) { throw 'JournalPath already exists. Retain it for rollback and use a new path for this transaction.' }
     $signer = Resolve-InstallerTool $ApkSignerPath
@@ -59,7 +62,7 @@ try {
     $previousHome = $null
     if ($SetHome) { $previousHome = Get-CurrentHome $adb $target.Serial }
     $journal = [pscustomobject][ordered]@{
-        SchemaVersion = 1; Tool = 'softlumi-installer'; TransactionId = [guid]::NewGuid().ToString('N')
+        SchemaVersion = 1; Tool = 'eve-box-installer'; TransactionId = [guid]::NewGuid().ToString('N')
         CreatedUtc = [DateTime]::UtcNow.ToString('o'); UpdatedUtc = ''; Status = 'Prepared'
         Target = $target; Package = $script:Package; Component = $script:Component
         ApkSha256 = $verified.Sha256; SigningCertSha256 = $verified.CertSha256; VersionCode = $verified.VersionCode

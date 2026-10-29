@@ -16,13 +16,13 @@ $testRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot ('.tv-setup-test-' +
 $marker = [guid]::NewGuid().ToString('N')
 $controlledSerial = 'controlled-tv-' + $marker.Substring(0,12) + ':5555'
 [IO.File]::WriteAllText((Join-Path $testRoot '.owned-fixture'), $marker)
-$oldState = $env:SOFTLUMI_TV_SETUP_TEST_STATE
-$oldRole = $env:SOFTLUMI_TV_SETUP_TEST_ROLE
-$oldMarker = $env:SOFTLUMI_TV_SETUP_TEST_MARKER
-$env:SOFTLUMI_TV_SETUP_TEST_MARKER = 'isolated-offline-fixture-v1'
+$oldState = $env:EVEBOX_TV_SETUP_TEST_STATE
+$oldRole = $env:EVEBOX_TV_SETUP_TEST_ROLE
+$oldMarker = $env:EVEBOX_TV_SETUP_TEST_MARKER
+$env:EVEBOX_TV_SETUP_TEST_MARKER = 'isolated-offline-fixture-v1'
 $results = @(); $caseNumber = 0; $backendCallDurations = @()
 $cert = 'a' * 64
-$soft = 'io.github.ekkzy.softlumi'
+$soft = 'io.github.ekkzy.evebox'
 $stock = 'com.google.android.apps.tv.launcherx'
 $softHome = $soft + '/' + $soft + '.MainActivity'
 $oldHome = $stock + '/' + $stock + '.home.HomeActivity'
@@ -35,7 +35,7 @@ $stub = Get-Content -LiteralPath (Join-Path $PSScriptRoot 'tests\tv-setup-tool-s
 $tools = @{}
 foreach ($role in @('adb', 'aapt', 'apksigner')) {
     $path = Join-Path $testRoot ($role + ' controlled.ps1')
-    [IO.File]::WriteAllText($path, ('$env:SOFTLUMI_TV_SETUP_TEST_ROLE = ''' + $role + "'`n" + $stub))
+    [IO.File]::WriteAllText($path, ('$env:EVEBOX_TV_SETUP_TEST_ROLE = ''' + $role + "'`n" + $stub))
     $tools[$role] = $path
 }
 
@@ -150,7 +150,7 @@ function Initialize-Case {
     $script:statePath = Join-Path $script:caseDir 'state.json'
     $script:planPath = Join-Path $script:caseDir 'approved-plan.json'
     $script:journalPath = Join-Path $script:caseDir 'journal.json'
-    $env:SOFTLUMI_TV_SETUP_TEST_STATE = $script:statePath
+    $env:EVEBOX_TV_SETUP_TEST_STATE = $script:statePath
     $packages = [ordered]@{}
     foreach ($name in @($stock) + $optional + @($soft, 'com.example.unrelated')) {
         $packages[$name]=[ordered]@{Installed=$true; State=0; ComponentState=0; VersionCode=34; Hash=('d'*64)}
@@ -177,6 +177,69 @@ function Test-Case([string]$Name, [scriptblock]$Body) {
 }
 
 try {
+    Test-Case 'backend-honours-current-and-legacy-target-locks' {
+        $null=New-Plan; Clear-Calls
+        $hash=[Security.Cryptography.SHA256]::Create()
+        try { $key=([BitConverter]::ToString($hash.ComputeHash([Text.Encoding]::UTF8.GetBytes($controlledSerial+':5037')))).Replace('-','') }
+        finally { $hash.Dispose() }
+        foreach($prefix in @('Local\eve-box-tv-setup-','Local\softlumi-tv-setup-')) {
+            $mutex=[Threading.Mutex]::new($false,($prefix+$key)); $owned=$false
+            try {
+                $owned=$mutex.WaitOne(0); Assert-That $owned 'Controlled lock fixture was unexpectedly held.'
+                $r=Invoke-Apply; Assert-RefusedWithoutMutation $r
+                Assert-That ($r.Output.Contains('another_setup_operation_is_running') -and @(Get-Calls).Count -eq 0) 'Apply bypassed an existing version of the target lock.'
+                $r=Invoke-Journal 'Restore'; Assert-RefusedWithoutMutation $r
+                Assert-That ($r.Output.Contains('another_setup_operation_is_running') -and @(Get-Calls).Count -eq 0) 'Restore bypassed an existing version of the target lock.'
+            } finally { if($owned){$mutex.ReleaseMutex()};$mutex.Dispose() }
+        }
+        $r=Invoke-Apply; Assert-That ($r.Code -eq 0) ('Releasing the controlled locks did not permit Apply: '+$r.Output)
+    }
+    Test-Case 'legacy-plan-is-refused-before-adb' {
+        $null=New-Plan
+        $plan=Read-Json $planPath; $plan.tool='softlumi-tv-setup'; Write-Json $planPath $plan
+        $before=[IO.File]::ReadAllText($planPath); Clear-Calls
+        $r=Invoke-Apply; Assert-RefusedWithoutMutation $r
+        Assert-That ($r.Output.Contains('legacy_document_requires_original_kit') -and @(Get-Calls).Count -eq 0) 'Legacy plan did not fail before any external tool.'
+        Assert-That ([IO.File]::ReadAllText($planPath) -ceq $before -and !(Test-Path -LiteralPath $journalPath)) 'Legacy plan was changed or adopted.'
+    }
+    Test-Case 'legacy-journal-inspect-and-restore-refused-unchanged' {
+        $null=New-Plan; $r=Invoke-Apply; Assert-That ($r.Code -eq 0) $r.Output
+        $journal=Read-Json $journalPath; $journal.tool='softlumi-tv-setup'; Write-Json $journalPath $journal
+        $before=[IO.File]::ReadAllText($journalPath); Clear-Calls
+        foreach($mode in @('Inspect','Restore')) {
+            $r=Invoke-Journal $mode; Assert-RefusedWithoutMutation $r
+            Assert-That ($r.Output.Contains('legacy_document_requires_original_kit') -and @(Get-Calls).Count -eq 0) 'Legacy journal was queried as the new app.'
+            Assert-That ([IO.File]::ReadAllText($journalPath) -ceq $before) 'Legacy journal bytes were changed.'
+        }
+    }
+    Test-Case 'install-alongside-legacy-preserves-home-services-and-old-app' {
+        $legacy='io.github.ekkzy.softlumi'; $legacyHome=$legacy+'/'+$legacy+'.MainActivity'
+        $state=Get-Fixture
+        $state.Packages | Add-Member -NotePropertyName $legacy -NotePropertyValue ([pscustomobject]@{Installed=$true;State=0;ComponentState=1;VersionCode=36;Hash=('e'*64)})
+        $state.Home=$legacyHome; $state.Foreground=$legacyHome
+        $state.Settings.'secure/enabled_accessibility_services'=$legacy+'/'+$legacy+'.RemoteAccessibilityService'
+        Write-Json $statePath $state
+        $oldApp=($state.Packages.PSObject.Properties[$legacy].Value | ConvertTo-Json -Compress)
+        $settings=($state.Settings | ConvertTo-Json -Compress)
+        $null=New-Plan; $r=Invoke-Apply; Assert-That ($r.Code -eq 0) $r.Output
+        $after=Get-Fixture
+        Assert-That ($after.Home -ceq $legacyHome -and ($after.Settings | ConvertTo-Json -Compress) -ceq $settings) 'Install-only changed legacy HOME or protected services.'
+        Assert-That (($after.Packages.PSObject.Properties[$legacy].Value | ConvertTo-Json -Compress) -ceq $oldApp -and @(Get-PackageMutations $legacy).Count -eq 0) 'Legacy app changed during side-by-side install.'
+        $r=Invoke-Journal 'Restore'; Assert-That ($r.Code -eq 0) $r.Output
+        Assert-That ((Get-Fixture).Home -ceq $legacyHome -and @(Get-PackageMutations $legacy).Count -eq 0) 'Install-only restore changed the old app or HOME.'
+    }
+    Test-Case 'explicit-new-home-can-restore-legacy-home-without-modifying-old-app' {
+        $legacy='io.github.ekkzy.softlumi'; $legacyHome=$legacy+'/'+$legacy+'.MainActivity'
+        $state=Get-Fixture
+        $state.Packages | Add-Member -NotePropertyName $legacy -NotePropertyValue ([pscustomobject]@{Installed=$true;State=0;ComponentState=1;VersionCode=36;Hash=('e'*64)})
+        $state.Home=$legacyHome; $state.Foreground=$legacyHome; Write-Json $statePath $state
+        $oldApp=($state.Packages.PSObject.Properties[$legacy].Value | ConvertTo-Json -Compress)
+        $null=New-Plan @{ProfileId='mi-box-s3-android14';SetHome=$true}
+        $r=Invoke-Apply; Assert-That ($r.Code -eq 0 -and (Get-Fixture).Home -ceq $softHome) $r.Output
+        $r=Invoke-Journal 'Restore'; Assert-That ($r.Code -eq 0) $r.Output
+        $after=Get-Fixture
+        Assert-That ($after.Home -ceq $legacyHome -and ($after.Packages.PSObject.Properties[$legacy].Value | ConvertTo-Json -Compress) -ceq $oldApp -and @(Get-PackageMutations $legacy).Count -eq 0) 'Explicit HOME transition failed to restore the old HOME unchanged.'
+    }
     Test-Case 'plan-is-read-only' {
         $before=Get-Content -LiteralPath $statePath -Raw
         $null=New-Plan
@@ -188,9 +251,9 @@ try {
         $before=Get-Content -LiteralPath $statePath -Raw
         $r=Invoke-Setup (Plan-Parameters @{ProfileId='mi-box-s3-android14';SetHome=$true;DisableStockHome=$true})
         Assert-That ($r.Code -eq 0) $r.Output
-        Assert-That ($r.Output.Contains('explicitly requested Eve Box Home plan') -and !$r.Output.Contains('explicitly requested softlumi Home plan')) 'Plan showed the legacy product name.'
+        Assert-That ($r.Output.Contains('explicitly requested Eve Box Home plan') -and !$r.Output.Contains('explicitly requested evebox Home plan')) 'Plan showed the legacy product name.'
         $plan=Read-Json $planPath
-        Assert-That ($plan.profile.sha256 -ceq 'aa96437b52c2078be2366926066659a5dbd1e6fb6692a8582b0718c1ff8707ac') 'Display formatting changed the pinned profile.'
+        Assert-That ($plan.profile.sha256 -ceq 'e796f4de93e3f6e5db0cfaa961de35d19b5509890e1fbcdbd9dfe7fcd790c89c') 'Plan does not bind the current Eve Box profile.'
         Assert-That (@(Get-Mutations).Count -eq 0 -and (Get-Content -LiteralPath $statePath -Raw) -ceq $before -and !(Test-Path -LiteralPath $journalPath)) 'Display formatting changed read-only Plan behavior.'
     }
     Test-Case 'explicit-target-required' {
@@ -237,7 +300,7 @@ try {
         Assert-RefusedWithoutMutation (Invoke-Setup (Plan-Parameters))
     }
     Test-Case 'leanback-metadata-rejects-wrong-main-before-adb' {
-        Set-Fixture @{LaunchableActivity='io.github.ekkzy.softlumi.OtherActivity'}
+        Set-Fixture @{LaunchableActivity='io.github.ekkzy.evebox.OtherActivity'}
         Assert-RefusedWithoutMutation (Invoke-Setup (Plan-Parameters))
         Assert-That (@(Get-Calls | Where-Object Tool -eq 'adb').Count -eq 0) 'Wrong leanback Activity reached ADB.'
     }
@@ -275,16 +338,16 @@ try {
         Assert-That (@(Get-Calls | Where-Object { ($_.Args -join ' ') -match 'shell sha256sum /data/app/' }).Count -gt 0) 'No installed APK hash verification.'
         Assert-That (@(Get-PackageMutations $stock).Count -eq 0) 'Install-only changed stock package.'
     }
-    Test-Case 'upgrade-existing-softlumi-home-is-inspectable-and-restorable' {
+    Test-Case 'upgrade-existing-evebox-home-is-inspectable-and-restorable' {
         Set-Fixture @{Home=$softHome;Foreground=$softHome}
         $null=New-Plan; $r=Invoke-Apply; Assert-That ($r.Code -eq 0) $r.Output
         Clear-Calls; $r=Invoke-Journal 'Inspect'; Assert-That ($r.Code -eq 0) $r.Output
         $inspection=($r.Output -split 'READ-ONLY INSPECTION:')[0] | ConvertFrom-Json
-        Assert-That ($inspection.canRestore -and @($inspection.conflicts).Count -eq 0) 'An owned softlumi upgrade was misclassified as foreign HOME drift.'
+        Assert-That ($inspection.canRestore -and @($inspection.conflicts).Count -eq 0) 'An owned evebox upgrade was misclassified as foreign HOME drift.'
         Assert-That (@(Get-Mutations).Count -eq 0) 'Upgrade inspection mutated the device.'
         Clear-Calls; $r=Invoke-Journal 'Restore'; Assert-That ($r.Code -eq 0) $r.Output
         $state=Get-Fixture
-        Assert-That ($state.Home -ceq $softHome -and $state.Packages.PSObject.Properties[$soft].Value.Hash -ceq $apkHash -and $state.Packages.PSObject.Properties[$soft].Value.VersionCode -eq 35) 'Restore changed the existing softlumi HOME or rolled back the updated APK.'
+        Assert-That ($state.Home -ceq $softHome -and $state.Packages.PSObject.Properties[$soft].Value.Hash -ceq $apkHash -and $state.Packages.PSObject.Properties[$soft].Value.VersionCode -eq 35) 'Restore changed the existing evebox HOME or rolled back the updated APK.'
         Assert-That (@(Get-Mutations).Count -eq 0) 'An install-only restore issued device mutations.'
     }
     Test-Case 'installed-hash-mismatch-needs-reconcile' {
@@ -298,7 +361,7 @@ try {
         $null=New-Plan @{ProfileId='mi-box-s3-android14'; SetHome=$true; DisableStockHome=$true; DisablePackages=@($optional[0..4])}
         Clear-Calls; $r=Invoke-Apply; Assert-That ($r.Code -eq 0) $r.Output
         $state=Get-Fixture
-        Assert-That ($state.Home -eq $softHome) 'Requested softlumi HOME was not verified.'
+        Assert-That ($state.Home -eq $softHome) 'Requested evebox HOME was not verified.'
         for($i=2;$i -lt 5;$i++){
             Assert-That ($state.Packages.PSObject.Properties[$optional[$i]].Value.State -eq $i) 'Apply changed a pre-disabled package override.'
             Assert-That (@(Get-PackageMutations $optional[$i]).Count -eq 0) 'Apply touched a pre-disabled package.'
@@ -392,7 +455,7 @@ try {
         Clear-Calls; $r=Invoke-Apply; Assert-That ($r.Code -eq 0) $r.Output
         $journal=Read-Json $journalPath
         Assert-That ($journal.ownedHomeFallback -ceq $third) 'Successful stock disable did not bind its exact automatic fallback.'
-        Assert-That ((Get-Fixture).Home -ceq $softHome) 'Captured fallback prevented the requested softlumi HOME transition.'
+        Assert-That ((Get-Fixture).Home -ceq $softHome) 'Captured fallback prevented the requested evebox HOME transition.'
         Clear-Calls; $r=Invoke-Journal 'Restore'; Assert-That ($r.Code -eq 0) $r.Output
         Assert-That ((Get-Fixture).Home -ceq $oldHome) 'Original HOME was not restored after a captured automatic fallback.'
         Assert-That ((Get-Fixture).Packages.PSObject.Properties[$stock].Value.State -eq 0) 'Original stock HOME package was not restored.'
@@ -427,7 +490,7 @@ try {
         $null=New-Plan @{ProfileId='mi-box-s3-android14';SetHome=$true;DisableStockHome=$true}
         Set-Fixture @{WrongForeground=$true}; Clear-Calls
         $r=Invoke-Apply; Assert-That ($r.Code -ne 0) 'Wrong foreground was accepted.'
-        Assert-That (@(Get-PackageMutations $stock).Count -eq 0) 'Stock HOME was disabled without usable softlumi foreground.'
+        Assert-That (@(Get-PackageMutations $stock).Count -eq 0) 'Stock HOME was disabled without usable evebox foreground.'
     }
     Test-Case 'existing-journal-is-never-overwritten' {
         $null=New-Plan; $r=Invoke-Apply; Assert-That ($r.Code -eq 0) $r.Output
@@ -470,7 +533,7 @@ try {
     if($KeepFixtures){Write-Output ('Controlled fixtures retained: '+$testRoot)}
     if($failed -gt 0){exit 1};exit 0
 } finally {
-    $env:SOFTLUMI_TV_SETUP_TEST_STATE=$oldState; $env:SOFTLUMI_TV_SETUP_TEST_ROLE=$oldRole; $env:SOFTLUMI_TV_SETUP_TEST_MARKER=$oldMarker
+    $env:EVEBOX_TV_SETUP_TEST_STATE=$oldState; $env:EVEBOX_TV_SETUP_TEST_ROLE=$oldRole; $env:EVEBOX_TV_SETUP_TEST_MARKER=$oldMarker
     if(!$KeepFixtures){
         $resolved=[IO.Path]::GetFullPath($testRoot)
         $prefix=[IO.Path]::GetFullPath($PSScriptRoot)+[IO.Path]::DirectorySeparatorChar

@@ -1,8 +1,8 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
-$script:TvPackage = 'io.github.ekkzy.softlumi'
-$script:TvComponent = 'io.github.ekkzy.softlumi/io.github.ekkzy.softlumi.MainActivity'
-$script:TvToolName = 'softlumi-tv-setup'
+$script:TvPackage = 'io.github.ekkzy.evebox'
+$script:TvComponent = 'io.github.ekkzy.evebox/io.github.ekkzy.evebox.MainActivity'
+$script:TvToolName = 'eve-box-tv-setup'
 
 function Assert-TvCondition($Condition, [string]$Code) {
     if (!$Condition) { throw $Code }
@@ -184,40 +184,31 @@ function Get-TvTarget($Context) {
     Assert-TvCondition ($abi -cmatch '^[A-Za-z0-9_-]{1,32}$') 'invalid_abi'
     return [pscustomobject][ordered]@{ serial = $Context.serial; model = $model; fingerprint = $fingerprint; sdkInt = [int]$sdk; abi = $abi; userId = 0; emulator = [bool]$Context.emulator; adbServerPort = $Context.adbServerPort }
 }
+function Assert-TvCurrentDocument($Value) {
+    $tool = $Value.PSObject.Properties['tool']
+    if ($null -ne $tool -and $tool.Value -ceq 'softlumi-tv-setup') {
+        throw 'legacy_document_requires_original_kit: This plan or journal belongs to io.github.ekkzy.softlumi. Use the original setup kit that created it; the old app and saved files have not been changed.'
+    }
+}
 function Get-TvPinnedReleaseInfo {
     [CmdletBinding()]
-    param([Parameter(Mandatory = $true)][ValidateSet('candidate.14', 'candidate.15')][string]$ReleaseId)
-    if ($ReleaseId -ceq 'candidate.15') {
-        return [pscustomobject][ordered]@{
-            releaseId = 'candidate.15'; recordVersion = 1
-            apk = [pscustomobject][ordered]@{
-                file = 'Eve-Box-0.3.0-candidate.15.apk'; bytes = 47129158
-                sha256 = '05acbffb15ed3234d42720b69d26d237df66fd22c775686ab313240fbdb04d98'
-                signingCertSha256 = '0774ab7eed2656fcd295934cefe672e89e9bbb8e99f3fb4febc40d6f646d96c6'
-                package = 'io.github.ekkzy.softlumi'; component = 'io.github.ekkzy.softlumi/io.github.ekkzy.softlumi.MainActivity'
-                versionName = '0.3.0-candidate.15'; versionCode = '36'; minSdk = 26
-            }
-            profiles = @(
-                [pscustomobject]@{ id = 'generic-install-only'; sha256 = '6bccf53db327a1b0ebc5c2b496d5633c975f65b8069fbb771d0bad390f546578' }
-                [pscustomobject]@{ id = 'mi-box-s3-android14'; sha256 = 'aa96437b52c2078be2366926066659a5dbd1e6fb6692a8582b0718c1ff8707ac' }
-            )
-        }
+    param([Parameter(Mandatory = $true)][ValidateSet('candidate.14', 'candidate.15', 'candidate.16')][string]$ReleaseId)
+    if ($ReleaseId -cin @('candidate.14', 'candidate.15')) {
+        throw 'legacy_release_requires_original_kit: This release targets io.github.ekkzy.softlumi. Use its original setup kit; this kit installs io.github.ekkzy.evebox.'
     }
-    Assert-TvCondition ($ReleaseId -ceq 'candidate.14') 'unknown_pinned_release'
-    # Return new objects on every call. Neither a caller nor a manifest can
-    # change the publisher-verified record used by a later Plan or Apply.
+    # Return a new immutable-by-convention record for each verification.
     return [pscustomobject][ordered]@{
-        releaseId = 'candidate.14'; recordVersion = 1
+        releaseId = 'candidate.16'; recordVersion = 1
         apk = [pscustomobject][ordered]@{
-            file = 'softlumi-0.3.0-candidate.14.apk'; bytes = 47030664
-            sha256 = '9f6787ba2badeb63c067eabc1153e2545773cadd9adfe024c5e1eaa6a5f556a6'
+            file = 'Eve-Box-0.3.0-candidate.16.apk'; bytes = 47129158
+            sha256 = 'af16e756e84265dc593eb9f83881b6023e1664d98824be461a8b333fbc012446'
             signingCertSha256 = '0774ab7eed2656fcd295934cefe672e89e9bbb8e99f3fb4febc40d6f646d96c6'
-            package = 'io.github.ekkzy.softlumi'; component = 'io.github.ekkzy.softlumi/io.github.ekkzy.softlumi.MainActivity'
-            versionName = '0.3.0-candidate.14'; versionCode = '35'; minSdk = 26
+            package = 'io.github.ekkzy.evebox'; component = 'io.github.ekkzy.evebox/io.github.ekkzy.evebox.MainActivity'
+            versionName = '0.3.0-candidate.16'; versionCode = '37'; minSdk = 26
         }
         profiles = @(
-            [pscustomobject]@{ id = 'generic-install-only'; sha256 = '6bccf53db327a1b0ebc5c2b496d5633c975f65b8069fbb771d0bad390f546578' }
-            [pscustomobject]@{ id = 'mi-box-s3-android14'; sha256 = 'aa96437b52c2078be2366926066659a5dbd1e6fb6692a8582b0718c1ff8707ac' }
+            [pscustomobject]@{ id = 'generic-install-only'; sha256 = '60640156877a90fa859730193702c7bfe4bce1bfcc0f1fcb705121703ec33b52' }
+            [pscustomobject]@{ id = 'mi-box-s3-android14'; sha256 = 'e796f4de93e3f6e5db0cfaa961de35d19b5509890e1fbcdbd9dfe7fcd790c89c' }
         )
     }
 }
@@ -275,7 +266,7 @@ function Get-TvApk([string]$Path, [string]$Hash, [string]$Cert, [string]$Signer,
     $expectedHash = Get-TvDigest $Hash; $expectedCert = Get-TvDigest $Cert
     $source = Get-Item -LiteralPath $Path -ErrorAction Stop
     Assert-TvCondition (!$source.PSIsContainer -and $source.Extension -ieq '.apk' -and $source.Length -gt 0 -and $source.Length -le 268435456 -and !($source.Attributes -band [IO.FileAttributes]::ReparsePoint)) 'invalid_apk_file'
-    $temp = Join-Path ([IO.Path]::GetTempPath()) ('softlumi-tv-setup-' + [guid]::NewGuid().ToString('N'))
+    $temp = Join-Path ([IO.Path]::GetTempPath()) ('eve-box-tv-setup-' + [guid]::NewGuid().ToString('N'))
     [void][IO.Directory]::CreateDirectory($temp); $copy = Join-Path $temp 'verified.apk'
     try {
         [IO.File]::Copy($source.FullName, $copy)
@@ -287,7 +278,7 @@ function Get-TvApk([string]$Path, [string]$Hash, [string]$Cert, [string]$Signer,
         $package = [regex]::Match($metadata, "(?m)^package: name='([^']+)' versionCode='([0-9]+)'")
         $sdk = [regex]::Match($metadata, "(?m)^sdkVersion:'([0-9]+)'\s*$")
         Assert-TvCondition ($package.Success -and $package.Groups[1].Value -ceq $script:TvPackage -and $package.Groups[2].Value -match '^[1-9][0-9]{0,9}$' -and [long]$package.Groups[2].Value -le 2147483647) 'apk_package_or_version_mismatch'
-        Assert-TvCondition ($metadata -match "(?m)^(?:leanback-)?launchable-activity: name='io\.github\.ekkzy\.softlumi\.MainActivity'" -and $sdk.Success) 'apk_launcher_or_sdk_missing'
+        Assert-TvCondition ($metadata -match "(?m)^(?:leanback-)?launchable-activity: name='io\.github\.ekkzy\.evebox\.MainActivity'" -and $sdk.Success) 'apk_launcher_or_sdk_missing'
         return [pscustomobject]@{ file = $copy; temporaryDirectory = $temp; sourcePath = $source.FullName; sha256 = $expectedHash; signingCertSha256 = $expectedCert; versionCode = $package.Groups[2].Value; minSdk = [int]$sdk.Groups[1].Value }
     } catch { if ([IO.File]::Exists($copy)) { [IO.File]::Delete($copy) }; [IO.Directory]::Delete($temp); throw }
 }
@@ -298,7 +289,7 @@ function Get-TvPinnedApk([string]$Path, [string]$ReleaseId) {
     $release = Get-TvPinnedReleaseInfo -ReleaseId $ReleaseId
     $source = Get-Item -LiteralPath $Path -ErrorAction Stop
     Assert-TvCondition (!$source.PSIsContainer -and $source.Extension -ieq '.apk' -and $source.Length -eq $release.apk.bytes -and !($source.Attributes -band [IO.FileAttributes]::ReparsePoint) -and !$source.FullName.StartsWith('\\')) 'invalid_pinned_apk_file'
-    $temp = Join-Path ([IO.Path]::GetTempPath()) ('softlumi-tv-setup-' + [guid]::NewGuid().ToString('N'))
+    $temp = Join-Path ([IO.Path]::GetTempPath()) ('eve-box-tv-setup-' + [guid]::NewGuid().ToString('N'))
     [void][IO.Directory]::CreateDirectory($temp); $copy = Join-Path $temp 'verified.apk'
     try {
         [IO.File]::Copy($source.FullName, $copy)
@@ -359,8 +350,8 @@ function Get-TvProtected($Context) {
 }
 function Assert-TvForeground($Context) {
     $window = Invoke-TvAdb $Context @('shell', 'dumpsys', '-t', '8', 'window')
-    $focus = [regex]::Match($window, '(?m)^\s*mCurrentFocus=Window\{[^\r\n]*\s(io\.github\.ekkzy\.softlumi/[^\s}]+)[^\r\n]*\}')
-    Assert-TvCondition ($focus.Success -and (Get-TvComponent $focus.Groups[1].Value) -ceq $script:TvComponent) 'softlumi_foreground_not_confirmed'
+    $focus = [regex]::Match($window, '(?m)^\s*mCurrentFocus=Window\{[^\r\n]*\s(io\.github\.ekkzy\.evebox/[^\s}]+)[^\r\n]*\}')
+    Assert-TvCondition ($focus.Success -and (Get-TvComponent $focus.Groups[1].Value) -ceq $script:TvComponent) 'evebox_foreground_not_confirmed'
 }
 function Assert-TvPackageSnapshot($State, [switch]$Soft) {
     Assert-TvKeys $State @('installed', 'versionCode', 'enabledState', 'componentState', 'baseSha256')
@@ -371,11 +362,12 @@ function Assert-TvPackageSnapshot($State, [switch]$Soft) {
     }
     Assert-TvCondition ($State.versionCode -is [string] -and $State.versionCode -cmatch '^[1-9][0-9]{0,9}$' -and $State.enabledState -in @(0, 1, 2, 3, 4)) 'invalid_package_snapshot'
     if ($Soft) {
-        Assert-TvCondition ($State.componentState -in @(0, 1) -and $State.enabledState -in @(0, 1)) 'disabled_softlumi_requires_manual_resolution'
+        Assert-TvCondition ($State.componentState -in @(0, 1) -and $State.enabledState -in @(0, 1)) 'disabled_evebox_requires_manual_resolution'
         [void](Get-TvDigest $State.baseSha256)
     } else { Assert-TvCondition ($null -eq $State.componentState -and $null -eq $State.baseSha256) 'invalid_profile_package_snapshot' }
 }
 function Assert-TvPlan($Plan, $Context, [switch]$Fresh) {
+    Assert-TvCurrentDocument $Plan
     $keys = @('schemaVersion', 'tool', 'transactionId', 'createdUtc', 'expiresUtc', 'target', 'profile', 'apk', 'selection', 'before', 'protected', 'tools')
     $version = $Plan.PSObject.Properties['schemaVersion']
     $pinned = $null -ne $version -and $version.Value -eq 2
@@ -494,7 +486,7 @@ function New-TvPlan($Context, $Options) {
         Write-Output ('Profile: ' + $profile.value.id + '; SetHome=' + $selection.setHome + '; DisableStockHome=' + $selection.disableStockHome)
         foreach ($entry in @($profile.value.packages)) {
             $selected = ($entry.role -ceq 'stockHome' -and $selection.disableStockHome) -or ($entry.role -ceq 'optional' -and @($selection.disablePackages) -ccontains $entry.packageName)
-            Write-Output ('Option ' + $entry.packageName + '; selected=' + $selected + '; ' + $entry.reason.Replace('explicitly requested softlumi Home plan', 'explicitly requested Eve Box Home plan'))
+            Write-Output ('Option ' + $entry.packageName + '; selected=' + $selected + '; ' + $entry.reason)
         }
         foreach ($entry in @($before.packages)) {
             $desired = 3
@@ -526,6 +518,7 @@ function Save-TvJournal([string]$Path, $Journal) {
 }
 function Read-TvJournal([string]$Path, $Context) {
     $journal = (Read-TvJson $Path).Value
+    Assert-TvCurrentDocument $journal
     Assert-TvKeys $journal @('schemaVersion', 'tool', 'transactionId', 'createdUtc', 'updatedUtc', 'planSha256', 'planJson', 'plan', 'status', 'actions', 'lastError', 'ownedHomeFallback')
     Assert-TvCondition ($journal.schemaVersion -eq 1 -and $journal.tool -ceq $script:TvToolName -and $journal.status -cin @('Prepared', 'Applying', 'NeedsReconcile', 'Applied', 'Restoring', 'Restored')) 'unsupported_journal'
     Assert-TvCondition ($journal.planJson -is [string] -and $journal.planJson.Length -le 524288) 'invalid_journal_plan'
@@ -587,7 +580,7 @@ function Assert-TvSoftInstalled($Context, $Plan) {
     $soft = Get-TvPackage $Context $script:TvPackage -Soft
     Assert-TvCondition ($soft.installed -and $soft.versionCode -ceq $Plan.apk.versionCode -and $soft.baseSha256 -ceq $Plan.apk.sha256) 'installed_apk_not_confirmed'
     Assert-TvPackageSnapshot $soft -Soft
-    if ($Plan.before.soft.installed) { Assert-TvCondition ($soft.enabledState -eq $Plan.before.soft.enabledState -and $soft.componentState -eq $Plan.before.soft.componentState) 'softlumi_override_changed_during_install' }
+    if ($Plan.before.soft.installed) { Assert-TvCondition ($soft.enabledState -eq $Plan.before.soft.enabledState -and $soft.componentState -eq $Plan.before.soft.componentState) 'evebox_override_changed_during_install' }
     return $soft
 }
 function Invoke-TvApply($Context, $Options) {
@@ -617,7 +610,7 @@ function Invoke-TvApply($Context, $Options) {
                 Assert-TvCondition (Test-TvEqual (Get-TvPackage $Context $action.packageName) $action.before) 'package_changed_before_noop'
                 $action.status = 'NoOp'; $action.observedAfter = $action.before; Save-TvJournal $journalPath $journal; continue
             }
-            if ($action.kind -ceq 'Install') { Assert-TvCondition (Test-TvEqual (Get-TvPackage $Context $script:TvPackage -Soft) $plan.before.soft) 'softlumi_changed_before_install' }
+            if ($action.kind -ceq 'Install') { Assert-TvCondition (Test-TvEqual (Get-TvPackage $Context $script:TvPackage -Soft) $plan.before.soft) 'evebox_changed_before_install' }
             if ($action.kind -ceq 'Disable') { Assert-TvCondition (Test-TvEqual (Get-TvPackage $Context $action.packageName) $action.before) 'package_changed_before_disable' }
             if ($action.kind -ceq 'Disable' -and $action.packageName -ceq $plan.before.homePackage.packageName) {
                 $currentHome = Get-TvHome $Context -AllowChooser
@@ -685,7 +678,7 @@ function Get-TvReconciliation($Context, $Journal) {
     $beforeSoft = Test-TvEqual $soft $plan.before.soft
     $installObserved = 'Conflict'
     if ($expectedSoft) { $installObserved = 'Desired' } elseif ($beforeSoft) { $installObserved = 'Before' }
-    if (($install.status -ceq 'Applied' -and !$expectedSoft) -or ($install.status -ceq 'Prepared' -and !$beforeSoft) -or $installObserved -ceq 'Conflict') { $conflicts += 'softlumi_install_state_changed' }
+    if (($install.status -ceq 'Applied' -and !$expectedSoft) -or ($install.status -ceq 'Prepared' -and !$beforeSoft) -or $installObserved -ceq 'Conflict') { $conflicts += 'evebox_install_state_changed' }
     $results += [pscustomobject]@{ id = 'install'; kind = 'Install'; journalStatus = $install.status; observed = $installObserved; needsRestore = $false }
     $results += [pscustomobject]@{ id = 'launch'; kind = 'Launch'; journalStatus = $Journal.actions[1].status; observed = 'NotReversible'; needsRestore = $false }
     $oldHomeOwned = $false; $oldHomeStillDisabled = $false; $deferredHomeCheck = $false
@@ -724,7 +717,7 @@ function Get-TvReconciliation($Context, $Journal) {
     return [pscustomobject][ordered]@{
         schemaVersion = 1; journalStatus = $Journal.status; targetVerified = $true
         installOutcomeUnknown = [bool]$installUnknown; protectedStateUnchanged = [bool]$protectedEqual; homeRestoreDeferredUntilOldPackage = [bool]$deferredHomeCheck
-        observedSoftlumi = $soft; observedHomeComponent = $resolvedHome; actions = @($results); conflicts = @($conflicts)
+        observedEveBox = $soft; observedHomeComponent = $resolvedHome; actions = @($results); conflicts = @($conflicts)
         canRestore = (!$installUnknown -and $conflicts.Count -eq 0)
     }
 }
@@ -783,18 +776,24 @@ function Invoke-TvSetup([string]$Mode, [hashtable]$Options) {
     if (!$Options.Emulator) { Assert-TvCondition ($Options.Serial -notmatch '^emulator-') 'emulator_switch_required' }
     $pinnedRelease = ''
     if ($Options.ContainsKey('PinnedRelease')) { $pinnedRelease = $Options.PinnedRelease }
-    Assert-TvCondition ($pinnedRelease -is [string] -and $pinnedRelease -cin @('', 'candidate.14', 'candidate.15')) 'unknown_pinned_release'
+    Assert-TvCondition ($pinnedRelease -is [string] -and $pinnedRelease -cin @('', 'candidate.14', 'candidate.15', 'candidate.16')) 'unknown_pinned_release'
+    if ($pinnedRelease -cne '') { [void](Get-TvPinnedReleaseInfo $pinnedRelease) }
     $context = [pscustomobject]@{ serial = $Options.Serial; expectedModel = $Options.ExpectedModel; expectedFingerprint = $Options.ExpectedFingerprint; emulator = [bool]$Options.Emulator; adbPath = (Resolve-TvTool $Options.AdbPath); adbServerPort = [int]$Options.AdbServerPort; commandTimeoutSeconds = [int]$Options.CommandTimeoutSeconds; installTimeoutSeconds = [int]$Options.InstallTimeoutSeconds; pinnedRelease = $pinnedRelease }
     Assert-TvCondition ($context.adbServerPort -ge 1024 -and $context.adbServerPort -le 65535 -and $context.commandTimeoutSeconds -ge 1 -and $context.commandTimeoutSeconds -le 120 -and $context.installTimeoutSeconds -ge 1 -and $context.installTimeoutSeconds -le 300) 'invalid_transport_bounds'
-    $mutex = $null; $owned = $false
+    $mutexes = @()
     try {
         if ($Mode -in @('Apply', 'Restore')) {
             $hash = [Security.Cryptography.SHA256]::Create()
             try { $key = ([BitConverter]::ToString($hash.ComputeHash([Text.Encoding]::UTF8.GetBytes($context.serial + ':' + $context.adbServerPort)))).Replace('-', '') }
             finally { $hash.Dispose() }
-            $mutex = [Threading.Mutex]::new($false, ('Local\softlumi-tv-setup-' + $key))
-            try { $owned = $mutex.WaitOne(0) } catch [Threading.AbandonedMutexException] { $owned = $true }
-            Assert-TvCondition $owned 'another_setup_operation_is_running'
+            # Saved legacy kits can still restore their own journals. Hold both
+            # lock identities so old and new backends cannot mutate one target.
+            foreach ($prefix in @('Local\eve-box-tv-setup-', 'Local\softlumi-tv-setup-')) {
+                $entry = [pscustomobject]@{ mutex = [Threading.Mutex]::new($false, ($prefix + $key)); owned = $false }
+                $mutexes += $entry
+                try { $entry.owned = $entry.mutex.WaitOne(0) } catch [Threading.AbandonedMutexException] { $entry.owned = $true }
+                Assert-TvCondition $entry.owned 'another_setup_operation_is_running'
+            }
         }
         switch ($Mode) {
             'Plan' { New-TvPlan $context $Options }
@@ -810,7 +809,12 @@ function Invoke-TvSetup([string]$Mode, [hashtable]$Options) {
             }
             default { throw 'unsupported_mode' }
         }
-    } finally { if ($owned) { $mutex.ReleaseMutex() }; if ($null -ne $mutex) { $mutex.Dispose() } }
+    } finally {
+        for ($index = $mutexes.Count - 1; $index -ge 0; $index--) {
+            if ($mutexes[$index].owned) { $mutexes[$index].mutex.ReleaseMutex() }
+            $mutexes[$index].mutex.Dispose()
+        }
+    }
 }
 
 Export-ModuleMember -Function Invoke-TvSetup, Get-TvPinnedReleaseInfo

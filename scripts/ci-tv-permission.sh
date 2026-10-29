@@ -4,7 +4,7 @@ serial="${1:?Explicit owned emulator serial required}"
 [[ "$serial" =~ ^emulator-[0-9]+$ ]] || exit 2
 emulator_flag="$(adb -s "$serial" shell getprop ro.kernel.qemu)" || exit 2
 [[ "${emulator_flag//$'\r'/}" == 1 ]] || exit 2
-package='io.github.ekkzy.softlumi.debug'
+package='io.github.ekkzy.evebox.debug'
 test_package="$package.test"
 permission='android.permission.READ_TV_LISTINGS'
 mkdir -p ci-evidence
@@ -16,7 +16,7 @@ for target in "$package" "$test_package"; do
     echo "Cannot inspect initial package state: $target" >&2; exit 2;
   fi
   [[ -z "${installed//$'\r'/}" ]] || {
-    echo 'Permission job requires a fresh emulator with no softlumi debug package'; exit 2;
+    echo 'Permission job requires a fresh emulator with no evebox debug package'; exit 2;
   }
 done
 permission_inventory="$(adb -s "$serial" shell pm list permissions)"
@@ -50,7 +50,7 @@ adb -s "$serial" shell dumpsys package "$package" > ci-evidence/permission-befor
 adb -s "$serial" shell pm revoke "$package" "$permission"
 adb -s "$serial" shell pm clear-permission-flags "$package" "$permission" user-set user-fixed
 adb -s "$serial" shell am instrument -w -r \
-  -e class io.github.ekkzy.softlumi.WatchNextPermissionTest \
+  -e class io.github.ekkzy.evebox.WatchNextPermissionTest \
   "$test_package/androidx.test.runner.AndroidJUnitRunner" | tee ci-evidence/permission-instrumentation.txt
 if ! grep -qE '^OK \([1-9][0-9]* tests?\)[[:space:]]*$' ci-evidence/permission-instrumentation.txt; then
   echo 'Permission instrumentation has no positive terminal OK summary' >&2; exit 1

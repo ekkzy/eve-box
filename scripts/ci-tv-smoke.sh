@@ -5,13 +5,13 @@ serial="${1:?Explicit emulator serial required}"
 emulator_flag="$(adb -s "$serial" shell getprop ro.kernel.qemu)" || exit 2
 [[ "${emulator_flag//$'\r'/}" == 1 ]] || exit 2
 # The suite rewrites launcher preferences. Only a fresh CI installation is owned.
-for target in io.github.ekkzy.softlumi.debug io.github.ekkzy.softlumi.debug.test \
-              io.github.ekkzy.softlumi.fixture.alpha io.github.ekkzy.softlumi.fixture.beta; do
+for target in io.github.ekkzy.evebox.debug io.github.ekkzy.evebox.debug.test \
+              io.github.ekkzy.evebox.fixture.alpha io.github.ekkzy.evebox.fixture.beta; do
   if ! installed="$(adb -s "$serial" shell pm list packages "$target")"; then
     echo "Cannot inspect initial package state: $target" >&2; exit 2;
   fi
   [[ -z "${installed//$'\r'/}" ]] || {
-    echo 'Smoke job requires a fresh emulator with no softlumi debug or fixture packages'; exit 2;
+    echo 'Smoke job requires a fresh emulator with no evebox debug or fixture packages'; exit 2;
   }
 done
 mkdir -p ci-evidence
@@ -35,11 +35,11 @@ adb -s "$serial" install -r fixtures/build/outputs/apk/alpha/debug/fixtures-alph
 adb -s "$serial" install -r fixtures/build/outputs/apk/beta/debug/fixtures-beta-debug.apk
 adb -s "$serial" install -r app/build/outputs/apk/debug/app-debug.apk
 adb -s "$serial" install -r app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
-adb -s "$serial" shell am instrument -w -r -e notClass io.github.ekkzy.softlumi.WatchNextPermissionTest io.github.ekkzy.softlumi.debug.test/androidx.test.runner.AndroidJUnitRunner | tee ci-evidence/instrumentation.txt
+adb -s "$serial" shell am instrument -w -r -e notClass io.github.ekkzy.evebox.WatchNextPermissionTest io.github.ekkzy.evebox.debug.test/androidx.test.runner.AndroidJUnitRunner | tee ci-evidence/instrumentation.txt
 if ! grep -qE '^OK \([1-9][0-9]* tests?\)[[:space:]]*$' ci-evidence/instrumentation.txt; then
   echo 'Smoke instrumentation has no positive terminal OK summary' >&2; exit 1
 fi
 if grep -qE 'FAILURES|INSTRUMENTATION_FAILED|Process crashed' ci-evidence/instrumentation.txt; then
   echo 'Smoke instrumentation reported a failure' >&2; exit 1
 fi
-adb -s "$serial" pull /sdcard/Android/data/io.github.ekkzy.softlumi.debug/files/screenshots ci-evidence/screenshots
+adb -s "$serial" pull /sdcard/Android/data/io.github.ekkzy.evebox.debug/files/screenshots ci-evidence/screenshots

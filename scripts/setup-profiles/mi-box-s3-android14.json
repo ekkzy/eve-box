@@ -15,7 +15,7 @@
       "title": "Google TV Home",
       "role": "stockHome",
       "defaultSelected": false,
-      "reason": "Optional launcher transition for Android user 0: disables Google TV Home as part of an explicitly requested softlumi Home plan. This changes stock Home availability; Restore uses the recorded previous state."
+      "reason": "Optional launcher transition for Android user 0: disables Google TV Home as part of an explicitly requested Eve Box Home plan. This changes stock Home availability; Restore uses the recorded previous state."
     },
     {
       "packageName": "com.netflix.ninja",

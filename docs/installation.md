@@ -2,13 +2,14 @@
 
 [English](installation.en.md) · [На главную](../README.md)
 
-Приложение на приставке называется **Eve Box**: `0.3.0-candidate.15`, code 36.
-Пакет `io.github.ekkzy.softlumi` и ключ подписи сохранены для совместимого
-обновления с прежними данными.
+Приложение на приставке называется **Eve Box**: `0.3.0-candidate.16`, code 37.
+Пакет — `io.github.ekkzy.evebox`. При переходе с прежнего пакета приложение
+устанавливается отдельно; настройки и системные разрешения автоматически
+не переносятся. [Инструкция по переходу](package-migration.md).
 
 Нужны Android TV 8.0+ и пульт с D-pad. Выбор домашнего экрана зависит от прошивки.
 Файлы доступны в
-[предварительном выпуске candidate.15-setup.1](https://github.com/ekkzy/eve-box/releases/tag/v0.3.0-candidate.15-setup.1).
+[предварительном выпуске candidate.16-setup.1](https://github.com/ekkzy/eve-box/releases/tag/v0.3.0-candidate.16-setup.1).
 
 ## Выбери способ
 
@@ -20,20 +21,25 @@
 
 Для установки с ИИ используется тот же архив и мастер; Java и SDK Build-Tools не нужны.
 
-Во всех вариантах обновляй существующий Eve Box без удаления приложения,
-в том числе если предыдущая версия установлена под именем softlumi.
-Совместимое обновление с тем же package и подписью сохраняет его данные.
-Ни один способ не переносит настройки или историю другого лаунчера.
+Если у тебя уже установлена предыдущая версия, сначала экспортируй её настройки
+в JSON. Установи новую, открой файл в ней и проверь изменения перед импортом.
+Старое приложение и его данные остаются на месте. Home, службу кнопок пульта,
+разрешения и источники рекомендаций выбери заново; подробности — в
+[инструкции по переходу](package-migration.md).
+
+Последующие обновления внутри пакета `io.github.ekkzy.evebox` устанавливай
+без удаления приложения. Они требуют того же ключа подписи и сохраняют его
+данные. История просмотра других приложений через JSON не переносится.
 
 ## APK вручную или через ADB
 
-Скачай [Eve-Box-0.3.0-candidate.15.apk](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.15-setup.1/Eve-Box-0.3.0-candidate.15.apk)
+Скачай [Eve-Box-0.3.0-candidate.16.apk](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.16-setup.1/Eve-Box-0.3.0-candidate.16.apk)
 и сверь SHA-256 с
-[SHA256SUMS.txt](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.15-setup.1/SHA256SUMS.txt)
+[SHA256SUMS.txt](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.16-setup.1/SHA256SUMS.txt)
 из того же доверенного выпуска. В PowerShell хеш файла показывает команда:
 
 ```powershell
-Get-FileHash .\Eve-Box-0.3.0-candidate.15.apk -Algorithm SHA256
+Get-FileHash .\Eve-Box-0.3.0-candidate.16.apk -Algorithm SHA256
 ```
 
 Для установки без компьютера:
@@ -46,7 +52,7 @@ Get-FileHash .\Eve-Box-0.3.0-candidate.15.apk -Algorithm SHA256
 
 ```powershell
 adb devices -l
-adb -s SERIAL install -r --user 0 Eve-Box-0.3.0-candidate.15.apk
+adb -s SERIAL install -r --user 0 Eve-Box-0.3.0-candidate.16.apk
 ```
 
 Замени `SERIAL` на адресат, который ты проверил в списке. Для сетевого
@@ -60,8 +66,9 @@ adb connect 192.168.1.42:5555
 по коду, если оно требуется прошивкой, выполняет владелец. Подробности — в
 [документации ADB](https://developer.android.com/tools/adb).
 
-Ручная команда устанавливает APK с сохранением данных, но не создаёт журнал
-возврата, не назначает HOME и не отключает пакеты. При ошибке подписи или версии
+Ручная команда сохраняет данные уже установленного пакета `io.github.ekkzy.evebox`.
+При переходе с прежнего пакета она устанавливает отдельное приложение.
+Команда не создаёт журнал возврата, не назначает HOME и не отключает пакеты. При ошибке подписи или версии
 разбери причину; не удаляй приложение и не очищай данные ради обхода ошибки.
 
 ## HOME и необязательная очистка
@@ -113,6 +120,6 @@ CEC, заставку и таймеры сна.
 рекомендаций и системные разрешения не переносятся: выбери их заново на другом
 устройстве. Планы, журналы и личные резервные копии не публикуй.
 
-[Брендкит Eve Box](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.15-setup.1/EVE-BOX-brand-kit.zip)
+[Брендкит Eve Box](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.16-setup.1/EVE-BOX-brand-kit.zip)
 содержит графические материалы, а не установщик. Для сборки из исходников см.
 [инструкцию разработчика](building.md).

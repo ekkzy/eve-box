@@ -8,7 +8,7 @@ home screen without remote input. APK size, memory and CPU are reported separate
 
 The measured release was `0.3.0-candidate.12`, code 33, then named softlumi.
 The text below uses the current name Eve Box; the original names and values
-in JSON are preserved. These results do not describe `candidate.15`.
+in JSON are preserved. These results do not describe `candidate.16` or the new app package.
 
 **Memory accounting correction:** the initial description labelled `TOTAL PSS`
 as PSS without separating swap. Android 14 includes swapped-out pages in that

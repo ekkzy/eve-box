@@ -2,11 +2,11 @@
 # only to the existing controlled PowerShell double, never to Android tools.
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
-if ($env:SOFTLUMI_TV_SETUP_TEST_MARKER -cne 'isolated-offline-fixture-v1' -or
-    !$env:SOFTLUMI_TV_SETUP_TEST_STATE -or !$env:SOFTLUMI_EVE_SETUP_TEST_DELEGATE) {
+if ($env:EVEBOX_TV_SETUP_TEST_MARKER -cne 'isolated-offline-fixture-v1' -or
+    !$env:EVEBOX_TV_SETUP_TEST_STATE -or !$env:EVEBOX_EVE_SETUP_TEST_DELEGATE) {
     throw 'Explicit isolated EVE tool fixture required.'
 }
-$statePath = $env:SOFTLUMI_TV_SETUP_TEST_STATE
+$statePath = $env:EVEBOX_TV_SETUP_TEST_STATE
 $fixture = Get-Content -LiteralPath $statePath -Raw -Encoding UTF8 | ConvertFrom-Json
 $argv = @($args | ForEach-Object { [string]$_ })
 if ($argv.Count -lt 3 -or $argv[0] -cne '-P' -or $argv[1] -cne '5037') { throw 'Uncontrolled EVE ADB port or arguments.' }
@@ -25,8 +25,8 @@ if ($argv.Count -eq 4 -and $argv[2] -ceq 'connect') {
     exit 0
 }
 if ($argv.Count -lt 5 -or $argv[2] -cne '-s') { throw 'Uncontrolled EVE ADB command.' }
-$env:SOFTLUMI_TV_SETUP_TEST_ROLE = 'adb'
-$delegate = [IO.Path]::GetFullPath($env:SOFTLUMI_EVE_SETUP_TEST_DELEGATE)
+$env:EVEBOX_TV_SETUP_TEST_ROLE = 'adb'
+$delegate = [IO.Path]::GetFullPath($env:EVEBOX_EVE_SETUP_TEST_DELEGATE)
 $expected = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot 'tv-setup-tool-stub.ps1'))
 if ($delegate -cne $expected) { throw 'The fixture refuses an unexpected ADB delegate.' }
 & $delegate @argv

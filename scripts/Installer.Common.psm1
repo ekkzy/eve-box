@@ -1,7 +1,7 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
-$script:Package = 'io.github.ekkzy.softlumi'
-$script:Component = 'io.github.ekkzy.softlumi/io.github.ekkzy.softlumi.MainActivity'
+$script:Package = 'io.github.ekkzy.evebox'
+$script:Component = 'io.github.ekkzy.evebox/io.github.ekkzy.evebox.MainActivity'
 
 function Invoke-CheckedTool {
     param([string]$Tool, [string[]]$Arguments)
@@ -93,7 +93,7 @@ function Get-ValidatedApk {
     $expectedCert = Assert-HexDigest $SigningCertSha256 'SigningCertSha256'
     $source = Get-Item -LiteralPath $Apk -ErrorAction Stop
     if ($source.PSIsContainer -or $source.Extension -ine '.apk') { throw 'Apk must name an existing APK file.' }
-    $temp = Join-Path ([IO.Path]::GetTempPath()) ('softlumi-verified-' + [guid]::NewGuid().ToString('N'))
+    $temp = Join-Path ([IO.Path]::GetTempPath()) ('eve-box-verified-' + [guid]::NewGuid().ToString('N'))
     [void](New-Item -ItemType Directory -Path $temp)
     $copy = Join-Path $temp 'verified.apk'
     try {
@@ -185,7 +185,11 @@ function Read-InstallJournal {
     $file = Get-Item -LiteralPath $Path -ErrorAction Stop
     if ($file.PSIsContainer -or $file.Length -gt 65536) { throw 'Invalid installer journal file.' }
     $journal = Get-Content -LiteralPath $file.FullName -Raw | ConvertFrom-Json
-    if ($journal.SchemaVersion -ne 1 -or $journal.Tool -cne 'softlumi-installer' -or $journal.Package -cne $script:Package -or $journal.Component -cne $script:Component) { throw 'Unsupported or invalid installer journal.' }
+    if (($null -ne $journal.PSObject.Properties['Tool'] -and $journal.Tool -ceq 'softlumi-installer') -or
+        ($null -ne $journal.PSObject.Properties['Package'] -and $journal.Package -ceq 'io.github.ekkzy.softlumi')) {
+        throw 'This journal belongs to the legacy io.github.ekkzy.softlumi app. Use the original setup kit that created it for rollback. The old app and journal have not been changed.'
+    }
+    if ($journal.SchemaVersion -ne 1 -or $journal.Tool -cne 'eve-box-installer' -or $journal.Package -cne $script:Package -or $journal.Component -cne $script:Component) { throw 'Unsupported or invalid installer journal.' }
     if ($journal.TransactionId -notmatch '^[0-9a-f]{32}$') { throw 'Invalid journal transaction ID.' }
     if ($journal.Target.Serial -cne $Request.Serial -or $journal.Target.Kind -cne $Request.Kind -or $journal.Target.UserId -ne 0) { throw 'Journal target does not match the explicitly selected target.' }
     if (!$journal.Target.Model -or !$journal.Target.Fingerprint) { throw 'Journal target identity is missing.' }

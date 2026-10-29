@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "generic-install-only",
-  "title": "Install softlumi only",
+  "title": "Install Eve Box only",
   "match": {
     "kind": "generic"
   },

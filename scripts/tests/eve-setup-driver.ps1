@@ -8,9 +8,9 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 [Console]::OutputEncoding = [Text.UTF8Encoding]::new($false)
 $OutputEncoding = [Text.UTF8Encoding]::new($false)
-if ($env:SOFTLUMI_TV_SETUP_TEST_MARKER -cne 'isolated-offline-fixture-v1' -or
-    !$env:SOFTLUMI_TV_SETUP_TEST_STATE) { throw 'Explicit isolated EVE fixture required.' }
-$global:EveTestStatePath = [IO.Path]::GetFullPath($env:SOFTLUMI_TV_SETUP_TEST_STATE)
+if ($env:EVEBOX_TV_SETUP_TEST_MARKER -cne 'isolated-offline-fixture-v1' -or
+    !$env:EVEBOX_TV_SETUP_TEST_STATE) { throw 'Explicit isolated EVE fixture required.' }
+$global:EveTestStatePath = [IO.Path]::GetFullPath($env:EVEBOX_TV_SETUP_TEST_STATE)
 $global:EveTestCaseRoot = [IO.Path]::GetDirectoryName($global:EveTestStatePath)
 foreach ($path in @($ParametersPath, $ResponsesPath)) {
     $full = [IO.Path]::GetFullPath($path)

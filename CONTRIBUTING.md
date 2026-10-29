@@ -24,7 +24,10 @@ ordinary refreshes and returns from other apps.
   with an actual 3840 × 2160 app window and font scale 1.0 for the visual baseline.
 - Device integration needs an explicitly selected test device and preserved
   initial settings. Do not change Home, accessibility services or sleep settings
-  as a side effect of an app update.
+  as a side effect of an app update. The production package is
+  `io.github.ekkzy.evebox`; debug uses `io.github.ekkzy.evebox.debug`.
+  Package migration must keep the previous app installed, support a reviewed
+  JSON settings import, and require explicit Home and accessibility choices.
 
 Record what actually ran. Compilation is not a device test, and a 4K HDMI
 signal does not establish the app window's resolution. Performance claims need

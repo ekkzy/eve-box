@@ -9,7 +9,7 @@ The current catalog contains 18 independently sourced logo assets: Simple Icons
 CC0 paths, the documented Commons PD-textlogo marks and SmartTube's MIT resource.
 The source URLs, package evidence, transformations and hashes are recorded in
 `catalog-sources.json`. Publisher trademarks remain with their respective owners.
-The settings symbol is separately authored softlumi artwork, not a publisher logo.
+The settings symbol is separately authored Eve Box artwork, not a publisher logo.
 
 Only assets with applicable documented rights belong in the bundled source list.
 A public publisher download by itself is not treated as an open redistribution
@@ -42,7 +42,7 @@ renderer adds no generic card or label. It fits occupied geometry into a common
 envelope and draws once at destination size. Transparent pixels, source aspect
 and source ownership are preserved.
 
-`MonochromeArtwork` is an independent softlumi helper used only for the retained
+`MonochromeArtwork` is an independent Eve Box helper used only for the retained
 licensed bundled marks. Its documented brand colors and counters remain.
 There are no source-specific masks for the removed publisher resources.
 

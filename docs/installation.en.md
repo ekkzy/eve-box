@@ -2,13 +2,14 @@
 
 [Русский](installation.md) · [Home](../README.en.md)
 
-The app is named **Eve Box** on the TV: `0.3.0-candidate.15`, code 36.
-Its package, `io.github.ekkzy.softlumi`, and signing key are retained for
-compatible updates that preserve existing app data.
+The app is named **Eve Box** on the TV: `0.3.0-candidate.16`, code 37.
+Its package is `io.github.ekkzy.evebox`. Moving from the previous package
+installs a separate app; settings and Android permissions are not transferred
+automatically. [Migration guide](package-migration.en.md).
 
 Use an Android TV 8.0+ television or box with a D-pad remote. Default Home
 selection depends on the firmware. Download
-the files from the [candidate.15-setup.1 prerelease](https://github.com/ekkzy/eve-box/releases/tag/v0.3.0-candidate.15-setup.1).
+the files from the [candidate.16-setup.1 prerelease](https://github.com/ekkzy/eve-box/releases/tag/v0.3.0-candidate.16-setup.1).
 
 ## Choose an installation method
 
@@ -20,20 +21,24 @@ the files from the [candidate.15-setup.1 prerelease](https://github.com/ekkzy/ev
 
 AI assistance uses the same archive and wizard, without Java or SDK Build-Tools.
 
-Update an existing Eve Box installation without uninstalling it, including
-previous releases named softlumi. A compatible
-update with the same package and signer keeps its app data. These methods do
-not import another launcher's settings or viewing history.
+If you have an earlier release, export its settings to JSON first. Install the
+new app, open the file there and review the import. The old app and its data
+stay in place. Select Home, remote-button service, permissions and recommendation
+sources again; see the [migration guide](package-migration.en.md).
+
+Future updates within `io.github.ekkzy.evebox` should be installed without
+uninstalling the app. They require the same signing key and preserve its data.
+JSON does not transfer other apps' viewing history.
 
 ## APK manually or through ADB
 
-Download [Eve-Box-0.3.0-candidate.15.apk](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.15-setup.1/Eve-Box-0.3.0-candidate.15.apk)
+Download [Eve-Box-0.3.0-candidate.16.apk](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.16-setup.1/Eve-Box-0.3.0-candidate.16.apk)
 and compare its SHA-256 with
-[SHA256SUMS.txt](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.15-setup.1/SHA256SUMS.txt)
+[SHA256SUMS.txt](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.16-setup.1/SHA256SUMS.txt)
 from the same trusted release. In PowerShell:
 
 ```powershell
-Get-FileHash .\Eve-Box-0.3.0-candidate.15.apk -Algorithm SHA256
+Get-FileHash .\Eve-Box-0.3.0-candidate.16.apk -Algorithm SHA256
 ```
 
 To install without a computer:
@@ -46,7 +51,7 @@ With ADB already configured, run these commands from the APK folder:
 
 ```powershell
 adb devices -l
-adb -s SERIAL install -r --user 0 Eve-Box-0.3.0-candidate.15.apk
+adb -s SERIAL install -r --user 0 Eve-Box-0.3.0-candidate.16.apk
 ```
 
 Replace `SERIAL` with the intended target from the device list. For a network
@@ -60,8 +65,9 @@ That address is an example. The owner enables debugging, accepts authorization
 on the TV and completes code pairing when required. See the
 [ADB documentation](https://developer.android.com/tools/adb).
 
-The manual command keeps app data but creates no restoration journal. It does
-not select HOME or disable packages. Investigate a signature or version error;
+The manual command keeps data for an existing `io.github.ekkzy.evebox` installation.
+When moving from the previous package, it installs a separate app. It creates
+no restoration journal and does not select HOME or disable packages. Investigate a signature or version error;
 do not uninstall the app or clear its data to bypass it.
 
 ## HOME and optional cleanup
@@ -111,6 +117,6 @@ favorites, app labels and your city. Enabled recommendation apps and Android
 permissions are not transferred; choose those again on the destination device.
 Keep plans, journals and personal backups private.
 
-The [Eve Box brand kit](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.15-setup.1/EVE-BOX-brand-kit.zip)
+The [Eve Box brand kit](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.16-setup.1/EVE-BOX-brand-kit.zip)
 contains graphics, not an installer. To build from source, follow the
 [developer guide](building.en.md).

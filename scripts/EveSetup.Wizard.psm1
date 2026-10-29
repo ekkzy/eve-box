@@ -209,6 +209,10 @@ function Assert-EveNoPendingJournal($Backend, [string]$Root, $Identity) {
             # structure locally. This helper performs no live device queries.
             $journal = & $Backend { param($journalFile, $journalContext) Read-TvJournal $journalFile $journalContext } $path $context
         } catch {
+            if ($_.Exception.Message.StartsWith('legacy_document_requires_original_kit:')) {
+                $_.Exception.Data['JournalPath'] = $path
+                throw
+            }
             $failure = [InvalidOperationException]::new('invalid_owned_setup_journal')
             $failure.Data['JournalPath'] = $path
             throw $failure
@@ -227,7 +231,7 @@ function Show-EvePlan($Plan, [string]$Path, $Release) {
     Write-Host ('  APK: Eve Box {0} (code {1}).' -f $Release.apk.versionName, $Plan.apk.versionCode)
     if ($Plan.before.soft.installed) { Write-Host ('  Обновление code {0} → {1}; данные приложения сохраняются.' -f $Plan.before.soft.versionCode, $Plan.apk.versionCode) }
     else { Write-Host '  Новая установка приложения.' }
-    if ($Plan.selection.setHome) { Write-Host ('  HOME: {0} → io.github.ekkzy.softlumi/io.github.ekkzy.softlumi.MainActivity' -f $Plan.before.homeComponent) }
+    if ($Plan.selection.setHome) { Write-Host ('  HOME: {0} → io.github.ekkzy.evebox/io.github.ekkzy.evebox.MainActivity' -f $Plan.before.homeComponent) }
     else { Write-Host ('  HOME сохраняется: ' + $Plan.before.homeComponent) }
     foreach ($entry in @($Plan.before.packages)) {
         if ($entry.state.enabledState -in @(2, 3, 4)) { Write-Host ('  Без изменений: {0}, уже отключено (состояние {1}).' -f $entry.packageName, $entry.state.enabledState) }
@@ -272,6 +276,7 @@ function Show-EveRecovery([string]$JournalPath) {
 }
 function Get-EveErrorMessage([string]$Code) {
     switch -Wildcard ($Code) {
+        'legacy_*_requires_original_kit:*' { return 'Этот файл относится к прежнему пакету io.github.ekkzy.softlumi. Для проверки или возврата используй исходный комплект, которым выполнялась установка. Старое приложение и журнал не изменены; новый комплект работает с io.github.ekkzy.evebox.' }
         'adb_not_found' { return 'ADB не найден. Добавь его в PATH, положи platform-tools рядом с install.cmd или укажи -AdbPath.' }
         'device_unauthorized' { return 'Разреши отладку на экране выбранной приставки, затем запусти мастер снова. Установка не началась.' }
         'device_offline_or_not_ready' { return 'Приставка offline или ещё не готова. Проверь подключение и авторизацию отладки.' }
@@ -309,6 +314,7 @@ function Invoke-EveSetupWizard([hashtable]$Options) {
             if (!$journalPath) { $journalPath = [string](Read-Host 'Путь к сохранённому setup-journal.json; пусто — отмена') }
             if ([string]::IsNullOrWhiteSpace($journalPath)) { return [pscustomobject]@{ status = 'Cancelled' } }
             $loadedJournal = Read-EveLocalJson $backend $journalPath.Trim()
+            & $backend { param($document) Assert-TvCurrentDocument $document } $loadedJournal.Value
             $journalPath = $loadedJournal.Path; $identity = $loadedJournal.Value.plan.target
             # These values choose the context only; the backend validates the
             # signed-off raw plan, journal shape and live identity before use.
@@ -335,8 +341,8 @@ function Invoke-EveSetupWizard([hashtable]$Options) {
             return [pscustomobject]@{ status = 'Restored'; journalPath = $journalPath }
         }
 
-        $release = & $backend { Get-TvPinnedReleaseInfo -ReleaseId 'candidate.15' }
-        Assert-EveCondition ($release.releaseId -ceq 'candidate.15' -and $release.recordVersion -eq 1) 'unsupported_pinned_release'
+        $release = & $backend { Get-TvPinnedReleaseInfo -ReleaseId 'candidate.16' }
+        Assert-EveCondition ($release.releaseId -ceq 'candidate.16' -and $release.recordVersion -eq 1) 'unsupported_pinned_release'
         Assert-EveCondition ([IO.Path]::GetFileName([string]$release.apk.file) -ceq $release.apk.file) 'invalid_pinned_apk_filename'
         $apkPath = Join-Path $root $release.apk.file
         $apkFile = Get-Item -LiteralPath $apkPath -ErrorAction Stop

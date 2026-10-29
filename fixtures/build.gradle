@@ -1,10 +1,10 @@
 plugins { id 'com.android.application' }
 android {
-    namespace 'io.github.ekkzy.softlumi.fixture'
+    namespace 'io.github.ekkzy.evebox.fixture'
     compileSdk 35
     buildToolsVersion '35.0.0'
     defaultConfig {
-        applicationId 'io.github.ekkzy.softlumi.fixture'
+        applicationId 'io.github.ekkzy.evebox.fixture'
         minSdk 26
         targetSdk 35
         versionCode 1

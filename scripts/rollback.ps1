@@ -17,8 +17,8 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 Import-Module (Join-Path $PSScriptRoot 'Installer.Common.psm1') -Force -DisableNameChecking
-$script:Package = 'io.github.ekkzy.softlumi'
-$script:Component = 'io.github.ekkzy.softlumi/io.github.ekkzy.softlumi.MainActivity'
+$script:Package = 'io.github.ekkzy.evebox'
+$script:Component = 'io.github.ekkzy.evebox/io.github.ekkzy.evebox.MainActivity'
 $journal = $null
 $mutating = $false
 try {

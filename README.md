@@ -6,7 +6,7 @@
 Интерфейс рассчитан на управление пультом: можно выбрать формат карточек,
 настроить рекомендации и автоматическую смену дневного и ночного оформления.
 
-[Скачать](https://github.com/ekkzy/eve-box/releases/tag/v0.3.0-candidate.15-setup.1) · [Установка](#установка) · [English](README.en.md) · [Сборка](docs/building.md)
+[Скачать](https://github.com/ekkzy/eve-box/releases/tag/v0.3.0-candidate.16-setup.1) · [Установка](#установка) · [English](README.en.md) · [Сборка](docs/building.md)
 
 ![Eve Box — промо](docs/brand/promo/eve-box-promo.png)
 
@@ -63,7 +63,7 @@ Eve Box появился из желания сделать собственну
 
 ## Установка
 
-Для Windows скачай [единый комплект Eve Box](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.15-setup.1/Eve-Box-setup-candidate.15.zip).
+Для Windows скачай [единый комплект Eve Box](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.16-setup.1/Eve-Box-setup-candidate.16.zip).
 Он подходит для самостоятельной установки и для работы с ИИ-помощником.
 Нужны Windows и [ADB](https://developer.android.com/tools/releases/platform-tools).
 Java, Android Studio и SDK Build-Tools устанавливать не нужно.
@@ -83,7 +83,7 @@ Java, Android Studio и SDK Build-Tools устанавливать не нужн
 Он поможет подготовить ADB и пройти тот же мастер. Выбор устройства, приложений
 и подтверждение плана остаются за тобой. [Три шага с ИИ](docs/ai-setup-ru.md).
 
-**Только APK:** [скачай приложение](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.15-setup.1/Eve-Box-0.3.0-candidate.15.apk),
+**Только APK:** [скачай приложение](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.16-setup.1/Eve-Box-0.3.0-candidate.16.apk),
 передай на ТВ и открой файловым менеджером. Компьютер не обязателен.
 [Установка APK и ручная команда ADB](docs/installation.md).
 
@@ -92,9 +92,12 @@ Java, Android Studio и SDK Build-Tools устанавливать не нужн
 установка APK. Данные приложений сохраняются; журнал нужен для возврата
 изменений Home и пакетов. Службы пульта и таймеры сна не меняются.
 
-Выпуск предварительный: **Eve Box 0.3.0-candidate.15**, code36.
-Имя приложения на приставке — Eve Box. Пакет `io.github.ekkzy.softlumi`
-и сертификат сохранены для совместимого обновления с прежними данными.
+Выпуск предварительный: **Eve Box 0.3.0-candidate.16**, code37.
+Пакет приложения — `io.github.ekkzy.evebox`. Он устанавливается отдельно от
+прежнего пакета: сначала экспортируй настройки из старой версии, затем открой
+JSON в новой и проверь изменения перед импортом. Home и специальные возможности
+настраиваются заново. Старое приложение автоматически не удаляется.
+[Переход с прежних версий](docs/package-migration.md).
 Хеши файлов — в `SHA256SUMS.txt`
 рядом с загрузками. [Что проверено и какие есть ограничения](docs/ai-setup-validation.md).
 
@@ -141,4 +144,4 @@ Java 17 и native Android Views, без Compose и стороннего UI-фр�
 Код распространяется по [MIT](LICENSE). Шрифты, логотипы, данные погоды и
 изображения имеют отдельные условия; см. [лицензии и происхождение](THIRD_PARTY_NOTICES.md).
 
-[Логотипы и брендкит Eve Box](docs/brand/README-RU.md) · [Скачать брендкит ZIP](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.15-setup.1/EVE-BOX-brand-kit.zip).
+[Логотипы и брендкит Eve Box](docs/brand/README-RU.md) · [Скачать брендкит ZIP](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.16-setup.1/EVE-BOX-brand-kit.zip).

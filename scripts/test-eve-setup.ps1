@@ -4,7 +4,7 @@ Offline one-command installer tests. Reads an exact signed release APK but runs
 only controlled PowerShell ADB doubles. No Android device, network or SDK runs.
 #>
 [CmdletBinding()]
-param([Parameter(Mandatory=$true)][string]$PinnedApk, [string]$LegacyPinnedApk='',
+param([Parameter(Mandatory=$true)][string]$PinnedApk,
       [string]$ReportPath='', [string[]]$Case=@(), [switch]$KeepFixtures)
 Set-StrictMode -Version Latest
 $ErrorActionPreference='Stop'
@@ -15,9 +15,9 @@ $wizardDriver=Join-Path $PSScriptRoot 'tests/eve-setup-driver.ps1'
 $backendDriver=Join-Path $PSScriptRoot 'tests/tv-setup-driver.ps1'
 $adbDouble=Join-Path $PSScriptRoot 'tests/eve-setup-adb-stub.ps1'
 $delegate=Join-Path $PSScriptRoot 'tests/tv-setup-tool-stub.ps1'
-$expectedApkHash='05acbffb15ed3234d42720b69d26d237df66fd22c775686ab313240fbdb04d98'
-$apkName='Eve-Box-0.3.0-candidate.15.apk'
-$soft='io.github.ekkzy.softlumi'; $stock='com.google.android.apps.tv.launcherx'
+$expectedApkHash='af16e756e84265dc593eb9f83881b6023e1664d98824be461a8b333fbc012446'
+$apkName='Eve-Box-0.3.0-candidate.16.apk'
+$soft='io.github.ekkzy.evebox'; $stock='com.google.android.apps.tv.launcherx'
 $softComponent=$soft+'/'+$soft+'.MainActivity'
 $stockComponent=$stock+'/'+$stock+'.home.HomeActivity'
 function Assert-That([bool]$Condition,[string]$Message){if(!$Condition){throw $Message}}
@@ -42,13 +42,7 @@ foreach($path in @($entry,$backend,$wizardDriver,$backendDriver,$adbDouble,$dele
 }
 $sourceStartSha256=Source-Hashes
 $sourceApk=(Get-Item -LiteralPath $PinnedApk -ErrorAction Stop).FullName
-Assert-That ((Get-Item -LiteralPath $sourceApk).Length -eq 47129158 -and (Digest $sourceApk) -ceq $expectedApkHash) 'Supply the exact signed candidate.15 APK36; no synthetic APK can exercise pinned verification.'
-$legacyApkHash='9f6787ba2badeb63c067eabc1153e2545773cadd9adfe024c5e1eaa6a5f556a6'
-$legacyApkSource=''
-if($LegacyPinnedApk){
-    $legacyApkSource=(Get-Item -LiteralPath $LegacyPinnedApk -ErrorAction Stop).FullName
-    Assert-That ((Get-Item -LiteralPath $legacyApkSource).Length -eq 47030664 -and (Digest $legacyApkSource) -ceq $legacyApkHash) 'Supply the exact signed legacy candidate.14 APK35 for backward compatibility verification.'
-}
+Assert-That ((Get-Item -LiteralPath $sourceApk).Length -eq 47129158 -and (Digest $sourceApk) -ceq $expectedApkHash) 'Supply the exact signed candidate.16 APK37; no synthetic APK can exercise pinned verification.'
 $profile=Read-Json (Join-Path $PSScriptRoot 'setup-profiles/mi-box-s3-android14.json')
 $optional=@($profile.packages|Where-Object role -eq 'optional'|ForEach-Object packageName)
 $testRoot=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot ('.eve-setup-test-'+[guid]::NewGuid().ToString('N'))))
@@ -63,11 +57,11 @@ $adbPath=Join-Path $toolsRoot 'adb controlled.ps1'
 foreach($toolName in @('adb','aapt','apksigner')){
     [IO.File]::WriteAllText((Join-Path $toolsRoot ($toolName+'.cmd')), "@echo controlled SDK invocation> `"%~dp0sdk-tripwire.txt`"`r`n@exit /b 91`r`n",[Text.Encoding]::ASCII)
 }
-$environmentNames=@('SOFTLUMI_TV_SETUP_TEST_MARKER','SOFTLUMI_TV_SETUP_TEST_STATE','SOFTLUMI_TV_SETUP_TEST_ROLE','SOFTLUMI_EVE_SETUP_TEST_DELEGATE')
+$environmentNames=@('EVEBOX_TV_SETUP_TEST_MARKER','EVEBOX_TV_SETUP_TEST_STATE','EVEBOX_TV_SETUP_TEST_ROLE','EVEBOX_EVE_SETUP_TEST_DELEGATE')
 $previousEnvironment=@{}
 foreach($name in $environmentNames){$previousEnvironment[$name]=[Environment]::GetEnvironmentVariable($name,'Process')}
-$env:SOFTLUMI_TV_SETUP_TEST_MARKER='isolated-offline-fixture-v1'
-$env:SOFTLUMI_EVE_SETUP_TEST_DELEGATE=$delegate
+$env:EVEBOX_TV_SETUP_TEST_MARKER='isolated-offline-fixture-v1'
+$env:EVEBOX_EVE_SETUP_TEST_DELEGATE=$delegate
 $results=@();$caseNumber=0;$childTimes=@()
 
 function Get-Fixture{Read-Json $script:statePath}
@@ -138,7 +132,7 @@ function Wizard-Parameters([hashtable]$Extra=@{}){
 function Invoke-Wizard([object[]]$Responses=@(),[hashtable]$Extra=@{}){Invoke-Controlled (Wizard-Parameters $Extra) $Responses}
 function Pinned-Parameters([hashtable]$Extra=@{}){
     $parameters=@{Mode='Plan';Serial=$selectedSerial;ExpectedModel=$profile.match.model;ExpectedFingerprint=$profile.match.fingerprint;
-        AdbPath=$adbPath;AdbServerPort=5037;CommandTimeoutSeconds=10;InstallTimeoutSeconds=10;PinnedRelease='candidate.15';
+        AdbPath=$adbPath;AdbServerPort=5037;CommandTimeoutSeconds=10;InstallTimeoutSeconds=10;PinnedRelease='candidate.16';
         Apk=$script:kitApk;PlanPath=$script:backendPlan;ApkSignerPath=(Join-Path $toolsRoot 'no-sdk-signer');AaptPath=(Join-Path $toolsRoot 'no-sdk-aapt')}
     foreach($key in $Extra.Keys){$parameters[$key]=$Extra[$key]};return $parameters
 }
@@ -155,14 +149,14 @@ function Initialize-Case{
     $script:caseNumber++;$script:caseDir=Join-Path $testRoot ('case-'+$script:caseNumber);[void][IO.Directory]::CreateDirectory($script:caseDir)
     $script:kitRoot=Join-Path $script:caseDir 'extracted kit';[void][IO.Directory]::CreateDirectory($script:kitRoot)
     $script:kitApk=Join-Path $script:kitRoot $apkName;[IO.File]::Copy($sourceApk,$script:kitApk)
-    $script:statePath=Join-Path $script:caseDir 'state.json';$env:SOFTLUMI_TV_SETUP_TEST_STATE=$script:statePath
+    $script:statePath=Join-Path $script:caseDir 'state.json';$env:EVEBOX_TV_SETUP_TEST_STATE=$script:statePath
     $script:backendPlan=Join-Path $script:caseDir 'pinned-plan.json'
     $packages=[ordered]@{}
     foreach($package in @($stock)+$optional+@($soft,'com.example.unrelated')){
         $packages[$package]=[ordered]@{Installed=$true;State=0;ComponentState=0;VersionCode=34;Hash=('d'*64)}
     }
     Write-Json $script:statePath ([ordered]@{Serial=$selectedSerial;Ready='device';Qemu='0';Model=$profile.match.model;
-        Fingerprint=$profile.match.fingerprint;Sdk='34';Abi='armeabi-v7a';UserId='0';CandidatePackage=$soft;CandidateVersion=36;
+        Fingerprint=$profile.match.fingerprint;Sdk='34';Abi='armeabi-v7a';UserId='0';CandidatePackage=$soft;CandidateVersion=37;
         CandidateHash=$expectedApkHash;Cert=('a'*64);SignerExit=0;AaptExit=0;ExtraSigner=$false;PostInstallHashMismatch=$false;
         LaunchableActivity=($soft+'.MainActivity');WrongForeground=$false;AutoHomeAfterStockDisable='';Home=$stockComponent;Foreground=$stockComponent;
         Packages=$packages;Faults=@();Devices=@([pscustomobject]@{serial=$selectedSerial;state='device'});
@@ -182,9 +176,9 @@ try{
         $before=Get-Content -LiteralPath $statePath -Raw
         $result=Invoke-Controlled (Pinned-Parameters) -Backend;Assert-That ($result.Code -eq 0) $result.Output
         $plan=Read-Json $backendPlan
-        Assert-That ($plan.schemaVersion -eq 2 -and $plan.verification.kind -ceq 'PinnedRelease' -and $plan.verification.releaseId -ceq 'candidate.15') 'Pinned verifier was not persisted.'
+        Assert-That ($plan.schemaVersion -eq 2 -and $plan.verification.kind -ceq 'PinnedRelease' -and $plan.verification.releaseId -ceq 'candidate.16') 'Pinned verifier was not persisted.'
         Assert-That (@($plan.tools.PSObject.Properties).Count -eq 2 -and $null -eq $plan.tools.PSObject.Properties['apkSignerPath'] -and $null -eq $plan.tools.PSObject.Properties['aaptPath']) 'Pinned plan unexpectedly depends on SDK tools.'
-        Assert-That ($plan.apk.sha256 -ceq $expectedApkHash -and $plan.apk.versionCode -ceq '36') 'Pinned release did not bind the supplied APK36.'
+        Assert-That ($plan.apk.sha256 -ceq $expectedApkHash -and $plan.apk.versionCode -ceq '37') 'Pinned release did not bind the supplied APK37.'
         Assert-NoMutation $result;Assert-That ((Get-Content -LiteralPath $statePath -Raw) -ceq $before) 'Planning changed the fixture.'
     }
     Test-Case 'pinned-corrupt-apk-refused-before-adb' {
@@ -194,31 +188,25 @@ try{
         Assert-That ($result.Output -match 'pinned_apk_sha256_mismatch') 'Wrong APK was refused for an unrelated reason.'
         Assert-That (@(Get-Calls).Count -eq 0) 'Corrupt pinned APK reached ADB.'
     }
-    if($legacyApkSource){
-        Test-Case 'legacy-pinned-release-remains-inspectable-and-restorable' {
-            $before=Get-Fixture
-            $legacyApk=Join-Path $kitRoot 'softlumi-0.3.0-candidate.14.apk'
-            [IO.File]::Copy($legacyApkSource,$legacyApk)
-            Set-Fixture @{CandidateVersion=35;CandidateHash=$legacyApkHash}
-            $parameters=Pinned-Parameters @{PinnedRelease='candidate.14';Apk=$legacyApk;ProfileId='mi-box-s3-android14';SetHome=$true;DisableStockHome=$true;DisablePackages=@($optional[0])}
-            $result=Invoke-Controlled $parameters -Backend;Assert-That ($result.Code -eq 0) $result.Output
-            $plan=Read-Json $backendPlan
-            Assert-That ($plan.verification.releaseId -ceq 'candidate.14' -and $plan.apk.sha256 -ceq $legacyApkHash -and $plan.apk.versionCode -ceq '35') 'Legacy pinned record changed.'
-            $journalPath=Join-Path $caseDir 'legacy-journal.json'
-            $parameters.Mode='Apply';$parameters.ApprovedPlanSha256=Digest $backendPlan;$parameters.JournalPath=$journalPath
-            $result=Invoke-Controlled $parameters -Backend;Assert-That ($result.Code -eq 0) $result.Output
-            Assert-That (@(Get-Installs).Count -eq 1 -and (Get-Fixture).Home -ceq $softComponent) 'Legacy pinned Apply did not preserve its exact transaction.'
-            [IO.File]::Move($kitApk,($kitApk+'.not-needed-for-legacy-restore'))
-            [IO.File]::Move($legacyApk,($legacyApk+'.not-needed-for-legacy-restore'))
-            Clear-Calls;$rawJournal=Get-Content -LiteralPath $journalPath -Raw
-            $result=Invoke-Wizard @() @{Mode='Inspect';JournalPath=$journalPath};Assert-That ($result.Code -eq 0) $result.Output;Assert-NoMutation $result
-            Assert-That ((Get-Content -LiteralPath $journalPath -Raw) -ceq $rawJournal) 'Legacy inspection rewrote the saved journal.'
-            $result=Invoke-Wizard @('RESTORE') @{Mode='Restore';JournalPath=$journalPath};Assert-That ($result.Code -eq 0) $result.Output
-            $state=Get-Fixture
-            Assert-That ($state.Home -ceq $stockComponent -and $state.Packages.PSObject.Properties[$stock].Value.State -eq 0 -and $state.Packages.PSObject.Properties[$optional[0]].Value.State -eq 0) 'Legacy Restore did not return the saved HOME and package states.'
-            Assert-That ($state.Packages.PSObject.Properties[$soft].Value.VersionCode -eq 35 -and $state.Packages.PSObject.Properties[$soft].Value.Hash -ceq $legacyApkHash -and @(Get-Installs).Count -eq 0) 'Legacy Restore needed an APK or changed the installed version.'
-            Assert-Protected $before
+    Test-Case 'legacy-pinned-release-is-refused-before-adb' {
+        foreach($releaseId in @('candidate.14','candidate.15')) {
+            $result=Invoke-Controlled (Pinned-Parameters @{PinnedRelease=$releaseId}) -Backend
+            Assert-NoMutation $result -Refused
+            Assert-That ($result.Output.Contains('legacy_release_requires_original_kit') -and @(Get-Calls).Count -eq 0) 'Old release was accepted or reached ADB.'
         }
+    }
+    Test-Case 'wizard-legacy-journal-is-refused-unchanged-before-adb' {
+        $result=Invoke-Wizard @('','','YES');Assert-That ($result.Code -eq 0) $result.Output
+        $journalPath=@(Get-Journals)[0].FullName
+        $journal=Read-Json $journalPath;$journal.tool='softlumi-tv-setup';Write-Json $journalPath $journal
+        $before=[IO.File]::ReadAllText($journalPath);Clear-Calls
+        foreach($mode in @('Inspect','Restore')) {
+            $result=Invoke-Wizard @() @{Mode=$mode;JournalPath=$journalPath};Assert-NoMutation $result -Refused
+            Assert-That ($result.Output.Contains('исходный комплект') -and @(Get-Calls).Count -eq 0) 'Legacy wizard journal did not fail with original-kit recovery guidance before ADB.'
+            Assert-That ([IO.File]::ReadAllText($journalPath) -ceq $before) 'Wizard changed legacy journal bytes.'
+        }
+        $result=Invoke-Wizard @() @{PreviewOnly=$true};Assert-NoMutation $result -Refused
+        Assert-That ($result.Output.Contains('исходный комплект') -and [IO.File]::ReadAllText($journalPath) -ceq $before) 'A new installation ignored or rewrote the legacy journal in setup-private.'
     }
     Test-Case 'pinned-exact-profile-refuses-other-firmware' {
         $fingerprint='Example/vendor/device:14/test/other:user/release-keys';Set-Fixture @{Fingerprint=$fingerprint}
@@ -235,7 +223,7 @@ try{
     Test-Case 'wizard-preview-never-applies-defaults' {
         $before=Get-Content -LiteralPath $statePath -Raw
         $result=Invoke-Wizard @('','') @{PreviewOnly=$true};Assert-That ($result.Code -eq 0) $result.Output;Assert-NoMutation $result
-        Assert-That ($result.Output.Contains('APK: Eve Box 0.3.0-candidate.15 (code 36).') -and !$result.Output.Contains('APK: softlumi') -and !$result.Output.Contains('пока остаётся softlumi')) 'Preview did not show the current Eve Box release name and version.'
+        Assert-That ($result.Output.Contains('APK: Eve Box 0.3.0-candidate.16 (code 37).') -and !$result.Output.Contains('APK: evebox') -and !$result.Output.Contains('пока остаётся evebox')) 'Preview did not show the current Eve Box release name and version.'
         $plans=@(Get-Plans);Assert-That ($plans.Count -eq 1 -and @(Get-Journals).Count -eq 0) 'Preview failed to create exactly one plan without a journal.'
         $plan=Read-Json $plans[0].FullName
         Assert-That (!$plan.selection.setHome -and !$plan.selection.disableStockHome -and @($plan.selection.disablePackages).Count -eq 0) 'Blank answers selected an optional mutation.'
@@ -323,7 +311,7 @@ try{
         $result=Invoke-Wizard @('RESTORE') @{Mode='Restore';JournalPath=$journalPath};Assert-That ($result.Code -eq 0) $result.Output
         $state=Get-Fixture
         Assert-That ($state.Home -ceq $stockComponent -and $state.Packages.PSObject.Properties[$stock].Value.State -eq 0 -and $state.Packages.PSObject.Properties[$optional[0]].Value.State -eq 0) 'Restore did not return the recorded configuration.'
-        Assert-That ($state.Packages.PSObject.Properties[$soft].Value.VersionCode -eq 36 -and $state.Packages.PSObject.Properties[$soft].Value.Hash -ceq $expectedApkHash -and @(Get-Installs).Count -eq 0) 'Restore needed an APK, reinstalled it or changed installed bytes.'
+        Assert-That ($state.Packages.PSObject.Properties[$soft].Value.VersionCode -eq 37 -and $state.Packages.PSObject.Properties[$soft].Value.Hash -ceq $expectedApkHash -and @(Get-Installs).Count -eq 0) 'Restore needed an APK, reinstalled it or changed installed bytes.'
         Assert-Protected $before
     }
     Test-Case 'wizard-pending-install-blocks-retry-and-restore' {
@@ -354,7 +342,7 @@ try{
     Test-Case 'wizard-pending-created-at-confirmation-stops-before-apply' {
         # Same-version installs leave the before-snapshot unchanged. Without
         # the post-confirmation pending check, the waiting plan could retry.
-        $state=Get-Fixture;$state.Packages.PSObject.Properties[$soft].Value.VersionCode=36
+        $state=Get-Fixture;$state.Packages.PSObject.Properties[$soft].Value.VersionCode=37
         $state.Packages.PSObject.Properties[$soft].Value.Hash=$expectedApkHash
         $state.Faults=@([pscustomobject]@{Match='^install -r --user 0 ';Mode='AfterCommitExit';Remaining=1;ExitCode=37;Seconds=1})
         Write-Json $statePath $state
@@ -394,7 +382,6 @@ try{
     $sourceEndSha256=Source-Hashes
     $sourcesUnchanged=($sourceStartSha256|ConvertTo-Json -Compress) -ceq ($sourceEndSha256|ConvertTo-Json -Compress)
     $summary=[ordered]@{SchemaVersion=1;PowerShellVersion=$PSVersionTable.PSVersion.ToString();OfflineOnly=$true;RealApkSha256=$expectedApkHash;
-        LegacyApkSha256=$(if($legacyApkSource){$legacyApkHash}else{''});
         ChildDeadlineSeconds=70;ChildCalls=$childTimes.Count;MaximumChildSeconds=($childTimes|Measure-Object -Maximum).Maximum;SourceSha256=$hashes;
         SourceStartSha256=$sourceStartSha256;SourceEndSha256=$sourceEndSha256;SourcesUnchanged=$sourcesUnchanged;
         CaseCount=$results.Count;Passed=@($results|Where-Object Passed).Count;Failed=$failed;Results=$results}

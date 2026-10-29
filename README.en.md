@@ -6,7 +6,7 @@ Favorite apps, continue-watching cards and weather share one screen. The
 interface is designed for a remote: choose a card layout, manage recommendations
 and set up automatic switching between daytime and nighttime appearance.
 
-[Download](https://github.com/ekkzy/eve-box/releases/tag/v0.3.0-candidate.15-setup.1) · [Installation](#installation) · [Русский](README.md) · [Build](docs/building.en.md)
+[Download](https://github.com/ekkzy/eve-box/releases/tag/v0.3.0-candidate.16-setup.1) · [Installation](#installation) · [Русский](README.md) · [Build](docs/building.en.md)
 
 ![Eve Box promotional artwork](docs/brand/promo/eve-box-promo.png)
 
@@ -62,7 +62,7 @@ Open any image to view it at full resolution.
 
 ## Installation
 
-On Windows, download the [Eve Box setup kit](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.15-setup.1/Eve-Box-setup-candidate.15.zip).
+On Windows, download the [Eve Box setup kit](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.16-setup.1/Eve-Box-setup-candidate.16.zip).
 Use the same kit yourself or with an AI assistant. You need Windows and
 [ADB](https://developer.android.com/tools/releases/platform-tools).
 Java, Android Studio and SDK Build-Tools are not required.
@@ -82,7 +82,7 @@ send the [short setup prompt](docs/ai-setup.md#ready-to-copy-prompt).
 It helps prepare ADB and run the same wizard. You choose the device and apps
 and approve the plan. [Three steps with AI](docs/ai-setup.md).
 
-**APK only:** [download the app](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.15-setup.1/Eve-Box-0.3.0-candidate.15.apk),
+**APK only:** [download the app](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.16-setup.1/Eve-Box-0.3.0-candidate.16.apk),
 transfer it to your TV and open it in a file manager. A PC is optional.
 [APK installation and the manual ADB command](docs/installation.en.md).
 
@@ -91,9 +91,12 @@ Mi Box S 3 firmware. Other devices get APK installation only. App data is
 preserved; keep the journal to restore recorded Home and package changes.
 Remote services and sleep timers are preserved.
 
-This is a prerelease: **Eve Box 0.3.0-candidate.15**, code36.
-The app is named Eve Box on the TV. Its package, `io.github.ekkzy.softlumi`,
-and signer are retained for compatible updates that preserve existing app data.
+This is a prerelease: **Eve Box 0.3.0-candidate.16**, code37.
+The app package is `io.github.ekkzy.evebox`. It installs separately from the
+previous package. Export settings from the old app, then open the JSON in the
+new app and review the import. Home and accessibility need to be configured
+again. The old app is not removed automatically.
+[Moving from earlier releases](docs/package-migration.en.md).
 Download hashes are in `SHA256SUMS.txt`.
 [Verification and limitations, in Russian](docs/ai-setup-validation.md).
 
@@ -140,4 +143,4 @@ See [SECURITY.md](SECURITY.md) for security reporting.
 Code is licensed under [MIT](LICENSE). Fonts, logos, weather data and images
 have separate terms listed in [third-party notices](THIRD_PARTY_NOTICES.md).
 
-[Eve Box logos and brand kit](docs/brand/README-RU.md) · [Download brand kit ZIP](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.15-setup.1/EVE-BOX-brand-kit.zip).
+[Eve Box logos and brand kit](docs/brand/README-RU.md) · [Download brand kit ZIP](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.16-setup.1/EVE-BOX-brand-kit.zip).

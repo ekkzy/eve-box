@@ -1,17 +1,17 @@
 plugins { id 'com.android.application' }
 
 android {
-    namespace 'io.github.ekkzy.softlumi'
+    namespace 'io.github.ekkzy.evebox'
     compileSdk 35
     buildToolsVersion '35.0.0'
     defaultConfig {
-        applicationId 'io.github.ekkzy.softlumi'
+        applicationId 'io.github.ekkzy.evebox'
         minSdk 26
         targetSdk 35
-        versionCode providers.gradleProperty('eveBoxVersionCode').orElse(providers.gradleProperty('softlumiVersionCode')).orElse('36').get().toInteger()
-        versionName '0.3.0-candidate.15'
+        versionCode providers.gradleProperty('eveBoxVersionCode').orElse('37').get().toInteger()
+        versionName '0.3.0-candidate.16'
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
-        buildConfigField 'boolean', 'CHANNEL_PROBE_ENABLED', providers.gradleProperty('softlumiChannelProbe').map { Boolean.parseBoolean(it).toString() }.orElse('false').get()
+        buildConfigField 'boolean', 'CHANNEL_PROBE_ENABLED', providers.gradleProperty('eveBoxChannelProbe').map { Boolean.parseBoolean(it).toString() }.orElse('false').get()
     }
     buildTypes {
         debug { applicationIdSuffix '.debug' }

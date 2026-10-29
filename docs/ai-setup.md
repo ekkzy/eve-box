@@ -9,8 +9,8 @@ can explain the steps; you will need to run the command yourself.
 
 ## Get started
 
-1. Download [Eve-Box-setup-candidate.15.zip](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.15-setup.1/Eve-Box-setup-candidate.15.zip)
-   from [release candidate.15-setup.1](https://github.com/ekkzy/eve-box/releases/tag/v0.3.0-candidate.15-setup.1)
+1. Download [Eve-Box-setup-candidate.16.zip](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.16-setup.1/Eve-Box-setup-candidate.16.zip)
+   from [release candidate.16-setup.1](https://github.com/ekkzy/eve-box/releases/tag/v0.3.0-candidate.16-setup.1)
    and extract the complete ZIP into a separate, writable local folder.
 2. Open that folder in your assistant and give it the
    [prompt below](#ready-to-copy-prompt).
@@ -40,6 +40,8 @@ wizard, it should prepare the command for your own terminal.
 ```text
 Help me install Eve Box on my Android TV using docs/one-command-setup-ru.md.
 Verify the kit's source, release SHA256SUMS, manifest.json files, and ADB.
+If an earlier package is installed, help me export and review/import its settings;
+do not uninstall it or enable accessibility automatically.
 Help me connect my chosen TV; I will authorize debugging and code pairing.
 Start .\install.cmd interactively, or give me the command for my own terminal.
 Pass only my answers; show the exact plan before confirmation. Never supply YES in advance.
@@ -53,8 +55,11 @@ Report the result, anything unverified, the journal path, and how to use Restore
 ## What changes
 
 By default, the wizard only installs and opens the app. This release is
-**Eve Box 0.3.0-candidate.15 / code 36**. Its package, `io.github.ekkzy.softlumi`,
-and signing key are retained for compatible updates that preserve app data.
+**Eve Box 0.3.0-candidate.16 / code 37**, package `io.github.ekkzy.evebox`.
+It installs separately from the previous app. Export settings from the old
+version, then open the JSON in the new app and review the import. Home and
+accessibility need to be configured again; the old app stays installed.
+[Moving from earlier releases](package-migration.en.md).
 
 Changing the HOME app and disabling apps are separate choices. They are
 available only when the model, Android API, and firmware exactly match the
@@ -62,10 +67,10 @@ available only when the model, Android API, and firmware exactly match the
 Other firmware supports APK installation only. Disabling an app retains its
 data. Remote-control services, screensaver, and sleep timers are not configured.
 
-The wizard accepts only this release's pinned APK. Its signature was checked
+The wizard accepts only this release's pinned APK. Its signature is checked
 when preparing the kit; your computer checks its size and SHA-256. The
 assistant should verify the source and kit against
-[SHA256SUMS.txt](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.15-setup.1/SHA256SUMS.txt)
+[SHA256SUMS.txt](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.16-setup.1/SHA256SUMS.txt)
 and `manifest.json`. A matching hash does not establish trust in an unknown source.
 
 ## Check and restore
@@ -74,6 +79,8 @@ After installation, check Home, Back, app launches, and favorites. A complete
 wizard run on a factory-configured physical Mi Box S 3 has not yet been confirmed.
 
 Keep the kit and its `setup-private` folder, which contains the plan and journal.
+Inspect and restore old operations with the original kit: the new wizard does
+not accept or overwrite earlier plans and journals.
 `Inspect` checks the state. After your confirmation, `Restore` returns the
 recorded HOME and package changes; the installed APK and app data remain.
 Restoration requires the same target, firmware, and ADB, a journal no older

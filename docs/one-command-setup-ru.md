@@ -6,11 +6,14 @@ Windows-мастер устанавливает лаунчер через ADB, �
 его после твоего подтверждения. ИИ, Java, Android Studio и SDK Build-Tools
 для этого комплекта не нужны.
 
-Скачай [Eve-Box-setup-candidate.15.zip](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.15-setup.1/Eve-Box-setup-candidate.15.zip)
-из [выпуска candidate.15-setup.1](https://github.com/ekkzy/eve-box/releases/tag/v0.3.0-candidate.15-setup.1).
-Приложение этого выпуска — **Eve Box 0.3.0-candidate.15 / code 36**.
-Пакет `io.github.ekkzy.softlumi` и ключ подписи сохранены для совместимого
-обновления с прежними данными.
+Скачай [Eve-Box-setup-candidate.16.zip](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.16-setup.1/Eve-Box-setup-candidate.16.zip)
+из [выпуска candidate.16-setup.1](https://github.com/ekkzy/eve-box/releases/tag/v0.3.0-candidate.16-setup.1).
+Приложение этого выпуска — **Eve Box 0.3.0-candidate.16 / code 37**.
+Пакет — `io.github.ekkzy.evebox`. Он устанавливается отдельно от прежнего
+приложения. Сначала экспортируй настройки в старой версии, затем открой JSON
+в новой и проверь изменения перед импортом. Home и специальные возможности
+настраиваются заново; старое приложение мастер не удаляет.
+[Переход с прежних версий](package-migration.md).
 
 ## Запуск
 
@@ -96,6 +99,12 @@ analytics не отключает телеметрию других прилож
 `setup-private/<идентификатор>/setup-journal.json`. После операции мастер
 показывает точный путь. Сохрани комплект вместе с этой папкой.
 
+Планы и журналы прежних комплектов новый мастер не принимает в `Inspect` и
+`Restore`: используй комплект, который их создал. Если в `setup-private`
+найден старый журнал, новая установка блокируется, файл сохраняется. Сначала
+разбери результат прежней операции исходным комплектом. Не удаляй и не
+переименовывай журнал ради обхода проверки.
+
 ```powershell
 .\install.cmd -Mode Inspect
 .\install.cmd -Mode Restore
@@ -126,12 +135,12 @@ analytics не отключает телеметрию других прилож
 
 ## Проверенный APK и приватность
 
-Мастер принимает только точные байты APK36, закреплённые в коде установщика.
+Мастер принимает только точные байты APK37, закреплённые в коде установщика.
 Подпись и метаданные этого файла проверяются при подготовке выпуска;
 на компьютере пользователя проверяются размер и встроенный SHA-256.
 Другой APK или изменённый профиль не будут приняты. Скачивай комплект
 из доверенного выпуска и сверяй
-[SHA256SUMS.txt](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.15-setup.1/SHA256SUMS.txt):
+[SHA256SUMS.txt](https://github.com/ekkzy/eve-box/releases/download/v0.3.0-candidate.16-setup.1/SHA256SUMS.txt):
 проверка APK не защищает от подмены самого установщика.
 
 Планы и журналы содержат адресат, прошивку, HOME и состояния пакетов.
